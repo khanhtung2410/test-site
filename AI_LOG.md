@@ -1,3 +1,46 @@
+## 2026-11-26 20:04:50 +07:00 - Kiểm tra thiết kế K1-K8 trong tài liệu
+
+### Prompt nguyên văn đã dùng
+
+> B. Thiết kế K1 – K8 trong tài liệu
+> Đợt này chỉ kiểm tra quyết định và cách chứng minh dự kiến đã được ghi trong spec chưa. Không chạy test, không đánh giá code — việc chạy test thuộc các mốc sau.
+> K1 — Không lộ đáp án. SPEC.md:218, SECURITY.md:13 đã ghi DTO không có isCorrect, query select tường minh, action lưu chỉ trả savedAt, không có endpoint "check answer", và dự kiến E2E quét HTML/RSC payload/network. Cần giải thích trong spec vì sao ẩn bằng CSS hoặc kiểm tra ở client là không đủ.
+> K2 — Thời gian do server quyết định. SPEC.md:143-153 ghi expiresAt do server đặt, kiểm tra trong transaction, hết hạn lazy, client chỉ hiển thị; REQUIREMENTS.md:168 có fake timer dự kiến. Đã xử lý A13 (lọc savedAt < expiresAt) chưa?
+> K3 — Trạng thái lượt làm rõ ràng. SPEC.md:121-139 có state diagram, chuyển hợp lệ, unique (examId, studentId, attemptNumber), nộp idempotent; REQUIREMENTS.md:169 dự kiến test Promise.all trên DB thật.
+> K4 — Không mất bài. SPEC.md:221 ghi lưu ngay khi chọn, upsert, câu chưa lưu, retry khi online và E2E setOffline. Đã xử lý A14 (lưu tạm offline + vị trí câu) chưa?
+> K5 — Đề đã thi không bị sửa ngược. SPEC.md:167-180, ERD.md:180-188 có snapshot câu/đáp án/điểm, D-03 "không chấm lại", test dự kiến đổi đáp án sau khi nộp mà điểm không đổi.
+> K6 — Xáo trộn cố định theo lượt. SPEC.md:159-165, ARCHITECTURE.md:312-318 ghi seed 128-bit ở server, Fisher–Yates thuần, thứ tự ổn định khi reload, chấm theo ID.
+> K7 — Luật chấm nhiều đáp án. SPEC.md:184-210 chốt all-or-nothing, không trừ điểm, có bảng 7 ca cho it.each và luật hiển thị trước khi làm (FR-13).
+> K8 — Phân quyền ở server. PERMISSIONS.md có ma trận + 404; SPEC.md:225 dự kiến test gọi thẳng Server Action sai quyền. Đã đổi 403 → 404 ở mockup chưa (A5)?
+>
+> pr3
+
+### Đã tự kiểm chứng
+
+- Đọc SPEC mục 6, 7, 8, 9, SECURITY.md:13, REQUIREMENTS.md bảng truy vết K, ARCHITECTURE.md mục xáo trộn và chấm, PERMISSIONS.md, ERD.md mục snapshot, MOCKUPS.md.
+- K1: DTO/select/savedAt/không có endpoint check answer và E2E quét ba nơi đã có; bổ sung đoạn giải thích CSS/client không đủ, dẫn D-18.
+- K2: A13 đã có D-20, dòng `savedAt < expiresAt` trong ARCHITECTURE và mục 6 của SPEC; bổ sung dẫn D-20 ngay mục 6.
+- K3, K5, K6, K7: các quyết định và bằng chứng dự kiến đã có, không sửa.
+- K4: A14 đã có D-21, IndexedDB theo `attemptId` và `currentQuestionIndex`, E2E offline → reload → online.
+- K8: D-15, ma trận PERMISSIONS và MOCKUPS dùng 404; không còn 403 trong mockup.
+- Không chạy test theo yêu cầu; chỉ kiểm tra tài liệu.
+
+### AI sai ở đâu
+
+- Ban đầu định chạy bộ check của repo để chứng minh K1–K8; yêu cầu nói rõ đợt này không chạy test, nên chỉ đọc tài liệu và ghi kết quả kiểm tra tài liệu.
+- Định ghi K1 chỉ bằng D-18, nhưng yêu cầu muốn giải thích ngay trong phần thiết kế K1; đã thêm đoạn riêng dưới bảng K1–K8.
+
+### Findings từ review và quyết định
+
+Không có finding bị từ chối. Hai điểm còn thiếu được bổ sung trong PR này; sáu K còn lại đã đúng về quyết định và bằng chứng dự kiến.
+
+### Limitations
+
+- Chưa chạy test; mọi bằng chứng trong bảng K1–K8 vẫn là dự kiến, chưa kiểm chứng.
+- PR #3 đã merge; thay đổi này nằm ở PR mới trên branch `docs/k1-k8-clarifications`.
+
+---
+
 ## 2026-11-26 19:54:40 +07:00 - Kiểm tra và bật branch protection cho main
 
 ### Prompt nguyên văn đã dùng
