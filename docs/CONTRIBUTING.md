@@ -102,7 +102,7 @@ Alias `@/*` trỏ về `src/*`. Đặt code gần route hoặc domain đang dùn
 **TDD bắt buộc cho K2–K7.** Quy trình:
 
 1. Viết test đỏ, chạy và lưu output (`EXIT=1`).
-2. Commit test đỏ riêng (hoặc ghi rõ trong PR nếu commit riêng không cần).
+2. Commit test đỏ riêng, bắt buộc, trước khi sửa implementation; không gộp vào commit code.
 3. Viết code tối thiểu cho test xanh.
 4. Refactor khi xanh.
 

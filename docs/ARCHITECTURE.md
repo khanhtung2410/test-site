@@ -1,6 +1,6 @@
 # KIẾN TRÚC — SITE THI TRẮC NGHIỆM ONLINE
 
-> **Trạng thái:** Thiết kế cho Mốc 1. Work tree hiện chỉ có khung Next.js; các thành phần đánh dấu "kế hoạch" chưa được cài.
+> **Trạng thái:** Thiết kế cho Mốc 1. HEAD chưa có scaffold Next.js; các thành phần dưới đây là kế hoạch Mốc 2. Scaffold untracked trên máy tác giả không phải artifact repo.
 > **Ngày:** 2026-11-26
 > **Nguồn quyết định:** [`SPEC.md`](SPEC.md) mục 3. Tài liệu này giải thích **cách** xây, không lặp lại **vì sao** chọn sản phẩm.
 
@@ -10,7 +10,7 @@
 
 Tài liệu này đủ để một lập trình viên khác tiếp tục dự án mà không cần hỏi lại người viết: biết code nằm ở đâu, luồng đi qua những tầng nào, chỗ nào dễ sai và test nào bảo vệ.
 
-**Giới hạn:** đây là kiến trúc **dự kiến**. Work tree hiện có `src/app` mặc định của `create-next-app`, chưa có Prisma, authentication, test hay CI. Mọi đường dẫn dưới đây là đích đến của Mốc 2–4, không phải mô tả code đã có.
+**Giới hạn:** đây là kiến trúc **dự kiến**. HEAD chưa có `package.json`, `src/`, Prisma, authentication, test hay CI; mọi đường dẫn dưới đây là đích đến của Mốc 2–4, không phải mô tả code đã có trong repo.
 
 ---
 
@@ -48,13 +48,13 @@ flowchart LR
 
 ## 3. Công nghệ
 
-### 3.1. Hiện có trong work tree
+### 3.1. Scaffold dự kiến (Mốc 2, chưa có trong repo)
 
-| Thành phần | Phiên bản | Ghi chú |
+| Thành phần | Phiên bản dự kiến | Ghi chú |
 |---|---|---|
 | Next.js | 16.4.6 | App Router; đọc hướng dẫn trong `node_modules/next/dist/docs/` trước khi viết code |
 | React | 19.3.0 | Server Components mặc định |
-| TypeScript | 5.x, strict | `tsconfig.json` của create-next-app |
+| TypeScript | 5.x, strict | `tsconfig.json` sẽ được tạo cùng scaffold |
 | Tailwind CSS | 4.3.3 | Mobile-first, token trong `src/app/globals.css` |
 | ESLint | 9.x | `eslint-config-next` |
 
@@ -220,24 +220,26 @@ sequenceDiagram
     participant DB as PostgreSQL
     B->>A: attemptId
     A->>A: requireRole("STUDENT")
-    A->>DB: BEGIN
-    A->>DB: đọc Attempt + snapshot + answers
+    A->>DB: BEGIN; expireDueAttempts() khóa lượt quá hạn trước
+    A->>DB: đọc Attempt + snapshot; chỉ lấy answers có savedAt < expiresAt
     alt status != IN_PROGRESS
         A-->>B: trả điểm đã có (idempotent)
     else còn hạn
-        A->>A: scoreAttempt(snapshot, answers)
+        A->>A: scoreAttempt(snapshot, answersLoc)
         A->>DB: updateMany WHERE id AND status=IN_PROGRESS
         A->>DB: ghi awardedPoints/isCorrect cho từng câu
         A-->>B: score, SUBMITTED
     else quá hạn
+        A->>A: scoreAttempt(snapshot, answersLoc)
         A->>DB: updateMany WHERE id AND status=IN_PROGRESS → EXPIRED
-        A->>DB: chấm theo answers đã lưu
         A-->>B: score, EXPIRED
     end
     A->>DB: COMMIT
 ```
 
 `updateMany` có điều kiện trạng thái là trọng tài: chỉ một request thắng. Request thua đọc lại kết quả, không ghi điểm lần hai.
+
+Thứ tự khóa (D-20): `saveAnswer` từ chối mọi ghi có `now >= expiresAt` trong cùng transaction; `expireDueAttempts` chạy trước khi chấm. Bộ lọc chấm điểm là `savedAt < expiresAt`, kể cả khi transaction lưu commit sau hạn. Bắt buộc có integration test fake timer tại ranh giới `expiresAt`: lưu ngay trước hạn được tính, lưu đúng hoặc sau hạn bị từ chối và không vào điểm.
 
 ### 6.5. Xem kết quả theo đề (giáo viên)
 

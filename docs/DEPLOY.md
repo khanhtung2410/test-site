@@ -59,7 +59,7 @@ File dự kiến: `.github/workflows/ci.yml`.
 | `test` | PostgreSQL service, migrate, seed, `npm test` | Toàn bộ unit + integration pass |
 | `build` | `npm run build` | Build thành công |
 | `e2e` | PostgreSQL service, migrate, seed, `npm run test:e2e` | Toàn bộ E2E pass, gồm 4 tình huống bắt buộc |
-| `lighthouse` | `npm run build`, `next start`, `@lhci/cli` | Performance ≥ 85, Accessibility ≥ 90, CLS ≤ 0,1 |
+| `lighthouse` | `npm run build`, `next start`, `@lhci/cli` | Đạt các ngưỡng trong [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01, PERF-02, PERF-03 |
 
 Branch protection trên `main`: bắt buộc các check trên, cấm force push, yêu cầu PR review.
 

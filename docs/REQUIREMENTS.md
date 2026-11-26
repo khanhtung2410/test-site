@@ -2,13 +2,13 @@
 
 > **Trạng thái:** Bản nháp Mốc 1, chờ mentor duyệt.
 > **Ngày:** 2026-11-26
-> **Nguồn:** SRS v0.1 và brief `de-bai-site-trac-nghiem.html`.
+> **Nguồn:** nội dung đã trích trong tài liệu này từ SRS v0.1 và brief; file gốc không nằm trong repo nên không kiểm chứng được đối chiếu trực tiếp.
 > **Quyết định sản phẩm:** xem [`SPEC.md`](SPEC.md) mục 3. Tài liệu này chỉ liệt kê yêu cầu và tiêu chí nghiệm thu, không lặp lại lý do quyết định.
 
 ## Quy ước
 
 - **Must** là bắt buộc cho MVP. **Should** chỉ làm sau khi toàn bộ Must đạt tiêu chí nghiệm thu. **Out** là không làm.
-- Mã FR/NFR giữ nguyên theo SRS để đối chiếu.
+- Mã FR/NFR được trích trong file này; vì bản SRS gốc không nằm trong repo, không khẳng định đối chiếu được mã với bản gốc.
 - "404" nghĩa là trả trang không tìm thấy, không tiết lộ bản ghi có tồn tại hay không.
 - "Chưa đăng nhập" khác "không có quyền": chưa đăng nhập thì chuyển về trang đăng nhập; đã đăng nhập nhưng không có quyền thì 404.
 - Thời gian lưu UTC, hiển thị `Asia/Ho_Chi_Minh`.
@@ -69,7 +69,7 @@
 |---|---|---|---|---|---|---|
 | FR-24 | (Should) Import câu hỏi từ CSV. | Tệp CSV | Câu hỏi được tạo và báo lỗi | Giáo viên đã đăng nhập | Dòng hợp lệ được lưu | Dòng hợp lệ tạo câu hỏi. Dòng lỗi được báo kèm số dòng và không lưu. Định dạng cột: chốt trước khi làm. |
 | FR-25 | (Should) Thống kê từng câu. | ID đề | Tỉ lệ trả lời đúng; đáp án sai bị chọn nhiều nhất | Giáo viên sở hữu đề; có lượt | Không | Số liệu khớp với các lượt đã chấm, tính từ snapshot. |
-| FR-26 | (Should) Xem lại bài kèm đáp án đúng. | ID lượt | Bài làm kèm đáp án đúng | Đề cho phép xem lại và đã đóng; lượt thuộc học viên | Không | Đáp án đúng chỉ hiện sau khi đề đóng và chỉ khi đề bật `allowReview`. |
+| FR-26 | (Should) Xem lại bài kèm đáp án đúng từ snapshot `AttemptOption.isCorrect`. | ID lượt | Bài làm kèm đáp án đúng | Đề cho phép xem lại, đã đóng và bật `allowReview`; lượt thuộc học viên | Không | Đáp án đúng chỉ hiện sau khi đề đóng và chỉ khi đề bật `allowReview`; không đọc từ câu hỏi hiện tại đã sửa. |
 | FR-27 | (Should) Gán lớp. | ID học viên, lớp, đề | Thành viên lớp; đề giới hạn theo lớp | Admin hoặc giáo viên đã đăng nhập | Được lưu | Đề giới hạn theo lớp chỉ hiện với thành viên lớp đó. Ai được giới hạn đề: chốt trước khi làm. |
 
 ---
@@ -102,7 +102,7 @@ Các ràng buộc C-01…C-05 của SRS áp dụng cho toàn bộ yêu cầu dư
 
 Mobile-first, responsive. Năm màn chính: danh sách đề, làm bài, kết quả, ngân hàng câu hỏi, tạo đề. Màn bổ sung: đăng nhập, quản lý tài khoản admin, kết quả theo đề của giáo viên. Tài nguyên không tồn tại hoặc truy cập không có quyền hiện trang 404.
 
-Wireframe đã duyệt nằm ở [`SPEC.md`](SPEC.md) mục 10.
+Wireframe bản trình duyệt, chờ mentor duyệt, nằm ở [`SPEC.md`](SPEC.md) mục 10.
 
 ### 3.2. Giao diện phần cứng
 

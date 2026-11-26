@@ -13,7 +13,7 @@ This file is the standing agreement for every agent working in this repository. 
 7. **Verification before completion:** before opening a PR and before the final response, re-run the full check set from `docs/CONTRIBUTING.md` (`npm run lint`, `npm run typecheck`, `npm test`, `npm run format:check`, `npm run build`) plus `npm run test:e2e` when behavior changed. Record the **full output with exit code**; write "đạt/pass" only when that output is attached. Never claim success from a previous run or from an agent report.
 8. When creating a PR with `gh`, always give the user the PR link in the final response.
 9. **Vietnamese and English letters only in anything you write** — docs, code/comments/identifiers, PR titles and bodies, commit messages. Any other letter (Han, Hangul, Cyrillic, stray Latin letters from translation/autocomplete, mojibake) is a defect. Non-letter characters (digits, punctuation, symbols) are allowed. Check before committing with `npm run check:language` when the script exists; its output must be clean. Do not rewrite historical verbatim content solely to enforce this rule without asking.
-10. **Superpowers protocol:** load the relevant skill by its exact id (for example `brainstorming`, `writing-plans`, `test-driven-development`, `requesting-code-review`, `systematic-debugging`) and record that id in the review file. Feature-level designs go to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`; plans go to `docs/superpowers/plans/`. The product-level spec remains `docs/SPEC.md`.
+10. **Superpowers protocol:** load the relevant skill by its exact id (for example `brainstorming`, `writing-plans`, `test-driven-development`, `requesting-code-review`, `systematic-debugging`) and record that id in the review file. Feature-level designs will go to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` and plans to `docs/superpowers/plans/` (not-yet: those directories do not exist in this repo). The product-level spec remains `docs/SPEC.md`.
 11. **A11y requirements are mandatory even when the spec is silent.** Never close a required accessibility behavior as "non-goal / not in spec"; ask the project owner first. "axe did not catch it" is not a reason to skip it.
 12. **The PR body must contain the full check output.** Never replace the captured verification with a link or a summary only. Paste the complete stdout/stderr of every command in rule 7 with each `EXIT=` line.
 13. **Performance numbers live only in `docs/PERFORMANCE.md`.** Other docs and PRs link to it; never copy the numbers elsewhere.
@@ -37,7 +37,7 @@ Additional safety rules:
 
 - Never log passwords, session tokens, `AUTH_SECRET`, or correct answers.
 - Never use `prisma migrate reset` or `--force-reset`; use dedicated `exam_test` / `exam_e2e` databases.
-- Never deploy manually; production deploys only through `.github/workflows/deploy.yml`.
+- Never deploy manually; production deploys only through `.github/workflows/deploy.yml` (not-yet: that workflow does not exist in this repo).
 - Never edit production data by hand; use a migration or a reviewed script.
 - Never return a Prisma object across the server/client boundary; map to an explicit DTO.
 - Never add a "check answer" endpoint or UI during an attempt.
@@ -114,4 +114,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - For every large feature, run `brainstorming`, then write a design spec, then a plan, before implementation. Save spec and plan under `docs/superpowers/`.
 - K2-K7 require TDD with a separate red-test commit before the implementation commit.
 - Run `requesting-code-review` before each milestone; save the result under `docs/reviews/` using `docs/reviews/TEMPLATE.md`. Fold review-status-only changes into the fix PR; do not open a review-only PR.
-- Deploy only through `.github/workflows/deploy.yml`; never deploy manually from a personal machine. Clean up production test data after checking.
+- Deploy only through `.github/workflows/deploy.yml` (not-yet: file chưa có trong repo); never deploy manually from a personal machine. Clean up production test data after checking.
