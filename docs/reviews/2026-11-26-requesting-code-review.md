@@ -47,23 +47,8 @@ $ git check-ignore -v .env.example
 .gitignore:35:!.env.example	.env.example
 NOINDEX_EXIT=0
 
-$ git diff --stat d758694
- .gitignore                             |   1 +
- AGENTS.md                              |  13 ++++-
- AI_LOG.md                              |  40 +++++++++
- README.md                              |  20 ++++---
- docs/ARCHITECTURE.md                   |  20 ++++---
- docs/CONTRIBUTING.md                   |   2 +-
- docs/DEPLOY.md                         |   2 +-
- docs/ERD.md                            |   2 +-
- docs/HANDOVER.md                       |  22 +++----
- docs/HUONG_DAN_VAN_HANH.md             |   6 +-
- docs/MOCKUPS.md                        |  20 +++----
- docs/PERFORMANCE.md                    |   2 +-
- docs/REQUIREMENTS.md                   |  35 ++++++++---
- docs/SPEC.md                           |  15 +++--
- docs/reviews/2026-11-26-superpowers.md | 104 +++++++++++++++++++++++++++++++++
- 15 files changed, 240 insertions(+), 64 deletions(-)
+$ git diff --stat d758694 (trước khi thêm review file này)
+15 files changed, 240 insertions(+), 64 deletions(-)
 ```
 
 ## Giới hạn

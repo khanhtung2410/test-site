@@ -41,59 +41,17 @@
 
 ```text
 $ npm run lint
-
-> test-site@0.1.0 lint
-> eslint
-
-
-D:\thuc tap\test-site\figma-plugin\code.js
-  159:55  warning  'e' is defined but never used                          @typescript-eslint/no-unused-vars
-  163:53  warning  'e' is defined but never used                          @typescript-eslint/no-unused-vars
-  193:16  warning  'e' is defined but never used                          @typescript-eslint/no-unused-vars
-  685:9   warning  'questionTypePill' is assigned a value but never used  @typescript-eslint/no-unused-vars
-  718:11  warning  'c1' is assigned a value but never used                @typescript-eslint/no-unused-vars
-  728:11  warning  'c2' is assigned a value but never used                @typescript-eslint/no-unused-vars
-  750:11  warning  'c3' is assigned a value but never used                @typescript-eslint/no-unused-vars
-  760:11  warning  'c4' is assigned a value but never used                @typescript-eslint/no-unused-vars
-
-✖ 8 problems (0 errors, 8 warnings)
-
-
-
+✖ 8 problems (0 errors, 8 warnings) -- tất cả từ figma-plugin/code.js (đã nằm trong .gitignore)
 EXIT=0
+
 $ npm run build
-
-> test-site@0.1.0 build
-> next build
-
-▲ Next.js 16.4.6 (Turbopack)
-✓ Running next.config.ts took 275ms
-- Cache Components enabled
-- Partial Prefetching enabled
-
-  Creating an optimized production build ...
-✓ Compiled successfully in 2.3s
-  Running TypeScript ...
-  Finished TypeScript in 5.0s ...
-  Collecting page data using 5 workers ...
-  Generating static pages using 5 workers (0/4) ...
-  Generating static pages using 5 workers (1/4) ...
-  Generating static pages using 5 workers (2/4) ...
-  Generating static pages using 5 workers (3/4) ...
-✓ Generating static pages using 5 workers (4/4) in 1714ms
-  Finalizing page optimization ...
-
-Route (app)
-┌ ○ /
-└ ○ /_not-found
-
-
-○  (Static)  prerendered as static content
-
-
-
+✓ Compiled successfully
+✓ Generating static pages using 5 workers (4/4)
+○ (Static) prerendered as static content
 EXIT=0
 ```
+
+Output đầy đủ của cả hai lệnh nằm trong PR #2 mục Testing.
 
 ## Giới hạn
 
