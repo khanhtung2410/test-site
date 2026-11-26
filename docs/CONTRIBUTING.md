@@ -68,7 +68,7 @@ test/*      ← chỉ test
 src/app/          ← route, page, layout, route handler
 src/features/     ← domain: components/, actions/, queries/, lib/, mocks/
 src/constants/    ← role, trạng thái, nhãn
-prisma/           ← schema, migrations, seed
+prisma/           ← schema, migrations, seed (not-yet, kế hoạch Mốc 2)
 public/           ← static assets
 docs/             ← tài liệu dự án
 ```
@@ -217,6 +217,8 @@ docs(spec): record the all-or-nothing scoring rule
 - [ ] Đã cập nhật tài liệu nếu hành vi hoặc cấu hình đổi.
 - [ ] Đã thêm entry `AI_LOG.md` nếu dùng AI.
 - [ ] Đã tự review diff.
+
+Repo hiện có script `lint`, `typecheck`, `format:check`, `check:language` và `build`; `npm test` cùng `npm run test:e2e` chưa có, ghi "chưa kiểm chứng" cho đến khi thêm script. Output kiểm chứng được dán nguyên văn vào PR, kèm `EXIT=`.
 
 ### 4.2. Tiêu đề PR
 

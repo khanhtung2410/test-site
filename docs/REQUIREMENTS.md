@@ -87,7 +87,7 @@ Các ràng buộc C-01…C-05 của SRS áp dụng cho toàn bộ yêu cầu dư
 | NFR-05 | Độ tin cậy | Không mất đáp án khi tải lại, đóng tab hoặc mất mạng. | Mọi đáp án đã chọn trước khi gián đoạn còn sau khi khôi phục. |
 | NFR-06 | Toàn vẹn dữ liệu | Điểm đã nộp bất biến với sửa/xóa câu hỏi. | 0 thay đổi điểm sau khi sửa hoặc xóa câu hỏi. |
 | NFR-07 | Hiệu năng | Màn làm bài chạy tốt trên mobile. | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01. |
-| NFR-08 | Khả năng truy cập | Làm bài hoàn toàn bằng bàn phím. | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-02; E2E hoàn thành bài bằng bàn phím. |
+| NFR-08 | Khả năng truy cập | Làm bài hoàn toàn bằng bàn phím. | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-06; E2E hoàn thành bài bằng bàn phím. |
 | NFR-09 | Khả dụng | Bố cục dùng được trên điện thoại nhỏ. | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-05 cho năm màn chính. |
 | NFR-10 | Hiệu năng | Lưu đáp án phản hồi nhanh. | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-04 (giả định A-02, cần xác nhận). |
 | NFR-11 | Khả năng kiểm thử | Hành vi bắt buộc có test tự động. | Unit test bảng cho chấm điểm; E2E cho luồng thường, tải lại, offline, hết giờ; tất cả pass trong CI trước merge. |
@@ -196,9 +196,9 @@ Các quy tắc này áp dụng cho mọi PR, file review và báo cáo. Vi phạ
 |---|---|---|
 | GOV-01 | Mọi kết luận phải có output chứng minh. Trong PR và file review, câu "đã sửa", "đã tìm ra nguyên nhân", "đạt" phải đi kèm output lệnh, link run hoặc ảnh. Nếu chưa kiểm chứng được thì ghi rõ "chưa kiểm chứng". | Output lệnh kèm `EXIT=`, link CI run hoặc ảnh ngay dưới kết luận. |
 | GOV-02 | Số liệu chỉ ghi tại [`PERFORMANCE.md`](PERFORMANCE.md). Tài liệu khác, PR và review chỉ link tới đó, không chép lại. | Đường dẫn tới mục tương ứng trong `PERFORMANCE.md`. |
-| GOV-03 | Trước mỗi tính năng lớn chạy quy trình Superpowers: `brainstorming` → spec thiết kế → plan, rồi mới implement. | File spec và plan trong `docs/superpowers/`, id skill được ghi trong review. |
+| GOV-03 | Trước mỗi tính năng lớn chạy quy trình Superpowers: `brainstorming` → spec thiết kế → plan, rồi mới implement. | File spec và plan trong `docs/superpowers/` (not-yet: thư mục chưa có), id skill được ghi trong review. |
 | GOV-04 | K2–K7 làm theo TDD với commit test đỏ riêng, trước khi sửa implementation. | Commit test đỏ tách biệt; output test trước và sau trong PR. |
 | GOV-05 | Trước khi nộp mỗi mốc chạy `requesting-code-review`; kết quả lưu tại `docs/reviews/YYYY-MM-DD-<skill>.md` theo [`TEMPLATE.md`](reviews/TEMPLATE.md). | File review tồn tại; mỗi finding có `file:line`, severity và quyết định rõ ràng. |
 | GOV-06 | PR chỉ cập nhật trạng thái review thì gộp vào PR sửa lỗi tương ứng, không mở PR riêng. | PR chứa cả thay đổi và nội dung review; không có PR review-only. |
-| GOV-07 | Deploy chỉ qua pipeline `.github/workflows/deploy.yml`; không deploy tay từ máy cá nhân. | Link run deploy trong PR hoặc bản ghi release. |
+| GOV-07 | Deploy chỉ qua pipeline `.github/workflows/deploy.yml` (not-yet: file chưa có); không deploy tay từ máy cá nhân. | Link run deploy trong PR hoặc bản ghi release. |
 | GOV-08 | Dữ liệu thử trên production phải được dọn sau khi kiểm tra. | Output lệnh dọn hoặc bản ghi xác nhận trong PR hoặc review. |
