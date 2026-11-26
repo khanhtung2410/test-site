@@ -1,3 +1,43 @@
+## 2026-11-26 15:46:16 +07:00 - Bổ sung quy tắc bằng chứng, quy trình và vận hành vào yêu cầu
+
+### Prompt nguyên văn đã dùng
+
+> Mọi kết luận phải có output chứng minh. Trong PR và file review, câu "đã sửa", "đã tìm ra nguyên nhân", "đạt" phải đi kèm output lệnh, link run hoặc ảnh. Chưa kiểm chứng được thì ghi "chưa kiểm chứng".
+> Số liệu chỉ ghi ở một chỗ. Các tài liệu khác chỉ link tới đó, không chép lại.
+> Quy trình Superpowers: brainstorming → spec → plan trước mỗi tính năng lớn; TDD cho K2–K7 (commit test đỏ riêng); requesting-code-review trước khi nộp mỗi mốc; file review lưu ở docs/reviews/ theo template.
+> Chỉ deploy qua pipeline, không deploy tay từ máy cá nhân. Dữ liệu thử trên production phải dọn sau khi kiểm tra.
+> add to requirement
+>
+> . PR chỉ cập nhật trạng thái review thì gộp vào PR sửa lỗi tương ứng.
+
+Skill đã load: không có skill mới cho thay đổi tài liệu; đây là cập nhật quy tắc, không phải tính năng lớn.
+
+### Đã tự kiểm chứng
+
+- `git pull` báo `Already up to date`, sau đó tạo branch `docs/requirement-evidence-rules` theo quy tắc không làm việc trực tiếp trên `main`.
+- Đọc toàn bộ `docs/REQUIREMENTS.md` (187 dòng), `docs/PERFORMANCE.md` (109 dòng) và phần cuối `AGENTS.md` trước khi sửa.
+- Kiểm tra `PERFORMANCE.md` đã có sẵn quy tắc "con số chỉ ghi ở file này" và các mục PERF-01…PERF-06; vì vậy đổi NFR-07, NFR-08, NFR-09, NFR-10 thành link tới `PERFORMANCE.md`, NFR-12 và NFR-13 thành link tới `SPEC.md` mục 12.
+- Thêm mục 8 với GOV-01…GOV-08 vào `REQUIREMENTS.md` và mục 7 tương ứng vào `AGENTS.md`.
+- Quét ký tự trên các file đổi: chỉ chữ Việt và Anh, không có ký tự ngoài bảng chữ cái cho phép.
+
+### AI sai ở đâu
+
+- Ban đầu định chỉ ghi quy tắc vào `AGENTS.md`. Yêu cầu là "add to requirement" nên `docs/REQUIREMENTS.md` mới là file chính; đã sửa file này trước, `AGENTS.md` chỉ để áp dụng cho mọi tác vụ.
+- Định chép lại ngưỡng hiệu năng vào quy tắc mới. Đọc `PERFORMANCE.md` thì thấy ngưỡng đã có ở đó, nên sửa các dòng NFR thành liên kết thay vì nhân bản số liệu.
+- Suýt mở PR riêng chỉ để cập nhật trạng thái review. Quy tắc GOV-06 yêu cầu gộp vào PR sửa lỗi tương ứng; nội dung review được đưa vào cùng PR này.
+
+### Findings từ review và quyết định
+
+Tự review theo id `superpowers`, lưu tại `docs/reviews/2026-11-26-superpowers.md`. Chấp nhận finding 1 (thay số liệu bằng link trong NFR-07 đến NFR-10) và finding 3 (đính kèm output lint và build kèm `EXIT=`). Từ chối finding 2 (dọn số liệu ở file khác nằm ngoài phạm vi và cần hỏi chủ dự án) và finding 4 (A-01, A-02, A-03 đã kiểm chứng bằng `grep` trong `SPEC.md`). Không mở vòng `requesting-code-review` riêng vì đây là cập nhật tài liệu, không phải mốc triển khai; nội dung review được gộp trong PR này theo GOV-06.
+
+### Limitations
+
+- Chưa deploy và chưa đụng dữ liệu production; quy tắc GOV-07 và GOV-08 chỉ được ghi nhận, chưa kiểm chứng trên thực tế.
+- `package.json` mới có `dev`, `build`, `start`, `lint`; các script `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` chưa tồn tại nên không chạy được bộ check đầy đủ.
+- Không có bằng chứng CI hay artifact hiệu năng trong PR này; mọi nhận định về hiệu năng vẫn ghi "chưa kiểm chứng".
+
+---
+
 ## 2026-11-26 14:36:19 +07:00 - Mockup Figma, danh sách câu, xác nhận nộp bài, desktop, login và trạng thái
 
 ### Prompt nguyên văn đã dùng
