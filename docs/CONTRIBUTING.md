@@ -218,6 +218,8 @@ docs(spec): record the all-or-nothing scoring rule
 - [ ] Đã thêm entry `AI_LOG.md` nếu dùng AI.
 - [ ] Đã tự review diff.
 
+Repo hiện có script `lint`, `typecheck`, `format:check`, `check:language` và `build`; `npm test` cùng `npm run test:e2e` chưa có, ghi "chưa kiểm chứng" cho đến khi thêm script. Output kiểm chứng được dán nguyên văn vào PR, kèm `EXIT=`.
+
 ### 4.2. Tiêu đề PR
 
 Cùng format Conventional Commits:

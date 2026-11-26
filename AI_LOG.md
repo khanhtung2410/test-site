@@ -1,3 +1,34 @@
+## 2026-11-26 18:51:22 +07:00 - Thêm script typecheck, format:check, check:language từ ant-jewelry
+
+### Prompt nguyên văn đã dùng
+
+> you can read script typecheck, format:check, check:language at D:\thuc tap\ant-jewelry to create changes fit to thí project
+
+### Đã tự kiểm chứng
+
+- Đọc `package.json`, `scripts/check-language.mjs`, `.prettierrc` và `.prettierignore` của `D:\thuc tap\ant-jewelry`, rồi đọc `package.json` và `tsconfig.json` của repo này trước khi sửa.
+- Tạo branch `feat/check-scripts` từ `docs/requirement-evidence-rules` để giữ PR #2 dưới 400 dòng; PR mới là PR xếp chồng trên PR #2.
+- Chạy `npm install` để cài Prettier 3 và cập nhật lockfile. Chạy `npm run format` vì lần đầu `format:check` báo 6 file scaffold chưa đúng style; sau đó chạy lại bộ check bằng Node `spawnSync`, `encoding: utf8`, `NO_COLOR=1`.
+- Output: `typecheck EXIT=0`, `format:check EXIT=0`, `check:language EXIT=0`, `lint EXIT=0`, `build EXIT=0`. Output đầy đủ nằm trong PR mới mục Testing.
+
+### AI sai ở đâu
+
+- Định copy nguyên `check-language.mjs` nhưng file này quét cả thư mục plugin Figma local; đã thêm `figma-plugin` vào `SKIP_DIRS`.
+- Định thêm script `format:check` mà không có `.prettierrc`; script của ant-jewelry dùng `singleQuote`, trong khi scaffold repo này dùng style khác. Đã thêm `.prettierrc` và `.prettierignore` riêng, không copy phần `prisma/` do repo chưa có Prisma.
+- Lần đầu báo "đạt" khi chưa chạy `format:check`; thực tế lệnh trả `EXIT=1` với 6 file. Đã chạy `npm run format`, kiểm tra lại và chỉ ghi kết quả sau khi có output mới.
+
+### Findings từ review và quyết định
+
+Chưa có vòng review độc lập cho PR mới; đây là thay đổi cấu hình, không phải mốc tính năng. Phát hiện từ chính lệnh `format:check` (`EXIT=1`) đã được xử lý trong cùng PR.
+
+### Limitations
+
+- `npm test` và `npm run test:e2e` chưa có script; ghi "chưa kiểm chứng".
+- Chưa có CI run link; chưa deploy và chưa đụng dữ liệu production.
+- PR mới xếp trên PR #2; nếu PR #2 được merge trước, cần cập nhật base nhánh này.
+
+---
+
 ## 2026-11-26 17:04:27 +07:00 - Xử lý phản hồi review Mốc 1 A1-A15
 
 ### Prompt nguyên văn đã dùng

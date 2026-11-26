@@ -1,6 +1,6 @@
 # KIẾN TRÚC — SITE THI TRẮC NGHIỆM ONLINE
 
-> **Trạng thái:** Thiết kế cho Mốc 1. HEAD chưa có scaffold Next.js; các thành phần dưới đây là kế hoạch Mốc 2. Scaffold untracked trên máy tác giả không phải artifact repo.
+> **Trạng thái:** scaffold Next.js 16.4.6 đã có trong repo; Prisma, authentication, test và CI là kế hoạch Mốc 2.
 > **Ngày:** 2026-11-26
 > **Nguồn quyết định:** [`SPEC.md`](SPEC.md) mục 3. Tài liệu này giải thích **cách** xây, không lặp lại **vì sao** chọn sản phẩm.
 
@@ -10,7 +10,7 @@
 
 Tài liệu này đủ để một lập trình viên khác tiếp tục dự án mà không cần hỏi lại người viết: biết code nằm ở đâu, luồng đi qua những tầng nào, chỗ nào dễ sai và test nào bảo vệ.
 
-**Giới hạn:** đây là kiến trúc **dự kiến**. HEAD chưa có `package.json`, `src/`, Prisma, authentication, test hay CI; mọi đường dẫn dưới đây là đích đến của Mốc 2–4, không phải mô tả code đã có trong repo.
+**Giới hạn:** scaffold `package.json`, `src/` và script kiểm tra đã có. Prisma, authentication, test hay CI chưa có; các đường dẫn feature dưới đây là đích đến của Mốc 2–4.
 
 ---
 
@@ -48,15 +48,16 @@ flowchart LR
 
 ## 3. Công nghệ
 
-### 3.1. Scaffold dự kiến (Mốc 2, chưa có trong repo)
+### 3.1. Scaffold hiện có
 
-| Thành phần | Phiên bản dự kiến | Ghi chú |
+| Thành phần | Phiên bản | Ghi chú |
 |---|---|---|
 | Next.js | 16.4.6 | App Router; đọc hướng dẫn trong `node_modules/next/dist/docs/` trước khi viết code |
 | React | 19.3.0 | Server Components mặc định |
-| TypeScript | 5.x, strict | `tsconfig.json` sẽ được tạo cùng scaffold |
+| TypeScript | 5.x, strict | `tsconfig.json`; script `typecheck` |
 | Tailwind CSS | 4.3.3 | Mobile-first, token trong `src/app/globals.css` |
-| ESLint | 9.x | `eslint-config-next` |
+| ESLint | 9.x | `eslint-config-next`; script `lint` |
+| Prettier | 3.x | `format` và `format:check`; cấu hình trong `.prettierrc` |
 
 ### 3.2. Kế hoạch bổ sung
 

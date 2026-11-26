@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online, dựa trên SRS và brief gốc. HEAD chưa có scaffold Next.js, `package.json`, Prisma, authentication, test hay CI; đó là kế hoạch Mốc 2. Scaffold untracked trên máy tác giả không phải artifact repo.
+Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`. Prisma, authentication, test và CI là kế hoạch Mốc 2.
 
 Điểm đã chốt quan trọng nhất:
 

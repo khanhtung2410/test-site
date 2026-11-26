@@ -4,7 +4,7 @@ Website cho trung tâm đào tạo tổ chức thi trắc nghiệm online. Giáo
 
 Repo: <https://github.com/khanhtung2410/test-site>
 
-> **Trạng thái:** Mốc 1 — tài liệu thiết kế. HEAD chưa có `package.json`, `src/`, `tsconfig.json` hay script npm; scaffold Next.js là **kế hoạch Mốc 2**. Các file scaffold nếu có trên máy chỉ ở dạng untracked và không phải artifact repo. Xem [`docs/HANDOVER.md`](docs/HANDOVER.md) để biết việc còn lại.
+> **Trạng thái:** scaffold Next.js 16.4.6 và các script `typecheck`, `format:check`, `check:language` đã có trong repo. Prisma, authentication, test và CI vẫn là kế hoạch Mốc 2. Xem [`docs/HANDOVER.md`](docs/HANDOVER.md) để biết việc còn lại.
 
 ---
 
@@ -38,14 +38,14 @@ Không có tự đăng ký, thanh toán, đăng nhập mạng xã hội, câu t�
 
 | Thành phần | Hiện có | Kế hoạch |
 |---|---|---|
-| Framework | — (kế hoạch Mốc 2) | Next.js 16.4.6, App Router |
-| UI | — (kế hoạch Mốc 2) | React 19.3.0, Tailwind CSS 4.3.3, mobile-first |
-| Ngôn ngữ | — (kế hoạch Mốc 2) | TypeScript 5.x strict |
+| Framework | Next.js 16.4.6 (App Router) | Giữ nguyên |
+| UI | React 19.3.0, Tailwind CSS 4.3.3 | Thiết kế mobile-first |
+| Ngôn ngữ | TypeScript 5.x strict | Giữ nguyên |
 | Database / ORM | — | Prisma 7 + PostgreSQL 16 |
 | Validation | — | Zod 4 |
 | Authentication | — | JWT HS256 trong cookie `httpOnly`, bcryptjs |
 | Test | — | Vitest (unit/integration), Playwright (E2E), axe, Lighthouse CI |
-| Lint / Format | — (kế hoạch Mốc 2) | ESLint 9, thêm Prettier 3 |
+| Lint / Format | ESLint 9, Prettier 3 | Giữ nguyên |
 
 Ứng dụng là **một Next.js project duy nhất**: Server Components cho phần đọc, Server Actions cho mutation. Không có backend REST riêng. Kiến trúc chi tiết ở [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -53,7 +53,7 @@ Không có tự đăng ký, thanh toán, đăng nhập mạng xã hội, câu t�
 
 ## 4. Chạy local từ clone mới
 
-Yêu cầu: **Node.js 22**, **npm 10 trở lên**, **Git**, **Docker** (cho PostgreSQL). Mục 4 và 5 là hướng dẫn **khi có `package.json` (Mốc 2)**; hiện HEAD chưa có file này.
+Yêu cầu: **Node.js 22**, **npm 10 trở lên**, **Git**, **Docker** (cho PostgreSQL). Mục 4 và 5 dùng `package.json` hiện có; database và tài khoản demo chỉ có sau Mốc 2.
 
 ```bash
 git clone https://github.com/khanhtung2410/test-site.git
@@ -140,21 +140,23 @@ Sau khi chạy `npm run db:seed` (Mốc 2), các tài khoản demo:
 
 | Lệnh | Trạng thái | Mục đích |
 |---|---|---|
-| `npm run dev` | Khi có `package.json` (Mốc 2) | Dev server có hot reload |
-| `npm run build` | Khi có `package.json` (Mốc 2) | Build production |
-| `npm run start` | Khi có `package.json` (Mốc 2) | Chạy bản build |
-| `npm run lint` | Khi có `package.json` (Mốc 2) | ESLint |
-| `npm run typecheck` | Kế hoạch | `tsc --noEmit` |
+| `npm run dev` | Có | Dev server có hot reload |
+| `npm run build` | Có | Build production |
+| `npm run start` | Có | Chạy bản build |
+| `npm run lint` | Có | ESLint |
+| `npm run typecheck` | Có | `tsc --noEmit` |
 | `npm test` | Kế hoạch | Vitest unit + integration |
 | `npm run test:watch` | Kế hoạch | Vitest watch |
 | `npm run test:e2e` | Kế hoạch | Playwright trên production build |
-| `npm run format` / `format:check` | Kế hoạch | Prettier ghi / kiểm tra |
+| `npm run format` / `format:check` | Có | Prettier ghi / kiểm tra |
 | `npm run db:migrate:dev` | Kế hoạch | Tạo migration local |
 | `npm run db:migrate:deploy` | Kế hoạch | Áp dụng migration production |
 | `npm run db:generate` | Kế hoạch | Generate Prisma Client |
 | `npm run db:seed` | Kế hoạch | Dữ liệu demo local/test |
 | `npm run db:create-admin` | Kế hoạch | Tạo admin đầu tiên cho production |
-| `npm run check:language` | Kế hoạch | Kiểm tra quy tắc chữ Việt/Anh |
+| `npm run check:language` | Có | Kiểm tra quy tắc chữ Việt/Anh |
+
+Output kiểm chứng của các lệnh "Có" nằm ở entry `AI_LOG.md` ngày 2026-11-26 và trong PR tương ứng.
 | `npm run audit:production` | Kế hoạch | `npm audit --omit=dev --audit-level=high` |
 
 ---
@@ -206,7 +208,7 @@ Mỗi feature tự chứa `components/`, `actions/`, `queries/`, `lib/`, test đ
 
 ## 9. Kiểm thử
 
-Các lệnh dưới đây là kế hoạch Mốc 2, chỉ chạy được khi repo có `package.json` và script tương ứng. Scaffold untracked trên máy tác giả có `lint` và `build`, nhưng không phải artifact repo; các script còn lại chưa có. Không có bằng chứng CI cho Mốc 1.
+Các lệnh có script được kiểm chứng trong entry `AI_LOG.md` ngày 2026-11-26. `npm test` và `npm run test:e2e` vẫn là kế hoạch Mốc 2; chưa có bằng chứng CI.
 
 ```bash
 npm run lint
