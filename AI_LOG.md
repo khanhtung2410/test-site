@@ -1,3 +1,32 @@
+## 2026-11-26 19:54:40 +07:00 - Kiểm tra và bật branch protection cho main
+
+### Prompt nguyên văn đã dùng
+
+> check and protect main branch of test dite
+
+### Đã tự kiểm chứng
+
+- `gh api repos/khanhtung2410/test-site/branches/main/protection` ban đầu trả HTTP 404 `Branch not protected`.
+- Gửi PUT cấu hình protection qua `gh api --method PUT ... --input main-protection.json`; response trả đầy đủ các trường.
+- GET lại: `branches/main --jq '{name, protected}'` trả `{"name":"main","protected":true}`; endpoint protection trả `reviews=1`, `dismiss_stale=true`, `strict=true`, `contexts=[]`, `enforce_admins=true`, `force_pushes=false`, `deletions=false`, `conversation=true`.
+- Cập nhật `docs/DEPLOY.md` với cấu hình và bằng chứng trên.
+
+### AI sai ở đâu
+
+- Ban đầu thử `gh api --include-headers` nhưng flag này không tồn tại; bỏ flag và đọc JSON trả về.
+- Định yêu cầu status check ngay, nhưng repo chưa có workflow CI; nếu yêu cầu `lint`, `build`... sẽ chặn mọi PR. Để `contexts=[]` và ghi rõ "chưa kiểm chứng" trong docs.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; thay đổi là cấu hình GitHub, đã kiểm chứng bằng hai lệnh GET sau PUT.
+
+### Limitations
+
+- Chưa bật required status checks; chưa có CI run để làm bằng chứng.
+- Chưa kiểm chứng khả năng chặn force push bằng cách thử đẩy thật; chỉ dựa vào response API.
+
+---
+
 ## 2026-11-26 18:51:22 +07:00 - Thêm script typecheck, format:check, check:language từ ant-jewelry
 
 ### Prompt nguyên văn đã dùng
