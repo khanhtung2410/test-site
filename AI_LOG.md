@@ -1,3 +1,65 @@
+## 2026-11-26 14:36:19 +07:00 - Mockup Figma, danh sách câu, xác nhận nộp bài, desktop, login và trạng thái
+
+### Prompt nguyên văn đã dùng
+
+> some note to fix:
+> student need list to quickly navigate between question
+> add some pop over like confirm nop bai (turn in) - you can copy the ui below
+> computer layout for all site
+> add trạng thái lỗi/empty, hoặc màn hình phụ
+>
+> student can get question list in test (first note)
+>
+> add login
+>
+> https://github.com/AlexZai007/figma-unlimited-mcp/blob/main/docs/TOOLS.md
+>
+> continue
+>
+> add result if test have student caant see result or not out of time yet
+>
+> https://www.figma.com/design/WAj9m3ZxAJY8AewIoUc535/Exam-App---Mobile-Mockup?node-id=0-1&p=f&t=2lKJfttTLhsdwX2K-0
+> commit to main, update docs file
+>
+> pull first
+>
+> add git .ignore
+>
+> ignore figma
+
+Skill đã load: `brainstorming`, `figma-generate-design`, `figma-use`, `ui-ux-pro-max`.
+
+### Đã tự kiểm chứng
+
+- Đọc `docs/SPEC.md` mục 10 và các ghi chú giao diện: điều kiện hỏi xác nhận khi còn câu trống, banner mất mạng, đồng hồ `aria-live`, vùng bấm tối thiểu 44 px.
+- Kiểm tra gói `figma-unlimited-mcp` trên npm và GitHub: 19 tool cho sticky/shape/table/code block, manifest có `editorType: ["figjam"]`; không tạo được frame hay auto-layout trong Figma Design.
+- Xác nhận hạn mức Figma MCP: Starter/View 20 lượt gọi mỗi tháng, đã hết trong phiên; `whoami` trả về tài khoản `khanhtungdaoduy2410@gmail.com`, plan `starter`.
+- Chạy `node --check` cho `figma-plugin/code.js` sau mỗi lần sửa; kết quả `SYNTAX OK`.
+- Kiểm tra `git status`, `git log`, diff của `README.md` và `AGENTS.md`; `git pull` fast-forward từ `10d17a3` sang `c5c8ba3` sau khi dọn xung đột.
+- Đối chiếu 22 frame giữa Figma và mô tả trong `docs/MOCKUPS.md`; thư mục plugin nằm ngoài repo vì đã thêm `/figma-plugin/` vào `.gitignore`.
+
+### AI sai ở đâu
+
+- Nghĩ `figma-unlimited-mcp` thay thế được Figma MCP. Đọc `TOOLS.md` và manifest thì server chỉ chạy FigJam; đã chuyển sang plugin Design chạy local.
+- Dùng `figma.currentPage = page` với `documentAccess: dynamic-page` → Figma báo lỗi `set_currentPage`. Đã đổi sang `figma.setCurrentPageAsync` và nạp page bằng `loadAllPagesAsync`.
+- Gán `textStyleId`, `fillStyleId`, `strokeStyleId`, `effectStyleId` dạng đồng bộ → Figma báo lỗi `set_textStyleId`. Đã đổi sang ghi trực tiếp `fontName`, `fontSize`, `lineHeight`, `fills`, `strokes`, `effects`.
+- Gán `node.width = 400` → Figma báo `no setter for property` vì `width` là thuộc tính chỉ đọc. Đã đổi sang `resize()` kèm thiết lập sizing mode.
+- Đặt frame `02c` tại `(400, 1800)` trùng khu vực desktop. Plugin đã dời về `(400, 900)` và xóa nhãn cũ.
+- Định commit README bản `create-next-app` và các file scaffold chưa track, đè lên tài liệu từ `origin`. Đã discard README local, xóa `AGENTS.md` bản do `next dev` sinh, pull trước, rồi chỉ giữ phần docs và `.gitignore`.
+
+### Findings từ review và quyết định
+
+Chưa có review độc lập cho phiên này. Các lỗi plugin được phát hiện qua toast của Figma và sửa trực tiếp; không tạo file review riêng.
+
+### Limitations
+
+- Không tự chụp hay kiểm tra trực quan 15 frame do plugin tạo vì quota Figma MCP đã hết; cần người dùng xác nhận bằng ảnh trong Figma.
+- Plugin ghi thuộc tính trực tiếp nên node không liên kết style; style vẫn có trong file để tái sử dụng.
+- `figma-unlimited` đã thêm vào config OpenCode nhưng chỉ dùng được cho FigJam, không phải Design.
+- Chạy được `npm run lint` và `npm run build`; các script `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` chưa có trong `package.json`.
+
+---
+
 ## 2026-11-26 11:13:01 +07:00 - Khởi tạo bộ tài liệu dự án từ SRS và brief
 
 ### Prompt nguyên văn đã dùng

@@ -79,6 +79,7 @@ Source of truth: <https://github.com/obra/superpowers/blob/main/docs/README.open
 |---|---|
 | `README.md` | Project overview, local setup, scripts, structure |
 | `docs/SPEC.md` | Product spec, decisions, flows, wireframes, acceptance |
+| `docs/MOCKUPS.md` | Figma mockups, design tokens, screen states, local plugin |
 | `docs/REQUIREMENTS.md` | FR/NFR catalog, business rules, validation, traceability |
 | `docs/ARCHITECTURE.md` | Layers, modules, request flows, transactions, ADRs |
 | `docs/ERD.md` | Data model and constraints |

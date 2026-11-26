@@ -240,6 +240,7 @@ Quy trình, biến môi trường và rollback: [`docs/DEPLOY.md`](docs/DEPLOY.m
 | File | Nội dung |
 |---|---|
 | [`docs/SPEC.md`](docs/SPEC.md) | Đặc tả sản phẩm, quyết định, luồng, state machine, wireframe, nghiệm thu |
+| [`docs/MOCKUPS.md`](docs/MOCKUPS.md) | Mockup Figma: 22 frame mobile/desktop, design token, trạng thái, plugin local |
 | [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md) | FR-01…FR-27, NFR, quy tắc nghiệp vụ, validation, truy vết K |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Kiến trúc, module, luồng request, transaction, ADR |
 | [`docs/ERD.md`](docs/ERD.md) | Mô hình dữ liệu, ràng buộc, index |
