@@ -68,7 +68,7 @@ test/*      ← chỉ test
 src/app/          ← route, page, layout, route handler
 src/features/     ← domain: components/, actions/, queries/, lib/, mocks/
 src/constants/    ← role, trạng thái, nhãn
-prisma/           ← schema, migrations, seed
+prisma/           ← schema, migrations, seed (not-yet, kế hoạch Mốc 2)
 public/           ← static assets
 docs/             ← tài liệu dự án
 ```

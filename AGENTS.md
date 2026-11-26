@@ -111,7 +111,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - Every conclusion in a PR, review file or report must carry proof: command output with `EXIT=`, a CI run link, or an image. If something is not verified, write "chưa kiểm chứng". Never claim "fixed", "root cause found" or "pass" without proof.
 - Numbers live only in `docs/PERFORMANCE.md`. Other docs and PRs link there; they do not copy the figures.
-- For every large feature, run `brainstorming`, then write a design spec, then a plan, before implementation. Save spec and plan under `docs/superpowers/`.
+- For every large feature, run `brainstorming`, then write a design spec, then a plan, before implementation. Save spec and plan under `docs/superpowers/` (not-yet: directory does not exist in this repo).
 - K2-K7 require TDD with a separate red-test commit before the implementation commit.
 - Run `requesting-code-review` before each milestone; save the result under `docs/reviews/` using `docs/reviews/TEMPLATE.md`. Fold review-status-only changes into the fix PR; do not open a review-only PR.
 - Deploy only through `.github/workflows/deploy.yml` (not-yet: file chưa có trong repo); never deploy manually from a personal machine. Clean up production test data after checking.

@@ -9,17 +9,20 @@
 - Đọc `package.json`, `scripts/check-language.mjs`, `.prettierrc` và `.prettierignore` của `D:\thuc tap\ant-jewelry`, rồi đọc `package.json` và `tsconfig.json` của repo này trước khi sửa.
 - Tạo branch `feat/check-scripts` từ `docs/requirement-evidence-rules` để giữ PR #2 dưới 400 dòng; PR mới là PR xếp chồng trên PR #2.
 - Chạy `npm install` để cài Prettier 3 và cập nhật lockfile. Chạy `npm run format` vì lần đầu `format:check` báo 6 file scaffold chưa đúng style; sau đó chạy lại bộ check bằng Node `spawnSync`, `encoding: utf8`, `NO_COLOR=1`.
-- Output: `typecheck EXIT=0`, `format:check EXIT=0`, `check:language EXIT=0`, `lint EXIT=0`, `build EXIT=0`. Output đầy đủ nằm trong PR mới mục Testing.
+- Output cuối: `typecheck EXIT=0`, `format:check EXIT=0`, `check:language EXIT=0`, `lint EXIT=0`, `build EXIT=0`. Output đầy đủ nằm trong PR #3 mục Testing.
+- Test âm cho `check-language`: tạo tạm `lang-probe.md` chứa hai ký tự Hán → lệnh in tên file kèm hai ký tự đó, `EXIT=1`; xóa file → lệnh in "All tracked text files use Vietnamese and English letters only.", `EXIT=0`. Không ghi lại ký tự cấm vào tài liệu vì script quét cả file markdown.
 
 ### AI sai ở đâu
 
 - Định copy nguyên `check-language.mjs` nhưng file này quét cả thư mục plugin Figma local; đã thêm `figma-plugin` vào `SKIP_DIRS`.
 - Định thêm script `format:check` mà không có `.prettierrc`; script của ant-jewelry dùng `singleQuote`, trong khi scaffold repo này dùng style khác. Đã thêm `.prettierrc` và `.prettierignore` riêng, không copy phần `prisma/` do repo chưa có Prisma.
 - Lần đầu báo "đạt" khi chưa chạy `format:check`; thực tế lệnh trả `EXIT=1` với 6 file. Đã chạy `npm run format`, kiểm tra lại và chỉ ghi kết quả sau khi có output mới.
+- Copy `check-language.mjs` với phép so sánh `new URL(import.meta.url).pathname`; trên Windows đường dẫn `D:\thuc tap` bị chuyển thành `/D:/thuc%20tap/...` nên hàm `invokedDirectly` luôn sai, script không quét gì nhưng vẫn `EXIT=0`. Đã đổi sang `fileURLToPath(import.meta.url)` và chứng minh bằng test âm ở trên.
+- Để bảng script README có dòng `audit:production` rơi xuống sau một đoạn văn, làm bảng gãy. Đã đưa dòng vào lại trong bảng.
 
 ### Findings từ review và quyết định
 
-Chưa có vòng review độc lập cho PR mới; đây là thay đổi cấu hình, không phải mốc tính năng. Phát hiện từ chính lệnh `format:check` (`EXIT=1`) đã được xử lý trong cùng PR.
+Reviewer subagent đã soát docs PR #3 và ghi 9 finding. Chấp nhận và sửa trong PR #3: lỗi path của `check-language`, bảng README gãy, nhận định cũ trong file review về scaffold/script, Prettier trong HANDOVER/ARCHITECTURE, nhãn `not-yet` cho `prisma/` và `docs/superpowers/`, mô tả ngưỡng trong `PERFORMANCE.md`, và link PERF-06 cho NFR-08. Không có finding bị từ chối. Không mở PR review-only.
 
 ### Limitations
 

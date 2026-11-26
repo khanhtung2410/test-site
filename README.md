@@ -155,9 +155,9 @@ Sau khi chạy `npm run db:seed` (Mốc 2), các tài khoản demo:
 | `npm run db:seed` | Kế hoạch | Dữ liệu demo local/test |
 | `npm run db:create-admin` | Kế hoạch | Tạo admin đầu tiên cho production |
 | `npm run check:language` | Có | Kiểm tra quy tắc chữ Việt/Anh |
-
-Output kiểm chứng của các lệnh "Có" nằm ở entry `AI_LOG.md` ngày 2026-11-26 và trong PR tương ứng.
 | `npm run audit:production` | Kế hoạch | `npm audit --omit=dev --audit-level=high` |
+
+Tóm tắt `EXIT=` nằm trong `AI_LOG.md` mục ngày 2026-11-26; output đầy đủ nằm trong PR #2 và PR #3 mục Testing.
 
 ---
 
@@ -201,7 +201,7 @@ Mỗi feature tự chứa `components/`, `actions/`, `queries/`, `lib/`, test đ
 - PostgreSQL 16 cho local, test, e2e và production. Không dùng SQLite.
 - Local: `exam_dev`; test: `exam_test`; e2e: `exam_e2e`.
 - Schema dự kiến: [`docs/ERD.md`](docs/ERD.md).
-- Migration nằm trong `prisma/migrations/`; không sửa database production bằng tay.
+- Migration dự kiến nằm trong `prisma/migrations/` (not-yet: Prisma chưa có); không sửa database production bằng tay.
 - Chi tiết deploy và rollback: [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ---

@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const ASCII = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 const VIETNAMESE_LOWER = 'àáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩị' + 'òóỏõọồốổỗộờởớỡợùúủũụừứửữựỳýỷỹỵăâđêôơư';
@@ -41,8 +42,7 @@ function walk(dir, out = []) {
 }
 
 const invokedDirectly =
-  process.argv[1] &&
-  path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname);
+  process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invokedDirectly) {
   const root = process.cwd();
   const failures = [];

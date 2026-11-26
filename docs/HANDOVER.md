@@ -47,7 +47,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 
 ### 3.1. Mốc 2 — Nền tảng
 
-- [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright, Prettier.
+- [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright. Prettier đã có.
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
 - [ ] `ci.yml` với static, test, build, e2e, lighthouse.
