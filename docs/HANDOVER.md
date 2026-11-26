@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online, dựa trên SRS và brief gốc. Work tree vẫn là khung Next.js 16.4.6 của `create-next-app`; chưa có Prisma, authentication, test hay CI.
+Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online, dựa trên SRS và brief gốc. HEAD chưa có scaffold Next.js, `package.json`, Prisma, authentication, test hay CI; đó là kế hoạch Mốc 2. Scaffold untracked trên máy tác giả không phải artifact repo.
 
 Điểm đã chốt quan trọng nhất:
 
@@ -94,16 +94,16 @@ Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online,
 
 Các mục dưới đây đã có giá trị mặc định trong tài liệu; nếu chủ dự án đổi, cập nhật nơi ghi gốc.
 
-| Mã | Nội dung | Giá trị đang dùng | Ghi ở |
-|---|---|---|---|
-| A-01 | Số học viên đồng thời | 300 | `SPEC.md` mục 12 |
-| A-02 | p95 lưu đáp án | ≤ 500 ms | `PERFORMANCE.md` |
-| A-03 | Uptime khung thi | 99,9% | `REQUIREMENTS.md` |
-| A-04 | Trình duyệt hỗ trợ | 2 bản mới nhất; iOS 16+ | `SPEC.md` mục 12 |
-| A-05 | Vùng database | Singapore | `SPEC.md` mục 12 |
-| A-06 | Tên miền production | TBD | `DEPLOY.md` |
-| A-07 | Số câu tối đa/đề | 100 | `SPEC.md` mục 12 |
-| A-08 | Số đáp án tối đa/câu | 6 | `SPEC.md` mục 12 |
+| Mã | Nội dung | Nguồn duy nhất |
+|---|---|---|
+| A-01 | Số học viên đồng thời | [`SPEC.md`](SPEC.md) mục 12 |
+| A-02 | p95 lưu đáp án | [`PERFORMANCE.md`](PERFORMANCE.md) PERF-04 |
+| A-03 | Uptime khung thi | [`SPEC.md`](SPEC.md) mục 12 |
+| A-04 | Trình duyệt hỗ trợ | [`SPEC.md`](SPEC.md) mục 12 |
+| A-05 | Vùng database | [`SPEC.md`](SPEC.md) mục 12 |
+| A-06 | Tên miền production | [`DEPLOY.md`](DEPLOY.md) |
+| A-07 | Số câu tối đa mỗi đề | [`SPEC.md`](SPEC.md) mục 12 |
+| A-08 | Số đáp án tối đa mỗi câu | [`SPEC.md`](SPEC.md) mục 12 |
 
 Ngoài ra:
 

@@ -82,6 +82,9 @@ Các quyết định dưới đây thay cho những mục "TBD" trong SRS. Chún
 | D-16 | **Đồng hồ trên màn hình chỉ để hiển thị.** Server trả `expiresAt` và `serverNow`; client đếm ngược, đồng bộ lại khi tab được focus. | K2: đổi giờ máy, sửa JS hoặc gửi request muộn đều không kéo dài được thời gian. | K2, FR-15, FR-17 |
 | D-17 | **Thứ tự câu và đáp án sinh từ `seed` lưu ở server**, không xáo ở client. | K6: ổn định khi tải lại, khác nhau giữa các lượt, chấm điểm theo ID đáp án nên không phụ thuộc thứ tự. | K6, FR-15, FR-16 |
 | D-18 | **Điểm và đáp án đúng không bao giờ gửi xuống trình duyệt trong lúc làm bài.** DTO của lượt làm chỉ có nội dung câu, ID đáp án, thứ tự, thời gian còn lại. | K1: ẩn bằng CSS hoặc kiểm tra ở client là không đủ. | K1, FR-16 |
+| D-19 | **Điểm hiện ngay sau khi nộp; chỉ đáp án đúng bị khóa đến khi đề đóng và bật `allowReview`.** **Chờ mentor xác nhận.** | FR-23 là Must. Giữ điểm đến lúc đóng đề là thay đổi Must, phải xin mentor; xem lại đáp án là Should (FR-26, D-11). Mockup D6/S7 đi theo hướng này nhưng chưa có bằng chứng duyệt. | FR-23, FR-26, D-11 |
+| D-20 | **Khi chấm, chỉ tính đáp án có `savedAt < expiresAt`; `expireDueAttempts` khóa lượt trước, `saveAnswer` bị từ chối sau hạn trong cùng transaction.** | K2: request lưu có thể commit sau hạn; lọc theo thời gian lưu thực tế tránh cộng điểm sai. | K2, FR-17, FR-21, FR-22 |
+| D-21 | **Hàng đợi offline lưu trong IndexedDB theo `attemptId`, gồm lựa chọn và `currentQuestionIndex`; khôi phục khi có mạng hoặc khi tải lại.** | K4: mất mạng rồi reload sẽ mất đáp án nếu chỉ giữ trong bộ nhớ. | K4, FR-19 |
 
 ---
 
@@ -216,9 +219,9 @@ Trước khi bấm bắt đầu, học viên thấy: thời lượng, số lư�
 | Mã | Yêu cầu | Cách đáp ứng | Bằng chứng dự kiến |
 |---|---|---|---|
 | K1 | Không lộ đáp án | DTO của lượt làm không chứa `isCorrect`; query chỉ select trường được phép; Server Action lưu đáp án chỉ trả `savedAt`; không có endpoint kiểm tra đáp án | E2E đọc HTML, RSC payload và mọi response trong lúc làm bài, không tìm thấy đáp án đúng |
-| K2 | Thời gian do server | `expiresAt` do server đặt; kiểm tra trong transaction; fake timer test | Lưu sau hạn bị từ chối; lượt quá hạn chuyển `EXPIRED` và chấm phần đã lưu |
+| K2 | Thời gian do server | `expiresAt` do server đặt; `saveAnswer` từ chối sau hạn; chấm chỉ lấy `savedAt < expiresAt` (D-20) | Integration test fake timer tại ranh giới hạn: lưu trước hạn được tính, lưu đúng hoặc sau hạn bị từ chối |
 | K3 | Trạng thái rõ ràng | State machine; update có điều kiện `status = IN_PROGRESS`; unique `(examId, studentId, attemptNumber)` | `Promise.all` hai lệnh nộp chỉ tạo một điểm; hai lệnh bắt đầu không vượt số lượt |
-| K4 | Không mất bài | Lưu ngay mỗi lần chọn; upsert theo `(attemptId, attemptQuestionId)`; chỉ báo câu chưa lưu; retry khi online | E2E `setOffline(true)`, chọn đáp án, bật mạng, tải lại, đáp án còn |
+| K4 | Không mất bài | Lưu ngay mỗi lần chọn; upsert theo `(attemptId, attemptQuestionId)`; hàng đợi offline lưu trong IndexedDB theo `attemptId`, gồm `currentQuestionIndex` (D-21) | E2E `setOffline(true)` → chọn đáp án → reload khi vẫn offline → bật mạng → đáp án và câu hiện tại còn |
 | K5 | Đề không bị sửa ngược | Snapshot câu/đáp án/điểm; chấm từ snapshot | Sửa đáp án đúng sau khi nộp không đổi điểm cũ |
 | K6 | Xáo trộn cố định | `seed` ở server; Fisher–Yates thuần; thứ tự lưu/derive từ seed | Hai lượt khác thứ tự; tải lại không đổi; điểm đúng sau xáo |
 | K7 | Luật chấm nhiều đáp án | All-or-nothing, không trừ điểm; hiển thị trước khi làm | Bảng unit test `it.each` đủ trường hợp |
@@ -228,7 +231,7 @@ Trước khi bấm bắt đầu, học viên thấy: thời lượng, số lư�
 
 ## 10. Wireframe mobile-first
 
-Năm màn chính, thiết kế cho chiều rộng 360 px trước, mở rộng cho desktop. Không có file Figma; wireframe dưới đây là bản đã duyệt để so sánh với giao diện thật.
+Năm màn chính, thiết kế cho chiều rộng 360 px trước, mở rộng cho desktop. Wireframe ASCII dưới đây là **bản trình duyệt**, nguồn đối chiếu với giao diện thật, chờ mentor duyệt. File Figma trong [`MOCKUPS.md`](MOCKUPS.md) là tài liệu trực quan tùy chọn, không thay thế wireframe.
 
 ### 10.1. Danh sách đề (học viên)
 
@@ -352,16 +355,16 @@ Ghi chú giao diện:
 - [ ] Có test chứng minh: không lộ đáp án (K1), không kéo dài thời gian (K2), nộp đồng thời chỉ chấm một lần (K3), sửa câu hỏi không đổi điểm cũ (K5).
 - [ ] Hàm chấm điểm có unit test bảng đủ các trường hợp của luật đã chọn (K7).
 - [ ] Gọi thẳng Server Action bằng tài khoản sai quyền đều bị từ chối (K8).
-- [ ] Lighthouse mobile trên màn làm bài: Performance ≥ 85, Accessibility ≥ 90; làm bài được hoàn toàn bằng bàn phím. Ngưỡng chi tiết ở `PERFORMANCE.md`.
+- [ ] Lighthouse mobile trên màn làm bài đạt ngưỡng trong [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01 và PERF-02; làm bài hoàn toàn bằng bàn phím.
 - [ ] CI bắt buộc xanh trước khi merge; production deploy qua GitHub Actions; có link run deploy cuối cùng.
-- [ ] Giao diện thật khớp wireframe đã duyệt; chỗ khác ghi lý do trong `HANDOVER.md`.
+- [ ] Giao diện thật khớp wireframe bản trình duyệt trong mục 10; chỗ khác ghi lý do trong `HANDOVER.md`.
 - [ ] Đủ sản phẩm nộp: repo, link production, tài khoản demo 3 vai trò, `docs/SPEC.md`, wireframe, `docs/HANDOVER.md`, `AI_LOG.md`, `docs/reviews/`, video demo ≤ 3 phút.
 
 ---
 
 ## 12. Giả định cần chủ dự án xác nhận
 
-Các con số dưới đây được dùng để thiết kế và kiểm thử; nếu chủ dự án đổi, cập nhật tại đây và `PERFORMANCE.md`.
+Các giả định dưới đây được dùng để thiết kế và kiểm thử. Giá trị số chỉ ghi tại [`PERFORMANCE.md`](PERFORMANCE.md) và bảng này; nếu đổi, cập nhật ở cả hai nơi, các tài liệu khác chỉ link tới đây.
 
 | Mã | Giả định | Giá trị đang dùng |
 |---|---|---|

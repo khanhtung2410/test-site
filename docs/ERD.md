@@ -16,7 +16,7 @@ erDiagram
         Role role "ADMIN | TEACHER | STUDENT"
         Boolean locked
         Int sessionVersion
-        Boolean mustChangePassword
+        Boolean mustChangePassword "Should - bat buoc doi mat khau lan dau"
         DateTime createdAt
         DateTime updatedAt
     }

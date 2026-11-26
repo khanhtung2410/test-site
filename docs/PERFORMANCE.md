@@ -42,7 +42,7 @@ Màn làm bài là quan trọng nhất: học viên chủ yếu dùng điện th
 - Chạy trên production build (`next build && next start`), không chạy dev server.
 - Cấu hình mobile mặc định của Lighthouse (Moto G Power, 4G throttle).
 - Mỗi URL chạy 3 lần, lấy median; lưu artifact JSON, không commit vào repo.
-- Assert: Performance ≥ 0,85; Accessibility ≥ 0,90; CLS ≤ 0,10.
+- Assert theo PERF-01, PERF-02 và PERF-03 trong bảng mục 1.
 - Chạy trong job `lighthouse` của CI sau khi `build` xanh.
 
 Lệnh dự kiến:

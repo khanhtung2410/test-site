@@ -126,9 +126,9 @@ Không có chấm lại. Nếu phát hiện câu hỏi sai, sửa câu hỏi cho
 ### 4.2. Khi mất mạng
 
 - Giao diện hiện **Mất mạng — câu X chưa lưu**.
-- Đáp án đã chọn vẫn được giữ trên máy.
-- Khi có mạng lại, hệ thống tự lưu; nếu không, tải lại trang và kiểm tra lại câu đó.
-- Không đóng tab khi đang có cảnh báo chưa lưu nếu có thể.
+- Đáp án đã chọn được giữ tạm trong IndexedDB theo `attemptId`, cùng vị trí câu hiện tại (`currentQuestionIndex`) (D-21).
+- Khi có mạng lại, hệ thống tự gửi hàng đợi; nếu tải lại trang khi vẫn offline, đáp án và câu đang xem được khôi phục từ IndexedDB.
+- Không xóa dữ liệu site trong trình duyệt khi đang có cảnh báo chưa lưu.
 
 ### 4.3. Khi hết giờ
 

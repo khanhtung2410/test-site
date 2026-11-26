@@ -1,3 +1,96 @@
+## 2026-11-26 17:04:27 +07:00 - Xử lý phản hồi review Mốc 1 A1-A15
+
+### Prompt nguyên văn đã dùng
+
+> A. Blocker trước khi duyệt Mốc 1
+> A1 — Xóa khẳng định "work tree có scaffold Next.js". README.md:7,41-48, docs/ARCHITECTURE.md:3,13,51-59, docs/HANDOVER.md:13, AI_LOG.md:59 nói có create-next-app 16.4.6, src/, tsconfig.json, node_modules, script lint/build. HEAD không có gì trong số đó. Đổi thành "kế hoạch Mốc 2" hoặc commit scaffold kèm output.
+> A2 — Bỏ nhãn "Có" cho script npm. README.md:143-146 ghi npm run dev/build/start/lint là "Có"; README.md:209-216, AGENTS.md:13, CONTRIBUTING.md:211-216 yêu cầu chạy. Bọc mọi lệnh bằng điều kiện "khi có package.json (Mốc 2)".
+> A3 — Tạo .env.example và sửa .gitignore. README.md:79,96 bảo cp .env.example .env, nhưng file không có và .gitignore:34 (.env*) chặn nó. Thêm file mẫu (chỉ tên biến + giá trị giả, không secret) và dòng !.env.example.
+> A4 — Giải quyết mâu thuẫn điểm với mockup. docs/MOCKUPS.md:24 (D6/S7 "Đã nộp · Chờ công bố", chưa xem được điểm) mâu thuẫn REQUIREMENTS.md:64 FR-23, SPEC.md:116, HUONG_DAN_VAN_HANH.md:124: điểm hiện ngay sau khi nộp. Bỏ D6/S7 hoặc đổi thành "điểm hiện ngay; chỉ đáp án đúng khóa sau khi đề đóng + allowReview". Ghi quyết định D-19 có lý do.
+> A5 — Đổi "403" thành "404" trong mockup. docs/MOCKUPS.md:25 liệt kê trạng thái "403 không có quyền", trong khi D-15 (SPEC.md:81), REQUIREMENTS.md:36 FR-05 và PERMISSIONS.md:46-50 bắt buộc 404.
+> A6 — Tạo file review Mốc 1. docs/reviews/ chỉ có TEMPLATE.md; AI_LOG.md:52,114 ghi "chưa có review độc lập"; GitHub API cho PR #1 có 0 review. Chạy requesting-code-review, lưu docs/reviews/2026-11-26-requesting-code-review.md theo template, ghi phát hiện Accepted/Rejected vào AI_LOG.md.
+> A7 — Ghi nhận vi phạm PR & commit thẳng main. PR #1 = 2880 dòng/17 file (≤ 400); d758694 đẩy trực tiếp vào main, trái AGENTS.md:7. Không rewrite history; ghi vào review/AI_LOG; từ Mốc 2 dùng branch + PR một việc.
+> A8 — Bỏ chữ "đã duyệt" khi chưa được duyệt. SPEC.md:231,357 và REQUIREMENTS.md:105 ghi "wireframe đã duyệt", nhưng SPEC.md:3, HANDOVER.md:156 ghi "chờ mentor duyệt". Đổi thành "bản trình duyệt / chờ duyệt".
+> A9 — Reconcile Figma. Đề và SPEC.md:231 ghi "không có Figma", nhưng MOCKUPS.md:1-19 đưa link Figma + 22 frame. Chốt: wireframe ASCII là nguồn duyệt, Figma là tài liệu tùy chọn — hoặc bỏ nếu đề cấm. Plugin ở figma-plugin/ bị gitignore (.gitignore:44), người clone không tái tạo được; MOCKUPS.md:54,57 trỏ vào file không có.
+> A10 — Artifact quy trình phải khớp trạng thái. AGENTS.md:16,70 trỏ docs/superpowers/specs|plans/ (không có); AGENTS.md:40 nói deploy qua .github/workflows/deploy.yml (chưa có, DEPLOY.md:170 ghi rõ). Tạo hoặc ghi "not-yet".
+> A11 — Gom số liệu về một chỗ. Ngưỡng 85/90/CLS lặp ở SPEC.md:355, REQUIREMENTS.md:89-90, DEPLOY.md:62, CONTRIBUTING.md:136; A-01…A-08 lặp giữa SPEC.md:364-375, HANDOVER.md:97-106. Sửa SPEC.md:364 ("tại đây và PERFORMANCE.md"), PERFORMANCE.md:20,45, AI_LOG.md:110.
+> A12 — Xử lý nguồn tham chiếu không có trong repo. SRS v0.1 (SPEC.md:5,395) và brief HTML (SPEC.md:396) chưa được commit; REQUIREMENTS.md:11 khẳng định "giữ nguyên mã FR/NFR theo SRS". Commit bản gốc hoặc đổi nguồn thành "đã trích trong REQUIREMENTS.md".
+> A13 — K2: chốt bộ lọc savedAt < expiresAt khi chấm. ERD.md:122 có savedAt nhưng ARCHITECTURE.md:224-235 chấm mọi đáp án đã lưu. Ghi rõ rule + thứ tự khóa giữa saveAnswer và expireDueAttempts, thêm integration test fake timer tại ranh giới hạn.
+> A14 — K4: định nghĩa nơi lưu hàng đợi offline. SPEC.md:221 chỉ ghi "retry khi online"; HUONG_DAN_VAN_HANH.md:129-131 nói giữ trên máy nhưng không nêu localStorage/IndexedDB. Chốt lưu tạm theo attemptId + khôi phục currentQuestionIndex; thêm E2E "offline → reload → online".
+> A15 — Khớp các chi tiết nhỏ. FR-26 (REQUIREMENTS.md:72) phải nói rõ xem lại dùng snapshot AttemptOption.isCorrect; ERD.md:19 có mustChangePassword dù là Should; CONTRIBUTING.md:102-105 phải bắt buộc commit test đỏ riêng; số mốc trong HANDOVER.md lệch nhẹ so với đề.
+>
+> same pr
+> only separate ì >400 line
+
+Skill đã load: `receiving-code-review`, `requesting-code-review`.
+
+### Đã tự kiểm chứng
+
+- Đọc lại các file được trích dẫn trước khi sửa; reviewer subagent đọc toàn bộ file và chạy `git diff`, `git status`, `git check-ignore`, `git show` để đối chiếu base `d758694`.
+- `git check-ignore .env.example` không in gì, `EXIT=1`; `git check-ignore -v .env.example` in `.gitignore:35:!.env.example` — file không bị ignore.
+- `git diff --stat d758694` trước khi thêm review file: 15 file, 240 insertions, 64 deletions.
+- Chạy `npm run lint` (`EXIT=0`, 8 warning từ file plugin bị ignore) và `npm run build` (`EXIT=0`) bằng Node `spawnSync`, output đã lưu trong `docs/reviews/2026-11-26-superpowers.md`.
+
+### AI sai ở đâu
+
+- Viết "Repo chưa có scaffold" trong khi scaffold tồn tại dưới dạng untracked trên máy; reviewer chỉ ra đúng. Đổi thành "HEAD chưa có" và ghi rõ scaffold untracked không phải artifact repo.
+- Điều kiện "khi có `package.json`" chỉ thêm ở mục 6 và 9, quên mục 4 và 5 của README; đã bổ sung.
+- Để lại cụm "đã duyệt" trong `REQUIREMENTS.md` và "đã chốt" trong `MOCKUPS.md`; đã đổi thành "bản trình duyệt, chờ mentor duyệt".
+- Ghi sai `file:line` trong file review trước (`REQUIREMENTS.md:94` thay vì `:95`); đã sửa.
+- Đưa D-19 vào như quyết định chốt dù tự ghi "phải xin mentor"; đã thêm "Chờ mentor xác nhận".
+
+### Findings từ review và quyết định
+
+Reviewer subagent (`requesting-code-review`) ghi 7 finding, lưu tại `docs/reviews/2026-11-26-requesting-code-review.md`. Chấp nhận cả 7: sửa trong PR này cho các finding 1-5, ghi nhận finding 6 là chờ mentor, finding 7 là vi phạm lịch sử PR #1 và commit `d758694` (không rewrite history, từ Mốc 2 dùng branch và PR một việc).
+
+### Limitations
+
+- Reviewer không chạy lại npm; output lint/build được trích từ file review trước, không phải lần chạy mới.
+- `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` chưa có script; chưa kiểm chứng.
+- D-19 chờ mentor xác nhận; không có bằng chứng duyệt wireframe.
+
+---
+
+## 2026-11-26 15:46:16 +07:00 - Bổ sung quy tắc bằng chứng, quy trình và vận hành vào yêu cầu
+
+### Prompt nguyên văn đã dùng
+
+> Mọi kết luận phải có output chứng minh. Trong PR và file review, câu "đã sửa", "đã tìm ra nguyên nhân", "đạt" phải đi kèm output lệnh, link run hoặc ảnh. Chưa kiểm chứng được thì ghi "chưa kiểm chứng".
+> Số liệu chỉ ghi ở một chỗ. Các tài liệu khác chỉ link tới đó, không chép lại.
+> Quy trình Superpowers: brainstorming → spec → plan trước mỗi tính năng lớn; TDD cho K2–K7 (commit test đỏ riêng); requesting-code-review trước khi nộp mỗi mốc; file review lưu ở docs/reviews/ theo template.
+> Chỉ deploy qua pipeline, không deploy tay từ máy cá nhân. Dữ liệu thử trên production phải dọn sau khi kiểm tra.
+> add to requirement
+>
+> . PR chỉ cập nhật trạng thái review thì gộp vào PR sửa lỗi tương ứng.
+
+Skill đã load: không có skill mới cho thay đổi tài liệu; đây là cập nhật quy tắc, không phải tính năng lớn.
+
+### Đã tự kiểm chứng
+
+- `git pull` báo `Already up to date`, sau đó tạo branch `docs/requirement-evidence-rules` theo quy tắc không làm việc trực tiếp trên `main`.
+- Đọc toàn bộ `docs/REQUIREMENTS.md` (187 dòng), `docs/PERFORMANCE.md` (109 dòng) và phần cuối `AGENTS.md` trước khi sửa.
+- Kiểm tra `PERFORMANCE.md` đã có sẵn quy tắc "con số chỉ ghi ở file này" và các mục PERF-01…PERF-06; vì vậy đổi NFR-07, NFR-08, NFR-09, NFR-10 thành link tới `PERFORMANCE.md`, NFR-12 và NFR-13 thành link tới `SPEC.md` mục 12.
+- Thêm mục 8 với GOV-01…GOV-08 vào `REQUIREMENTS.md` và mục 7 tương ứng vào `AGENTS.md`.
+- Quét ký tự trên các file đổi: chỉ chữ Việt và Anh, không có ký tự ngoài bảng chữ cái cho phép.
+
+### AI sai ở đâu
+
+- Ban đầu định chỉ ghi quy tắc vào `AGENTS.md`. Yêu cầu là "add to requirement" nên `docs/REQUIREMENTS.md` mới là file chính; đã sửa file này trước, `AGENTS.md` chỉ để áp dụng cho mọi tác vụ.
+- Định chép lại ngưỡng hiệu năng vào quy tắc mới. Đọc `PERFORMANCE.md` thì thấy ngưỡng đã có ở đó, nên sửa các dòng NFR thành liên kết thay vì nhân bản số liệu.
+- Suýt mở PR riêng chỉ để cập nhật trạng thái review. Quy tắc GOV-06 yêu cầu gộp vào PR sửa lỗi tương ứng; nội dung review được đưa vào cùng PR này.
+
+### Findings từ review và quyết định
+
+Tự review theo id `superpowers`, lưu tại `docs/reviews/2026-11-26-superpowers.md`. Chấp nhận finding 1 (thay số liệu bằng link trong NFR-07 đến NFR-10) và finding 3 (đính kèm output lint và build kèm `EXIT=`). Từ chối finding 2 (dọn số liệu ở file khác nằm ngoài phạm vi và cần hỏi chủ dự án) và finding 4 (A-01, A-02, A-03 đã kiểm chứng bằng `grep` trong `SPEC.md`). Không mở vòng `requesting-code-review` riêng vì đây là cập nhật tài liệu, không phải mốc triển khai; nội dung review được gộp trong PR này theo GOV-06.
+
+### Limitations
+
+- Chưa deploy và chưa đụng dữ liệu production; quy tắc GOV-07 và GOV-08 chỉ được ghi nhận, chưa kiểm chứng trên thực tế.
+- `package.json` mới có `dev`, `build`, `start`, `lint`; các script `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` chưa tồn tại nên không chạy được bộ check đầy đủ.
+- Không có bằng chứng CI hay artifact hiệu năng trong PR này; mọi nhận định về hiệu năng vẫn ghi "chưa kiểm chứng".
+
+---
+
 ## 2026-11-26 14:36:19 +07:00 - Mockup Figma, danh sách câu, xác nhận nộp bài, desktop, login và trạng thái
 
 ### Prompt nguyên văn đã dùng
