@@ -1,3 +1,170 @@
+## 2026-11-26 22:15:46 +07:00 - Đính ảnh mockup vào docs và dọn input lạc
+
+### Prompt nguyên văn đã dùng
+
+> get img and put in mockup file
+> there is a stray input at danmh sachs ddeef frame
+
+### Đã tự kiểm chứng
+
+- Đọc `figma-plugin/export/out/index.json`, sao chép 30 ảnh hiện tại (bỏ 3 bản tên cũ) sang `docs/mockups/`.
+- Thêm bảng ảnh vào `docs/MOCKUPS.md` cho mobile, desktop, trạng thái và board color palette.
+- `npm run check:language` trả `EXIT=0`.
+
+### AI sai ở đâu
+
+- Lần đầu only copy ảnh vào thư mục bị gitignore; người clone không thấy. Đã chuyển sang `docs/mockups/` được track.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng. Lỗi input lạc do hàm `input()` cũ tạo frame rồi quên đưa vào field; đã thêm dọn ở builder và plugin `clean-stray` một lần.
+
+### Limitations
+
+- Chưa tự chạy plugin Figma desktop để xác nhận input lạc đã biến mất; cần người dùng chạy `Clean Stray Inputs` rồi export lại.
+
+---
+
+## 2026-11-26 21:43:08 +07:00 - Áp dụng palette 60 shade vào mockup
+
+### Prompt nguyên văn đã dùng
+
+> this is my color pllet, its already exist in figma, fix export to also include it
+> read it and add it to the build plugin
+> applied it to color change within frames
+>
+> 1. Recommended palette
+> I recommend a blue-led palette with violet secondary actions and distinct green, red, and amber feedback colors. It gives students clear state recognition without making the interface feel overly playful.
+> Add one supporting token: color-white: #FFFFFF.
+
+Phần còn lại của prompt là bảng 60 token, bảng ánh xạ trạng thái và kết quả contrast; đã đọc toàn bộ trước khi áp dụng.
+
+### Đã tự kiểm chứng
+
+- Đối chiếu bảng token trong prompt với board **Student test / Color palette** trong Figma: khớp 60 shade và `color-white`.
+- `node --check` cho `figma-plugin/code.js`, `figma-plugin/recolor/code.js`, `figma-plugin/export/code.js` đều trả `SYNTAX OK`.
+
+### AI sai ở đâu
+
+- Ban đầu chỉ đổi vài mã màu semantic; đọc kỹ bảng trạng thái thì thấy cần đổi cả viền đáp án, nền đáp án đã chọn, track thanh tiến độ, nút phụ và thông báo. Đã bổ sung ánh xạ tương ứng.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; thay đổi nằm trong plugin local và `docs/MOCKUPS.md`.
+
+### Limitations
+
+- Chưa chạy lại plugin trên Figma desktop; chưa có ảnh export sau khi đổi màu để kiểm chứng trực quan.
+- Không chép lại bảng tỉ lệ contrast vào docs; chỉ link tới board palette.
+
+---
+
+## 2026-11-26 20:04:50 +07:00 - Kiểm tra thiết kế K1-K8 trong tài liệu
+
+### Prompt nguyên văn đã dùng
+
+> B. Thiết kế K1 – K8 trong tài liệu
+> Đợt này chỉ kiểm tra quyết định và cách chứng minh dự kiến đã được ghi trong spec chưa. Không chạy test, không đánh giá code — việc chạy test thuộc các mốc sau.
+> K1 — Không lộ đáp án. SPEC.md:218, SECURITY.md:13 đã ghi DTO không có isCorrect, query select tường minh, action lưu chỉ trả savedAt, không có endpoint "check answer", và dự kiến E2E quét HTML/RSC payload/network. Cần giải thích trong spec vì sao ẩn bằng CSS hoặc kiểm tra ở client là không đủ.
+> K2 — Thời gian do server quyết định. SPEC.md:143-153 ghi expiresAt do server đặt, kiểm tra trong transaction, hết hạn lazy, client chỉ hiển thị; REQUIREMENTS.md:168 có fake timer dự kiến. Đã xử lý A13 (lọc savedAt < expiresAt) chưa?
+> K3 — Trạng thái lượt làm rõ ràng. SPEC.md:121-139 có state diagram, chuyển hợp lệ, unique (examId, studentId, attemptNumber), nộp idempotent; REQUIREMENTS.md:169 dự kiến test Promise.all trên DB thật.
+> K4 — Không mất bài. SPEC.md:221 ghi lưu ngay khi chọn, upsert, câu chưa lưu, retry khi online và E2E setOffline. Đã xử lý A14 (lưu tạm offline + vị trí câu) chưa?
+> K5 — Đề đã thi không bị sửa ngược. SPEC.md:167-180, ERD.md:180-188 có snapshot câu/đáp án/điểm, D-03 "không chấm lại", test dự kiến đổi đáp án sau khi nộp mà điểm không đổi.
+> K6 — Xáo trộn cố định theo lượt. SPEC.md:159-165, ARCHITECTURE.md:312-318 ghi seed 128-bit ở server, Fisher–Yates thuần, thứ tự ổn định khi reload, chấm theo ID.
+> K7 — Luật chấm nhiều đáp án. SPEC.md:184-210 chốt all-or-nothing, không trừ điểm, có bảng 7 ca cho it.each và luật hiển thị trước khi làm (FR-13).
+> K8 — Phân quyền ở server. PERMISSIONS.md có ma trận + 404; SPEC.md:225 dự kiến test gọi thẳng Server Action sai quyền. Đã đổi 403 → 404 ở mockup chưa (A5)?
+>
+> pr3
+
+### Đã tự kiểm chứng
+
+- Đọc SPEC mục 6, 7, 8, 9, SECURITY.md:13, REQUIREMENTS.md bảng truy vết K, ARCHITECTURE.md mục xáo trộn và chấm, PERMISSIONS.md, ERD.md mục snapshot, MOCKUPS.md.
+- K1: DTO/select/savedAt/không có endpoint check answer và E2E quét ba nơi đã có; bổ sung đoạn giải thích CSS/client không đủ, dẫn D-18.
+- K2: A13 đã có D-20, dòng `savedAt < expiresAt` trong ARCHITECTURE và mục 6 của SPEC; bổ sung dẫn D-20 ngay mục 6.
+- K3, K5, K6, K7: các quyết định và bằng chứng dự kiến đã có, không sửa.
+- K4: A14 đã có D-21, IndexedDB theo `attemptId` và `currentQuestionIndex`, E2E offline → reload → online.
+- K8: D-15, ma trận PERMISSIONS và MOCKUPS dùng 404; không còn 403 trong mockup.
+- Không chạy test theo yêu cầu; chỉ kiểm tra tài liệu.
+
+### AI sai ở đâu
+
+- Ban đầu định chạy bộ check của repo để chứng minh K1–K8; yêu cầu nói rõ đợt này không chạy test, nên chỉ đọc tài liệu và ghi kết quả kiểm tra tài liệu.
+- Định ghi K1 chỉ bằng D-18, nhưng yêu cầu muốn giải thích ngay trong phần thiết kế K1; đã thêm đoạn riêng dưới bảng K1–K8.
+
+### Findings từ review và quyết định
+
+Không có finding bị từ chối. Hai điểm còn thiếu được bổ sung trong PR này; sáu K còn lại đã đúng về quyết định và bằng chứng dự kiến.
+
+### Limitations
+
+- Chưa chạy test; mọi bằng chứng trong bảng K1–K8 vẫn là dự kiến, chưa kiểm chứng.
+- PR #3 đã merge; thay đổi này nằm ở PR mới trên branch `docs/k1-k8-clarifications`.
+
+---
+
+## 2026-11-26 19:54:40 +07:00 - Kiểm tra và bật branch protection cho main
+
+### Prompt nguyên văn đã dùng
+
+> check and protect main branch of test dite
+
+### Đã tự kiểm chứng
+
+- `gh api repos/khanhtung2410/test-site/branches/main/protection` ban đầu trả HTTP 404 `Branch not protected`.
+- Gửi PUT cấu hình protection qua `gh api --method PUT ... --input main-protection.json`; response trả đầy đủ các trường.
+- GET lại: `branches/main --jq '{name, protected}'` trả `{"name":"main","protected":true}`; endpoint protection trả `reviews=1`, `dismiss_stale=true`, `strict=true`, `contexts=[]`, `enforce_admins=true`, `force_pushes=false`, `deletions=false`, `conversation=true`.
+- Cập nhật `docs/DEPLOY.md` với cấu hình và bằng chứng trên.
+
+### AI sai ở đâu
+
+- Ban đầu thử `gh api --include-headers` nhưng flag này không tồn tại; bỏ flag và đọc JSON trả về.
+- Định yêu cầu status check ngay, nhưng repo chưa có workflow CI; nếu yêu cầu `lint`, `build`... sẽ chặn mọi PR. Để `contexts=[]` và ghi rõ "chưa kiểm chứng" trong docs.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; thay đổi là cấu hình GitHub, đã kiểm chứng bằng hai lệnh GET sau PUT.
+
+### Limitations
+
+- Chưa bật required status checks; chưa có CI run để làm bằng chứng.
+- Chưa kiểm chứng khả năng chặn force push bằng cách thử đẩy thật; chỉ dựa vào response API.
+
+---
+
+## 2026-11-26 18:51:22 +07:00 - Thêm script typecheck, format:check, check:language từ ant-jewelry
+
+### Prompt nguyên văn đã dùng
+
+> you can read script typecheck, format:check, check:language at D:\thuc tap\ant-jewelry to create changes fit to thí project
+
+### Đã tự kiểm chứng
+
+- Đọc `package.json`, `scripts/check-language.mjs`, `.prettierrc` và `.prettierignore` của `D:\thuc tap\ant-jewelry`, rồi đọc `package.json` và `tsconfig.json` của repo này trước khi sửa.
+- Tạo branch `feat/check-scripts` từ `docs/requirement-evidence-rules` để giữ PR #2 dưới 400 dòng; PR mới là PR xếp chồng trên PR #2.
+- Chạy `npm install` để cài Prettier 3 và cập nhật lockfile. Chạy `npm run format` vì lần đầu `format:check` báo 6 file scaffold chưa đúng style; sau đó chạy lại bộ check bằng Node `spawnSync`, `encoding: utf8`, `NO_COLOR=1`.
+- Output cuối: `typecheck EXIT=0`, `format:check EXIT=0`, `check:language EXIT=0`, `lint EXIT=0`, `build EXIT=0`. Output đầy đủ nằm trong PR #3 mục Testing.
+- Test âm cho `check-language`: tạo tạm `lang-probe.md` chứa hai ký tự Hán → lệnh in tên file kèm hai ký tự đó, `EXIT=1`; xóa file → lệnh in "All tracked text files use Vietnamese and English letters only.", `EXIT=0`. Không ghi lại ký tự cấm vào tài liệu vì script quét cả file markdown.
+
+### AI sai ở đâu
+
+- Định copy nguyên `check-language.mjs` nhưng file này quét cả thư mục plugin Figma local; đã thêm `figma-plugin` vào `SKIP_DIRS`.
+- Định thêm script `format:check` mà không có `.prettierrc`; script của ant-jewelry dùng `singleQuote`, trong khi scaffold repo này dùng style khác. Đã thêm `.prettierrc` và `.prettierignore` riêng, không copy phần `prisma/` do repo chưa có Prisma.
+- Lần đầu báo "đạt" khi chưa chạy `format:check`; thực tế lệnh trả `EXIT=1` với 6 file. Đã chạy `npm run format`, kiểm tra lại và chỉ ghi kết quả sau khi có output mới.
+- Copy `check-language.mjs` với phép so sánh `new URL(import.meta.url).pathname`; trên Windows đường dẫn `D:\thuc tap` bị chuyển thành `/D:/thuc%20tap/...` nên hàm `invokedDirectly` luôn sai, script không quét gì nhưng vẫn `EXIT=0`. Đã đổi sang `fileURLToPath(import.meta.url)` và chứng minh bằng test âm ở trên.
+- Để bảng script README có dòng `audit:production` rơi xuống sau một đoạn văn, làm bảng gãy. Đã đưa dòng vào lại trong bảng.
+
+### Findings từ review và quyết định
+
+Reviewer subagent đã soát docs PR #3 và ghi 9 finding. Chấp nhận và sửa trong PR #3: lỗi path của `check-language`, bảng README gãy, nhận định cũ trong file review về scaffold/script, Prettier trong HANDOVER/ARCHITECTURE, nhãn `not-yet` cho `prisma/` và `docs/superpowers/`, mô tả ngưỡng trong `PERFORMANCE.md`, và link PERF-06 cho NFR-08. Không có finding bị từ chối. Không mở PR review-only.
+
+### Limitations
+
+- `npm test` và `npm run test:e2e` chưa có script; ghi "chưa kiểm chứng".
+- Chưa có CI run link; chưa deploy và chưa đụng dữ liệu production.
+- PR mới xếp trên PR #2; nếu PR #2 được merge trước, cần cập nhật base nhánh này.
+
+---
+
 ## 2026-11-26 17:04:27 +07:00 - Xử lý phản hồi review Mốc 1 A1-A15
 
 ### Prompt nguyên văn đã dùng

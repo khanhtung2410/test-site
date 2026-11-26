@@ -23,7 +23,7 @@ Dispatch reviewer subagent với context riêng, không dùng lịch sử sessio
 
 ## Không đánh giá
 
-- Code ứng dụng: không đổi; repo chưa có scaffold trong HEAD.
+- Code ứng dụng: không đổi; tại thời điểm review này HEAD là `d758694` và chưa có scaffold. PR #3 sau đó đã commit scaffold.
 - Deploy và production: không có pipeline, không có bằng chứng chạy; ghi "chưa kiểm chứng".
 
 ## Đối chiếu checklist với bằng chứng
@@ -35,7 +35,7 @@ Dispatch reviewer subagent với context riêng, không dùng lịch sử sessio
 | Số liệu chỉ một chỗ | `git diff d758694`; các dòng ngưỡng trong `SPEC.md`, `REQUIREMENTS.md`, `DEPLOY.md` đã thành link | đã sửa |
 | `npm run lint` | output trong `docs/reviews/2026-11-26-superpowers.md` | EXIT=0 |
 | `npm run build` | output trong `docs/reviews/2026-11-26-superpowers.md` | EXIT=0 |
-| `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` | script chưa có trong repo | chưa kiểm chứng |
+| `typecheck`, `test`, `format:check`, `check:language`, `test:e2e` | tại HEAD `d758694` các script chưa có | chưa kiểm chứng lúc đó; PR #3 sau đó thêm `typecheck`, `format:check`, `check:language` |
 
 ## Output kiểm chứng
 

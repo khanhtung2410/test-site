@@ -17,7 +17,7 @@
 | PERF-05 | Cuộn ngang ở 360 px | 0 màn | Playwright viewport 360 × 800 |
 | PERF-06 | Làm bài bằng bàn phím | Hoàn thành 100% | E2E chỉ dùng Tab/Enter/Space |
 
-Các ngưỡng này là giả định A-01…A-04 trong [`SPEC.md`](SPEC.md) mục 12; nếu chủ dự án đổi, cập nhật tại đây trước.
+PERF-04 là giả định A-02 trong [`SPEC.md`](SPEC.md) mục 12; PERF-01 đến PERF-03 là mục tiêu thiết kế, không phải giả định A-01, A-03 hay A-04. Nếu đổi, cập nhật tại đây trước.
 
 ---
 

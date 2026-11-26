@@ -19,6 +19,53 @@ Tổng 22 frame trên page `Exam App · Mobile`:
 
 Wireframe ASCII trong [`SPEC.md`](SPEC.md) mục 10 là bản trình duyệt, chờ mentor duyệt. File Figma ở đây là tài liệu trực quan **tùy chọn**, không thay thế wireframe.
 
+## Ảnh mockup
+
+Ảnh export từ Figma desktop, lưu trong `docs/mockups/`. Đây là bản đối chiếu trực quan với wireframe trong [`SPEC.md`](SPEC.md) mục 10.
+
+### Mobile
+
+| Frame | Ảnh |
+|---|---|
+| `01` Danh sách đề | ![01 danh sách đề](mockups/01-Danh-sach-e.png) |
+| `02` Làm bài | ![02 làm bài](mockups/02-Lam-bai.png) |
+| `02b` Danh sách câu | ![02b danh sách câu](mockups/02b-Danh-sach-cau.png) |
+| `02c` Xác nhận nộp bài | ![02c xác nhận nộp bài](mockups/02c-Xac-nhan-nop-bai.png) |
+| `03` Kết quả | ![03 kết quả](mockups/03-Ket-qua.png) |
+| `04` Ngân hàng câu hỏi | ![04 ngân hàng câu hỏi](mockups/04-Ngan-hang-cau-hoi.png) |
+| `05` Tạo đề | ![05 tạo đề](mockups/05-Tao-e.png) |
+| `L2` Đăng nhập mobile | ![L2 đăng nhập](mockups/L2-ang-nhap-mobile.png) |
+
+### Desktop
+
+| Frame | Ảnh |
+|---|---|
+| `D1` Danh sách đề | ![D1 danh sách đề](mockups/D1-Danh-sach-e.png) |
+| `D2` Làm bài | ![D2 làm bài](mockups/D2-Lam-bai.png) |
+| `D3` Kết quả | ![D3 kết quả](mockups/D3-Ket-qua.png) |
+| `D4` Ngân hàng câu hỏi | ![D4 ngân hàng câu hỏi](mockups/D4-Ngan-hang-cau-hoi.png) |
+| `D5` Tạo đề | ![D5 tạo đề](mockups/D5-Tao-e.png) |
+| `D6` Điểm có ngay | ![D6 điểm có ngay](mockups/D6-iem-co-ngay-ap-an-cho-mo.png) |
+| `L1` Đăng nhập desktop | ![L1 đăng nhập](mockups/L1-ang-nhap-desktop.png) |
+
+### Trạng thái
+
+| Frame | Ảnh |
+|---|---|
+| `S1` Danh sách trống | ![S1 trống](mockups/S1-Danh-sach-e-trong.png) |
+| `S2` Ngân hàng trống | ![S2 trống](mockups/S2-Ngan-hang-trong.png) |
+| `S3` Lỗi tải | ![S3 lỗi tải](mockups/S3-Loi-tai-du-lieu.png) |
+| `S4` Mất mạng | ![S4 mất mạng](mockups/S4-Mat-mang.png) |
+| `S5` Hết giờ | ![S5 hết giờ](mockups/S5-Het-gio-lam-bai.png) |
+| `S6` 404 | ![S6 không có quyền](mockups/S6-404-khong-co-quyen.png) |
+| `S7` Đáp án chờ mở | ![S7 đáp án chờ mở](mockups/S7-ap-an-cho-mo.png) |
+
+### Color palette
+
+![Student test color palette](mockups/Student-test-Color-palette.png)
+
+---
+
 ## Hành vi chính
 
 - **Điều hướng nhanh giữa các câu:** trên mobile mở bottom sheet từ nút lưới trên thanh làm bài; trên desktop là sidebar phải luôn hiển thị. Grid 30 nút 44×44, 4 trạng thái: đã trả lời (xanh đặc), đang xem (viền xanh + nền xanh nhạt), chưa trả lời (xám), đánh dấu (chấm cam).
@@ -33,11 +80,26 @@ Wireframe ASCII trong [`SPEC.md`](SPEC.md) mục 10 là bản trình duyệt, ch
 | Primary / hover / soft | `#2563EB` / `#1D4ED8` / `#EFF6FF` |
 | Background / surface / border | `#F8FAFC` / `#FFFFFF` / `#E2E8F0` |
 | Foreground / muted | `#0F172A` / `#475569` |
-| Success / danger / warning (+ soft) | `#047857` / `#B91C1C` / `#B45309` |
-| Accent | `#EA580C` |
+| Success / danger / warning (+ soft) | `#15803D` / `#B91C1C` / `#B45309` |
+| Accent | `#D97706` (warning-600) |
 | Heading | Lexend (Display 44/56, H1 24/32, H2 18/26, H3 16/24) |
 | Body | Source Sans 3 (14/22, 13/20, 12/18, 11/16) |
 | Elevation | `Exam/Card Shadow` — shadow 2 lớp cho card |
+
+Nguồn màu là board **Student test / Color palette** trong Figma: 60 shade token (`color-{group}-{50..900}`) cộng `color-white`. Builder tạo paint style cho từng token và dùng các cặp màu đã kiểm tra WCAG AA; không chép lại bảng tỉ lệ contrast vào đây.
+
+Ánh xạ trạng thái:
+
+| Thành phần | Mặc định | Đang chọn / hover | Phản hồi |
+|---|---|---|---|
+| Đáp án | trắng, chữ neutral-900, viền neutral-500 | nền primary-100, chữ primary-800, viền primary-600 | đúng: success-100/800; sai: error-100/800; chưa trả lời: warning-100/900 |
+| Nút chính | primary-600, chữ trắng | primary-700 | primary-800 khi nhấn |
+| Nút phụ | secondary-50, chữ secondary-800, viền secondary-600 | secondary-100 | secondary-200 khi nhấn |
+| Thanh tiến độ | track primary-100 | fill primary-600 | nhãn neutral-900 đặt ngoài thanh |
+| Thông báo | — | — | hoàn tất: success-700/chữ trắng; lỗi: error-700/chữ trắng |
+| Focus | viền 2 px primary-600, đệm trắng 2 px | — | — |
+
+Giữ đáp án đã chọn màu xanh; dùng xanh lá/đỏ chỉ sau khi nộp, và luôn kèm chữ hoặc icon, không dùng màu đơn thuần.
 
 17 paint styles, 14 text styles và 1 effect style được tạo trong file. Do chế độ `documentAccess: dynamic-page` của plugin, các node dùng **giá trị thuộc tính trực tiếp** (`fills`, `strokes`, `fontName`, `effects`) thay vì liên kết style; style vẫn có sẵn trong file để dùng lại.
 
