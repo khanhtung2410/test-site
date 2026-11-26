@@ -1,3 +1,37 @@
+## 2026-11-26 21:43:08 +07:00 - Áp dụng palette 60 shade vào mockup
+
+### Prompt nguyên văn đã dùng
+
+> this is my color pllet, its already exist in figma, fix export to also include it
+> read it and add it to the build plugin
+> applied it to color change within frames
+>
+> 1. Recommended palette
+> I recommend a blue-led palette with violet secondary actions and distinct green, red, and amber feedback colors. It gives students clear state recognition without making the interface feel overly playful.
+> Add one supporting token: color-white: #FFFFFF.
+
+Phần còn lại của prompt là bảng 60 token, bảng ánh xạ trạng thái và kết quả contrast; đã đọc toàn bộ trước khi áp dụng.
+
+### Đã tự kiểm chứng
+
+- Đối chiếu bảng token trong prompt với board **Student test / Color palette** trong Figma: khớp 60 shade và `color-white`.
+- `node --check` cho `figma-plugin/code.js`, `figma-plugin/recolor/code.js`, `figma-plugin/export/code.js` đều trả `SYNTAX OK`.
+
+### AI sai ở đâu
+
+- Ban đầu chỉ đổi vài mã màu semantic; đọc kỹ bảng trạng thái thì thấy cần đổi cả viền đáp án, nền đáp án đã chọn, track thanh tiến độ, nút phụ và thông báo. Đã bổ sung ánh xạ tương ứng.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; thay đổi nằm trong plugin local và `docs/MOCKUPS.md`.
+
+### Limitations
+
+- Chưa chạy lại plugin trên Figma desktop; chưa có ảnh export sau khi đổi màu để kiểm chứng trực quan.
+- Không chép lại bảng tỉ lệ contrast vào docs; chỉ link tới board palette.
+
+---
+
 ## 2026-11-26 20:04:50 +07:00 - Kiểm tra thiết kế K1-K8 trong tài liệu
 
 ### Prompt nguyên văn đã dùng

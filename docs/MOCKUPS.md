@@ -33,11 +33,26 @@ Wireframe ASCII trong [`SPEC.md`](SPEC.md) mục 10 là bản trình duyệt, ch
 | Primary / hover / soft | `#2563EB` / `#1D4ED8` / `#EFF6FF` |
 | Background / surface / border | `#F8FAFC` / `#FFFFFF` / `#E2E8F0` |
 | Foreground / muted | `#0F172A` / `#475569` |
-| Success / danger / warning (+ soft) | `#047857` / `#B91C1C` / `#B45309` |
-| Accent | `#EA580C` |
+| Success / danger / warning (+ soft) | `#15803D` / `#B91C1C` / `#B45309` |
+| Accent | `#D97706` (warning-600) |
 | Heading | Lexend (Display 44/56, H1 24/32, H2 18/26, H3 16/24) |
 | Body | Source Sans 3 (14/22, 13/20, 12/18, 11/16) |
 | Elevation | `Exam/Card Shadow` — shadow 2 lớp cho card |
+
+Nguồn màu là board **Student test / Color palette** trong Figma: 60 shade token (`color-{group}-{50..900}`) cộng `color-white`. Builder tạo paint style cho từng token và dùng các cặp màu đã kiểm tra WCAG AA; không chép lại bảng tỉ lệ contrast vào đây.
+
+Ánh xạ trạng thái:
+
+| Thành phần | Mặc định | Đang chọn / hover | Phản hồi |
+|---|---|---|---|
+| Đáp án | trắng, chữ neutral-900, viền neutral-500 | nền primary-100, chữ primary-800, viền primary-600 | đúng: success-100/800; sai: error-100/800; chưa trả lời: warning-100/900 |
+| Nút chính | primary-600, chữ trắng | primary-700 | primary-800 khi nhấn |
+| Nút phụ | secondary-50, chữ secondary-800, viền secondary-600 | secondary-100 | secondary-200 khi nhấn |
+| Thanh tiến độ | track primary-100 | fill primary-600 | nhãn neutral-900 đặt ngoài thanh |
+| Thông báo | — | — | hoàn tất: success-700/chữ trắng; lỗi: error-700/chữ trắng |
+| Focus | viền 2 px primary-600, đệm trắng 2 px | — | — |
+
+Giữ đáp án đã chọn màu xanh; dùng xanh lá/đỏ chỉ sau khi nộp, và luôn kèm chữ hoặc icon, không dùng màu đơn thuần.
 
 17 paint styles, 14 text styles và 1 effect style được tạo trong file. Do chế độ `documentAccess: dynamic-page` của plugin, các node dùng **giá trị thuộc tính trực tiếp** (`fills`, `strokes`, `fontName`, `effects`) thay vì liên kết style; style vẫn có sẵn trong file để dùng lại.
 
