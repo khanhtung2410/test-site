@@ -152,7 +152,7 @@ Quy tắc bất biến:
 - Client nhận `expiresAt` và `serverNow` (ISO 8601). Đồng hồ hiển thị = `expiresAt - serverNow - elapsedClient`, cập nhật mỗi giây.
 - Khi tab được focus lại hoặc `visibilitychange`, client gọi lại server để lấy `serverNow` và đồng bộ; nếu lệch quá 5 giây thì dùng giá trị server.
 - Mọi thao tác ghi (lưu đáp án, nộp) kiểm tra `serverNow >= expiresAt` **trong transaction**. Request đến sau hạn bị từ chối, kể cả khi client sửa giờ máy hoặc gửi tay.
-- Lượt quá hạn được chuyển `EXPIRED` và chấm điểm theo các đáp án đã lưu trước hạn, tại lần truy cập kế tiếp (D-06). Các trigger: danh sách đề, bắt đầu, làm tiếp, lưu, nộp, xem kết quả của học viên, xem kết quả của giáo viên.
+- Lượt quá hạn được chuyển `EXPIRED` và chấm điểm theo các đáp án có `savedAt < expiresAt`, tại lần truy cập kế tiếp (D-06, D-20). Các trigger: danh sách đề, bắt đầu, làm tiếp, lưu, nộp, xem kết quả của học viên, xem kết quả của giáo viên.
 - Đồng hồ không dùng `setInterval` để quyết định nộp bài; chỉ dùng để hiển thị. Việc nộp do người dùng bấm hoặc do server phát hiện quá hạn.
 
 ---
@@ -226,6 +226,8 @@ Trước khi bấm bắt đầu, học viên thấy: thời lượng, số lư�
 | K6 | Xáo trộn cố định | `seed` ở server; Fisher–Yates thuần; thứ tự lưu/derive từ seed | Hai lượt khác thứ tự; tải lại không đổi; điểm đúng sau xáo |
 | K7 | Luật chấm nhiều đáp án | All-or-nothing, không trừ điểm; hiển thị trước khi làm | Bảng unit test `it.each` đủ trường hợp |
 | K8 | Phân quyền server | `getSession()` đọc lại DB; `requireRole` + kiểm tra sở hữu; 404 khi không có quyền | Gọi thẳng Server Action bằng tài khoản sai quyền đều bị từ chối |
+
+**K1 — vì sao ẩn bằng CSS hoặc kiểm tra ở client là không đủ:** học viên có thể sửa DOM/CSS, chỉnh JavaScript hoặc gọi thẳng Server Action. Nếu server gửi `isCorrect` trong payload thì đáp án đã lộ trước khi bị che, dù giao diện có ẩn đi đâu. Cách duy nhất là không đưa trường này vào DTO hay response nào trong lúc làm bài (D-18); vì vậy E2E quét HTML, RSC payload và network, không chỉ nhìn giao diện.
 
 ---
 

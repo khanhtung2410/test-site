@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online, dựa trên SRS và brief gốc. HEAD chưa có scaffold Next.js, `package.json`, Prisma, authentication, test hay CI; đó là kế hoạch Mốc 2. Scaffold untracked trên máy tác giả không phải artifact repo.
+Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`. Prisma, authentication, test và CI là kế hoạch Mốc 2.
 
 Điểm đã chốt quan trọng nhất:
 
@@ -47,7 +47,7 @@ Repo đã có bộ tài liệu thiết kế cho site thi trắc nghiệm online,
 
 ### 3.1. Mốc 2 — Nền tảng
 
-- [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright, Prettier.
+- [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright. Prettier đã có.
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
 - [ ] `ci.yml` với static, test, build, e2e, lighthouse.

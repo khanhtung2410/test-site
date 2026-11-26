@@ -61,7 +61,7 @@ File dự kiến: `.github/workflows/ci.yml`.
 | `e2e` | PostgreSQL service, migrate, seed, `npm run test:e2e` | Toàn bộ E2E pass, gồm 4 tình huống bắt buộc |
 | `lighthouse` | `npm run build`, `next start`, `@lhci/cli` | Đạt các ngưỡng trong [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01, PERF-02, PERF-03 |
 
-Branch protection trên `main`: bắt buộc các check trên, cấm force push, yêu cầu PR review.
+Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date, cấm force push và xóa branch, áp dụng cả admin. Bằng chứng: `gh api repos/khanhtung2410/test-site/branches/main --jq '{protected}'` trả `true`; endpoint protection trả `reviews=1`, `enforce_admins=true`, `force_pushes=false`, `deletions=false`. Chưa yêu cầu status check vì repo chưa có workflow CI; sẽ thêm `lint`, `typecheck`, `format:check`, `check:language`, `build`, `test`, `test:e2e`, `lighthouse` khi có workflow (chưa kiểm chứng).
 
 ---
 
