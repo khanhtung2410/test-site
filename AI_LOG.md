@@ -1,3 +1,30 @@
+## 2026-11-26 22:15:46 +07:00 - Đính ảnh mockup vào docs và dọn input lạc
+
+### Prompt nguyên văn đã dùng
+
+> get img and put in mockup file
+> there is a stray input at danmh sachs ddeef frame
+
+### Đã tự kiểm chứng
+
+- Đọc `figma-plugin/export/out/index.json`, sao chép 30 ảnh hiện tại (bỏ 3 bản tên cũ) sang `docs/mockups/`.
+- Thêm bảng ảnh vào `docs/MOCKUPS.md` cho mobile, desktop, trạng thái và board color palette.
+- `npm run check:language` trả `EXIT=0`.
+
+### AI sai ở đâu
+
+- Lần đầu only copy ảnh vào thư mục bị gitignore; người clone không thấy. Đã chuyển sang `docs/mockups/` được track.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng. Lỗi input lạc do hàm `input()` cũ tạo frame rồi quên đưa vào field; đã thêm dọn ở builder và plugin `clean-stray` một lần.
+
+### Limitations
+
+- Chưa tự chạy plugin Figma desktop để xác nhận input lạc đã biến mất; cần người dùng chạy `Clean Stray Inputs` rồi export lại.
+
+---
+
 ## 2026-11-26 21:43:08 +07:00 - Áp dụng palette 60 shade vào mockup
 
 ### Prompt nguyên văn đã dùng

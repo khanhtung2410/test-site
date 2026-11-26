@@ -19,6 +19,53 @@ Tổng 22 frame trên page `Exam App · Mobile`:
 
 Wireframe ASCII trong [`SPEC.md`](SPEC.md) mục 10 là bản trình duyệt, chờ mentor duyệt. File Figma ở đây là tài liệu trực quan **tùy chọn**, không thay thế wireframe.
 
+## Ảnh mockup
+
+Ảnh export từ Figma desktop, lưu trong `docs/mockups/`. Đây là bản đối chiếu trực quan với wireframe trong [`SPEC.md`](SPEC.md) mục 10.
+
+### Mobile
+
+| Frame | Ảnh |
+|---|---|
+| `01` Danh sách đề | ![01 danh sách đề](mockups/01-Danh-sach-e.png) |
+| `02` Làm bài | ![02 làm bài](mockups/02-Lam-bai.png) |
+| `02b` Danh sách câu | ![02b danh sách câu](mockups/02b-Danh-sach-cau.png) |
+| `02c` Xác nhận nộp bài | ![02c xác nhận nộp bài](mockups/02c-Xac-nhan-nop-bai.png) |
+| `03` Kết quả | ![03 kết quả](mockups/03-Ket-qua.png) |
+| `04` Ngân hàng câu hỏi | ![04 ngân hàng câu hỏi](mockups/04-Ngan-hang-cau-hoi.png) |
+| `05` Tạo đề | ![05 tạo đề](mockups/05-Tao-e.png) |
+| `L2` Đăng nhập mobile | ![L2 đăng nhập](mockups/L2-ang-nhap-mobile.png) |
+
+### Desktop
+
+| Frame | Ảnh |
+|---|---|
+| `D1` Danh sách đề | ![D1 danh sách đề](mockups/D1-Danh-sach-e.png) |
+| `D2` Làm bài | ![D2 làm bài](mockups/D2-Lam-bai.png) |
+| `D3` Kết quả | ![D3 kết quả](mockups/D3-Ket-qua.png) |
+| `D4` Ngân hàng câu hỏi | ![D4 ngân hàng câu hỏi](mockups/D4-Ngan-hang-cau-hoi.png) |
+| `D5` Tạo đề | ![D5 tạo đề](mockups/D5-Tao-e.png) |
+| `D6` Điểm có ngay | ![D6 điểm có ngay](mockups/D6-iem-co-ngay-ap-an-cho-mo.png) |
+| `L1` Đăng nhập desktop | ![L1 đăng nhập](mockups/L1-ang-nhap-desktop.png) |
+
+### Trạng thái
+
+| Frame | Ảnh |
+|---|---|
+| `S1` Danh sách trống | ![S1 trống](mockups/S1-Danh-sach-e-trong.png) |
+| `S2` Ngân hàng trống | ![S2 trống](mockups/S2-Ngan-hang-trong.png) |
+| `S3` Lỗi tải | ![S3 lỗi tải](mockups/S3-Loi-tai-du-lieu.png) |
+| `S4` Mất mạng | ![S4 mất mạng](mockups/S4-Mat-mang.png) |
+| `S5` Hết giờ | ![S5 hết giờ](mockups/S5-Het-gio-lam-bai.png) |
+| `S6` 404 | ![S6 không có quyền](mockups/S6-404-khong-co-quyen.png) |
+| `S7` Đáp án chờ mở | ![S7 đáp án chờ mở](mockups/S7-ap-an-cho-mo.png) |
+
+### Color palette
+
+![Student test color palette](mockups/Student-test-Color-palette.png)
+
+---
+
 ## Hành vi chính
 
 - **Điều hướng nhanh giữa các câu:** trên mobile mở bottom sheet từ nút lưới trên thanh làm bài; trên desktop là sidebar phải luôn hiển thị. Grid 30 nút 44×44, 4 trạng thái: đã trả lời (xanh đặc), đang xem (viền xanh + nền xanh nhạt), chưa trả lời (xám), đánh dấu (chấm cam).
