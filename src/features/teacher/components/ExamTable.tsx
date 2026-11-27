@@ -34,7 +34,10 @@ export function ExamTable({
 }) {
   const headings = ['Đề thi', 'Số câu', 'Điểm', 'Thời lượng', 'Trạng thái'];
   const titleLink = (exam: ExamDetail) => (
-    <Link href={`/teacher/exams/${exam.id}`} className="min-h-[44px] font-medium underline">
+    <Link
+      href={`/teacher/exams/${exam.id}`}
+      className="inline-flex min-h-[44px] items-center font-medium underline"
+    >
       {exam.title}
     </Link>
   );
