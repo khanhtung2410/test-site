@@ -55,7 +55,7 @@ flowchart LR
 | Next.js | 16.4.6 | App Router; đọc hướng dẫn trong `node_modules/next/dist/docs/` trước khi viết code |
 | React | 19.3.0 | Server Components mặc định |
 | TypeScript | 5.x, strict | `tsconfig.json`; script `typecheck` |
-| Tailwind CSS | 4.3.3 | Mobile-first; `src/app/globals.css` mới chỉ có biến mặc định của scaffold, design token xem `MOCKUPS.md` |
+| Tailwind CSS | 4.3.3 | Mobile-first; `src/app/globals.css` chỉ giữ import Tailwind và nền/chữ tối thiểu, không font Geist; design token xem `MOCKUPS.md` |
 | ESLint | 9.x | `eslint-config-next`; script `lint` |
 | Prettier | 3.x | `format` và `format:check`; cấu hình trong `.prettierrc` |
 
