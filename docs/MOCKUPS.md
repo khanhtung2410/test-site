@@ -57,8 +57,10 @@ Wireframe ASCII trong [`SPEC.md`](SPEC.md) mục 10 là bản trình duyệt, ch
 | `S3` Lỗi tải | ![S3 lỗi tải](mockups/S3-Loi-tai-du-lieu.png) |
 | `S4` Mất mạng | ![S4 mất mạng](mockups/S4-Mat-mang.png) |
 | `S5` Hết giờ | ![S5 hết giờ](mockups/S5-Het-gio-lam-bai.png) |
-| `S6` 404 | ![S6 không có quyền](mockups/S6-404-khong-co-quyen.png) |
-| `S7` Đáp án chờ mở | ![S7 đáp án chờ mở](mockups/S7-ap-an-cho-mo.png) |
+| `S6` 404 | ![S6 404 không tìm thấy trang](mockups/S6-404-khong-tim-thay-trang.png) |
+| `S7` Đáp án chờ mở | ![S7 đáp án chờ mở, có điểm 8/10](mockups/S7-ap-an-cho-mo.png) |
+
+A-R1 và A-R9 đã xử lý: S6 dùng chung một nội dung "Không tìm thấy trang" cho mọi trường hợp (id lạ, bản ghi người khác, sai vai trò), không tiết lộ lý do; S7 hiện `8/10`. Nút "Xem lại bài làm" khi đáp án còn khóa chỉ hiện đáp án đã chọn, không hiện đúng/sai (FR-26).
 
 ### Color palette
 

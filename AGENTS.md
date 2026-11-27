@@ -115,3 +115,16 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - K2-K7 require TDD with a separate red-test commit before the implementation commit.
 - Run `requesting-code-review` before each milestone; save the result under `docs/reviews/` using `docs/reviews/TEMPLATE.md`. Fold review-status-only changes into the fix PR; do not open a review-only PR.
 - Deploy only through `.github/workflows/deploy.yml` (not-yet: file chưa có trong repo); never deploy manually from a personal machine. Clean up production test data after checking.
+
+## 8. Mentor review round 2 — standing rules
+
+- Verify from a clean state before recording `EXIT=`: remove generated output (`rm -rf .next`), reinstall from lockfile (`npm ci`), then run the check set. A green run on an author's machine with stale `.next` is not evidence.
+- `tsc --noEmit` alone is not a valid typecheck for this repo: route types such as `LayoutProps` live in `.next/types`. The script must generate them first (`next typegen && tsc --noEmit`) and must pass from a clean clone.
+- Documentation and commit messages must describe the repo's **current** state, not a past state that was later overridden by admin actions. If branch protection was bypassed, record the bypass and who did it; do not claim the protection made the merge impossible.
+- Review files must name the exact commit SHA on the Head line so a reader can reproduce the reviewed version. Never write "working tree sau khi sửa".
+- Every PR is created from the latest `main`. Do not merge a PR into a branch that has already been merged into `main`; that creates "chuyển nhánh" PRs and extra repair PRs. Do not stack PRs on a branch that will merge first.
+- Respect the PR budget of roughly 12 for the whole project. Dependabot PRs are grouped in `.github/dependabot.yml`; merge groups, not individual bumps. Do not merge major-version bumps (`typescript`, `eslint`) before CI exists; configure `ignore` for their majors until `eslint-config-next` and the toolchain support them.
+- A 404 response must be indistinguishable across all unauthorized cases (unknown id, someone else's record, wrong role). UI copy that says "this page exists but is for teachers" is a 403 disclosure and is forbidden.
+- When two mandatory rules collide, the resolution must be written down, shown to the user, and covered by a test. For K4 × K2: an answer selected offline but flushed after `expiresAt` is not scored; remove that attempt's IndexedDB queue on `SUBMITTED`/`EXPIRED` and on logout.
+- Keep milestone names from the brief: there are **3 mốc**, not 5. Use "Giai đoạn 1–5" for the five work phases; Mốc 1 = spec/wireframe approval, Mốc 2 = attempt demo, Mốc 3 = acceptance.
+- Numbers in docs must point to their single source of truth. Assumption links that chain (`HANDOVER → SPEC → REQUIREMENTS`) are not acceptable; link straight to the VR entry.

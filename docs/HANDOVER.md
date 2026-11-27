@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`. Prisma, authentication, test và CI là kế hoạch Mốc 2.
+Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`. Prisma, authentication, test và CI là kế hoạch giai đoạn 2.
 
 Điểm đã chốt quan trọng nhất:
 
@@ -45,18 +45,18 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 
 ## 3. Chưa làm / tồn đọng
 
-### 3.1. Mốc 2 — Nền tảng
+### 3.1. Giai đoạn 2 — Nền tảng
 
 - [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright. Prettier đã có.
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
 - [ ] `ci.yml` với static, test, build, e2e, lighthouse.
-- [x] Branch protection trên `main` — đã bật, xem [`DEPLOY.md`](DEPLOY.md) mục 4 và entry AI_LOG ngày 2026-11-26 19:54:40.
+- [x] Branch protection trên `main` — cấu hình hiện vẫn là 1 approval, `enforce_admins=true`; tuy nhiên PR #7–#14 được merge với 0 review bằng quyền admin của tác giả. Đây là ngoại lệ đã xảy ra, không phải trạng thái "không thể merge"; xem [`DEPLOY.md`](DEPLOY.md) mục 4.
 - [ ] Authentication: session JWT, cookie, rate limit, logout.
 - [ ] Phân quyền: `requireRole`, `assertOwn*`, 404.
 - [ ] Admin quản lý tài khoản; chặn admin cuối cùng bị khóa/hạ vai trò.
 
-### 3.2. Mốc 3 — Làm bài
+### 3.2. Giai đoạn 3 — Làm bài
 
 - [ ] Ngân hàng câu hỏi: tạo, sửa, lưu trữ, tag, lọc.
 - [ ] Tạo/sửa đề; chọn câu; khung giờ; số lượt.
@@ -64,14 +64,14 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 - [ ] Màn làm bài: đồng hồ, chọn đáp án, tự lưu, offline indicator.
 - [ ] E2E: tải lại, mất mạng, hai tab.
 
-### 3.3. Mốc 4 — Chấm điểm
+### 3.3. Giai đoạn 4 — Chấm điểm
 
 - [ ] Nộp bài idempotent; hết hạn lazy.
 - [ ] Hàm chấm thuần + unit test bảng.
 - [ ] Trang kết quả học viên; kết quả theo đề cho giáo viên.
 - [ ] E2E quét rò đáp án K1.
 
-### 3.4. Mốc 5 — Hoàn thiện
+### 3.4. Giai đoạn 5 — Hoàn thiện
 
 - [ ] Lighthouse CI đạt ngưỡng.
 - [ ] a11y: axe 0 serious/critical; bàn phím; 360 px.
@@ -102,8 +102,8 @@ Các mục dưới đây đã có giá trị mặc định trong tài liệu; n�
 | A-04 | Trình duyệt hỗ trợ | [`SPEC.md`](SPEC.md) mục 12 |
 | A-05 | Vùng database | [`SPEC.md`](SPEC.md) mục 12 |
 | A-06 | Tên miền production | [`DEPLOY.md`](DEPLOY.md) |
-| A-07 | Số câu tối đa mỗi đề | [`SPEC.md`](SPEC.md) mục 12 |
-| A-08 | Số đáp án tối đa mỗi câu | [`SPEC.md`](SPEC.md) mục 12 |
+| A-07 | Số câu tối đa mỗi đề | [`REQUIREMENTS.md`](REQUIREMENTS.md) VR-09 |
+| A-08 | Số đáp án tối đa mỗi câu | [`REQUIREMENTS.md`](REQUIREMENTS.md) VR-02 |
 
 Ngoài ra:
 
