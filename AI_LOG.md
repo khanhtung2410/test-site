@@ -61,6 +61,43 @@ Review: `.superpowers/sdd/2026-11-27-student-mock-pages/task-final-review.md`. B
 
 ---
 
+## 2026-11-28 00:44:11 +07:00 - Dựng trang giáo viên và admin bằng mock data
+
+### Prompt nguyên văn đã dùng
+
+> at the brach working on webapp, pull main, resolve conflict
+> add page teacher and admin, create subagent for task and review
+> use superpower skill
+>
+> (chọn scope) Tất cả route
+> (duyệt design) Duyệt, sang plan
+> (chọn switch) Thêm vào shared header
+> (duyệt plan) Đúng, chạy subagent-driven
+
+### Đã tự kiểm chứng
+
+- `git merge origin/main` vào `feature/student-mock-pages`; conflict duy nhất ở `eslint.config.mjs`, giữ cả `figma-plugin/**` và `.superpowers/**`, commit `5a8177d`.
+- Chạy brainstorming → design doc → builder check → writing-plans → subagent-driven (3 task, mỗi task implementer + reviewer). Final whole-branch review trả "With fixes"; fix wave đơn nhất sửa 44px inline link và `scope="col"`; scoped re-review xác nhận xong.
+- Từ trạng thái sạch (`rm -rf .next && npm ci`): lint, typecheck, format:check, check:language, build, typecheck sau build đều `EXIT=0`. `npm test`/`test:e2e` chưa có script — ghi "chưa kiểm chứng".
+
+### AI sai ở đâu
+
+- Ban đầu định dùng switch vai trò toàn cục/root layout; reviewer chỉ ra click-through từ `/exams` không tới teacher/admin nếu không đụng student header. Đã hỏi và chốt đưa vào shared header.
+- Sketch thiết kế ghi `/teacher/exams/new` là route thứ 7, mâu thuẫn với "6 route". Builder check bắt ra; đã đổi thành `?mode=create`.
+- Task 2 dùng `<Link>` inline có `min-h-[44px]` không có tác dụng; reviewer bắt ra, đã fix `inline-flex`. Final review thấy thêm 5 link cùng lỗi và 3 bảng thiếu `scope="col"`, đã fix trong fix wave.
+
+### Findings từ review và quyết định
+
+Chấp nhận và sửa code: 44px cho 5 link, `scope="col"` cho 3 bảng. Defer có ghi rõ: HTTP 200 cho id lạ, `aria-describedby` cho hint, search normalization, input hygiene, roleLabel trùng, fixture đề khác nhau giữa student/teacher, tên trùng `getMockQuestions`. Không mở PR review riêng. Chi tiết: `docs/reviews/2026-11-28-requesting-code-review.md`.
+
+### Limitations
+
+- Chưa merge theo yêu cầu; chưa có lệnh tạo PR.
+- Chưa kiểm chứng browser/axe/360px bằng automation; có HTML/CSS render check từ headless Chrome trong report.
+- Không có admin Figma; bảng users thiết kế từ FR-03/04/05.
+
+---
+
 ## 2026-11-27 17:13:15 +07:00 - Dựng trang học viên bằng mock data
 
 ### Prompt nguyên văn đã dùng
