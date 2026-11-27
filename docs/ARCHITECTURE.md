@@ -1,6 +1,6 @@
 # KIẾN TRÚC — SITE THI TRẮC NGHIỆM ONLINE
 
-> **Trạng thái:** scaffold Next.js 16.4.6 đã có trong repo; Prisma, authentication, test và CI là kế hoạch Mốc 2.
+> **Trạng thái:** scaffold Next.js 16.4.6 đã có trong repo; Prisma, authentication, test và CI là kế hoạch giai đoạn 2.
 > **Ngày:** 2026-11-26
 > **Nguồn quyết định:** [`SPEC.md`](SPEC.md) mục 3. Tài liệu này giải thích **cách** xây, không lặp lại **vì sao** chọn sản phẩm.
 
@@ -10,7 +10,7 @@
 
 Tài liệu này đủ để một lập trình viên khác tiếp tục dự án mà không cần hỏi lại người viết: biết code nằm ở đâu, luồng đi qua những tầng nào, chỗ nào dễ sai và test nào bảo vệ.
 
-**Giới hạn:** scaffold `package.json`, `src/` và script kiểm tra đã có. Prisma, authentication, test hay CI chưa có; các đường dẫn feature dưới đây là đích đến của Mốc 2–4.
+**Giới hạn:** scaffold `package.json`, `src/` và script kiểm tra đã có. Prisma, authentication, test hay CI chưa có; các đường dẫn feature dưới đây là đích đến của giai đoạn 2–4.
 
 ---
 
@@ -53,10 +53,10 @@ flowchart LR
 | Thành phần | Phiên bản | Ghi chú |
 |---|---|---|
 | Next.js | 16.4.6 | App Router; đọc hướng dẫn trong `node_modules/next/dist/docs/` trước khi viết code |
-| React | 19.3.0 | Server Components mặc định |
+| React | 19.3.1 | Server Components mặc định |
 | TypeScript | 5.x, strict | `tsconfig.json`; script `typecheck` |
 | Tailwind CSS | 4.3.3 | Mobile-first; `src/app/globals.css` chỉ giữ import Tailwind và nền/chữ tối thiểu, không font Geist; design token xem `MOCKUPS.md` |
-| ESLint | 9.x | `eslint-config-next`; script `lint` |
+| ESLint | 10.x | `eslint-config-next`; peer conflict với plugin hỗ trợ tới 9 — xem `DEPLOY.md` |
 | Prettier | 3.x | `format` và `format:check`; cấu hình trong `.prettierrc` |
 
 ### 3.2. Kế hoạch bổ sung

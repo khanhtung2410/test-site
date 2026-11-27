@@ -2,7 +2,7 @@
 
 - **Skill:** requesting-code-review
 - **Phạm vi:** thay đổi tài liệu trên nhánh `docs/requirement-evidence-rules`, so với base `d758694`
-- **Base:** d758694 | **Head:** working tree sau khi sửa
+- **Base:** d758694 | **Head:** a25e2dd (`docs: compact review artifacts to keep PR under 400 lines`)
 - **Prompt nguyên văn:** xem `AI_LOG.md` mục `2026-11-26 15:46:16 +07:00 - Bổ sung quy tắc bằng chứng, quy trình và vận hành vào yêu cầu` và entry mới nhất.
 
 ## Phương pháp

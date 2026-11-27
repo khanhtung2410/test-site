@@ -4,7 +4,7 @@ Website cho trung tâm đào tạo tổ chức thi trắc nghiệm online. Giáo
 
 Repo: <https://github.com/khanhtung2410/test-site>
 
-> **Trạng thái:** scaffold Next.js 16.4.6 và các script `typecheck`, `format:check`, `check:language` đã có trong repo. Prisma, authentication, test và CI vẫn là kế hoạch Mốc 2. Xem [`docs/HANDOVER.md`](docs/HANDOVER.md) để biết việc còn lại.
+> **Trạng thái:** scaffold Next.js 16.4.6 và các script `typecheck`, `format:check`, `check:language` đã có trong repo. Prisma, authentication, test và CI vẫn là kế hoạch giai đoạn 2. Xem [`docs/HANDOVER.md`](docs/HANDOVER.md) để biết việc còn lại.
 
 ---
 
@@ -39,13 +39,13 @@ Không có tự đăng ký, thanh toán, đăng nhập mạng xã hội, câu t�
 | Thành phần | Hiện có | Kế hoạch |
 |---|---|---|
 | Framework | Next.js 16.4.6 (App Router) | Giữ nguyên |
-| UI | React 19.3.0, Tailwind CSS 4.3.3 | Thiết kế mobile-first |
+| UI | React 19.3.1, Tailwind CSS 4.3.3 | Thiết kế mobile-first |
 | Ngôn ngữ | TypeScript 5.x strict | Giữ nguyên |
 | Database / ORM | — | Prisma 7 + PostgreSQL 16 |
 | Validation | — | Zod 4 |
 | Authentication | — | JWT HS256 trong cookie `httpOnly`, bcryptjs |
 | Test | — | Vitest (unit/integration), Playwright (E2E), axe, Lighthouse CI |
-| Lint / Format | ESLint 9, Prettier 3 | Giữ nguyên |
+| Lint / Format | ESLint 10, Prettier 3 | ESLint 10 đang có peer conflict; xem `docs/DEPLOY.md` |
 
 Ứng dụng là **một Next.js project duy nhất**: Server Components cho phần đọc, Server Actions cho mutation. Không có backend REST riêng. Kiến trúc chi tiết ở [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -53,7 +53,7 @@ Không có tự đăng ký, thanh toán, đăng nhập mạng xã hội, câu t�
 
 ## 4. Chạy local từ clone mới
 
-Yêu cầu: **Node.js 22**, **npm 10 trở lên**, **Git**, **Docker** (cho PostgreSQL). Mục 4 và 5 dùng `package.json` hiện có; database và tài khoản demo chỉ có sau Mốc 2.
+Yêu cầu: **Node.js 22**, **npm 10 trở lên**, **Git**, **Docker** (cho PostgreSQL). Mục 4 và 5 dùng `package.json` hiện có; database và tài khoản demo chỉ có sau giai đoạn 2.
 
 ```bash
 git clone https://github.com/khanhtung2410/test-site.git
@@ -97,7 +97,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 ### 4.3. Khởi tạo schema và dữ liệu mẫu
 
-Các lệnh dưới đây sẽ có ở Mốc 2:
+Các lệnh dưới đây sẽ có ở giai đoạn 2:
 
 ```bash
 npm run db:migrate:dev   # tạo/áp dụng migration local
@@ -124,7 +124,7 @@ npm run start
 
 ## 5. Tài khoản demo
 
-Sau khi chạy `npm run db:seed` (Mốc 2), các tài khoản demo:
+Sau khi chạy `npm run db:seed` (giai đoạn 2), các tài khoản demo:
 
 | Vai trò | Tên đăng nhập | Mật khẩu |
 |---|---|---|
@@ -144,7 +144,7 @@ Sau khi chạy `npm run db:seed` (Mốc 2), các tài khoản demo:
 | `npm run build` | Có | Build production |
 | `npm run start` | Có | Chạy bản build |
 | `npm run lint` | Có | ESLint |
-| `npm run typecheck` | Có | `tsc --noEmit` |
+| `npm run typecheck` | Chưa đạt từ clone sạch | Script hiện là `tsc --noEmit`, thiếu `next typegen`; xem `docs/DEPLOY.md` |
 | `npm test` | Kế hoạch | Vitest unit + integration |
 | `npm run test:watch` | Kế hoạch | Vitest watch |
 | `npm run test:e2e` | Kế hoạch | Playwright trên production build |
@@ -208,7 +208,7 @@ Mỗi feature tự chứa `components/`, `actions/`, `queries/`, `lib/`, test đ
 
 ## 9. Kiểm thử
 
-Các lệnh có script được kiểm chứng trong entry `AI_LOG.md` ngày 2026-11-26. `npm test` và `npm run test:e2e` vẫn là kế hoạch Mốc 2; chưa có bằng chứng CI.
+Các lệnh có script được kiểm chứng trong entry `AI_LOG.md` ngày 2026-11-26. `npm test` và `npm run test:e2e` vẫn là kế hoạch giai đoạn 2; chưa có bằng chứng CI.
 
 ```bash
 npm run lint

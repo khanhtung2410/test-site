@@ -57,7 +57,7 @@
 | FR-16 | Hiển thị lượt làm không có đáp án đúng (K1, K6). | ID lượt | Câu hỏi và đáp án theo thứ tự đã lưu; thời gian còn lại | Lượt `IN_PROGRESS`; thuộc học viên | Không | Trong lúc làm, đáp án đúng không có trong HTML, RSC payload hoặc bất kỳ response mạng nào (E2E quét). Thứ tự không đổi sau khi tải lại. |
 | FR-17 | Lưu đáp án (K2, K4). | ID lượt, ID câu, (các) ID đáp án đã chọn | Xác nhận đã lưu | Lượt `IN_PROGRESS` và trước hạn | Đáp án được lưu ở server | Lưu sau hạn bị từ chối, kể cả khi đổi giờ máy hoặc gửi request giả (test fake timer). Chọn lại ghi đè đáp án cũ. |
 | FR-18 | Làm tiếp lượt dở (K4). | ID lượt | Đáp án đã lưu và thời gian còn lại đúng | Lượt `IN_PROGRESS` | Không | Sau khi tải lại hoặc đóng/mở tab, đáp án đã chọn và thời gian do server tính được khôi phục. |
-| FR-19 | Báo câu chưa lưu khi mất mạng (K4). | Mất kết nối | Chỉ báo từng câu chưa lưu | Lượt `IN_PROGRESS` | Đáp án được giữ và lưu lại khi có mạng | Khi offline, UI đánh dấu câu chưa lưu. Sau khi có mạng và tải lại, đáp án đã chọn vẫn còn (E2E `setOffline`). |
+| FR-19 | Báo câu chưa lưu khi mất mạng (K4). | Mất kết nối | Chỉ báo từng câu chưa lưu | Lượt `IN_PROGRESS` | Đáp án được giữ trong IndexedDB theo `attemptId`, gồm `currentQuestionIndex`, và lưu lại khi có mạng | Khi offline, UI đánh dấu câu chưa lưu. E2E: `setOffline(true)` → chọn đáp án → reload khi vẫn offline → bật mạng → đáp án và câu hiện tại còn. Nếu bật mạng sau `expiresAt`, đáp án đó không được tính (K2 thắng K4, D-21) và UI báo rõ; xóa hàng đợi khi lượt kết thúc hoặc đăng xuất. |
 | FR-20 | Nộp bài (K3). | ID lượt | Điểm cuối | Lượt `IN_PROGRESS` | `SUBMITTED`; chấm đúng một lần | Nộp lặp hoặc nộp ở hai tab cùng lúc (`Promise.all`) chỉ tạo một bản ghi điểm. Nộp trên lượt `SUBMITTED`/`EXPIRED` không tạo điểm mới. |
 | FR-21 | Hết hạn lượt làm (K2, K3). | Thời gian server | Lượt `EXPIRED` | Lượt `IN_PROGRESS` quá `expiresAt` | Chỉ đáp án lưu trước hạn được chấm | Lượt quá hạn chuyển `EXPIRED` ở lần truy cập kế tiếp và được chấm theo đáp án đã lưu. Chỉ có chuyển `IN_PROGRESS` → `SUBMITTED` hoặc `EXPIRED`. |
 | FR-22 | Chấm điểm lượt làm (K5, K7). | Snapshot và đáp án đã lưu | Điểm | Lượt đã nộp hoặc hết hạn | Điểm được lưu trên lượt | Chấm là hàm thuần dùng snapshot, không bị ảnh hưởng bởi sửa câu hỏi sau đó. Unit test bảng phủ: không chọn, đúng hết, thiếu đáp án đúng, thừa đáp án sai, sai hết. Luật nhiều đáp án: đúng hết mới có điểm, không trừ điểm. |
@@ -167,7 +167,7 @@ HTTPS giữa trình duyệt và server. Không có tích hợp email, SMS hay th
 | K1 | FR-16 | NFR-01 | E2E quét HTML, RSC payload và network response |
 | K2 | FR-15, FR-17, FR-21 | NFR-02 | Test fake timer: lưu sau hạn bị từ chối; quá hạn chuyển `EXPIRED` và chấm phần đã lưu |
 | K3 | FR-15, FR-20, FR-21 | NFR-04 | Test DB thật với `Promise.all` cho bắt đầu và nộp |
-| K4 | FR-17, FR-18, FR-19 | NFR-05 | E2E `setOffline(true)`, tải lại, đóng/mở tab |
+| K4 | FR-17, FR-18, FR-19 | NFR-05 | E2E `setOffline(true)` → chọn đáp án → reload khi vẫn offline → online; thêm ca online sau `expiresAt` (D-21) |
 | K5 | FR-08, FR-09, FR-15, FR-22 | NFR-06 | Test sửa/xóa câu hỏi sau khi nộp; điểm không đổi |
 | K6 | FR-15, FR-16 | NFR-11 | Test hai lượt khác thứ tự; tải lại không đổi; chấm đúng sau xáo |
 | K7 | FR-13, FR-22 | NFR-11 | Unit test bảng `it.each` đủ trường hợp |

@@ -84,7 +84,7 @@ Các quyết định dưới đây thay cho những mục "TBD" trong SRS. Chún
 | D-18 | **Điểm và đáp án đúng không bao giờ gửi xuống trình duyệt trong lúc làm bài.** DTO của lượt làm chỉ có nội dung câu, ID đáp án, thứ tự, thời gian còn lại. | K1: ẩn bằng CSS hoặc kiểm tra ở client là không đủ. | K1, FR-16 |
 | D-19 | **Điểm hiện ngay sau khi nộp; chỉ đáp án đúng bị khóa đến khi đề đóng và bật `allowReview`.** **Chờ mentor xác nhận.** | FR-23 là Must. Giữ điểm đến lúc đóng đề là thay đổi Must, phải xin mentor; xem lại đáp án là Should (FR-26, D-11). Mockup D6/S7 đi theo hướng này nhưng chưa có bằng chứng duyệt. | FR-23, FR-26, D-11 |
 | D-20 | **Khi chấm, chỉ tính đáp án có `savedAt < expiresAt`; `expireDueAttempts` khóa lượt trước, `saveAnswer` bị từ chối sau hạn trong cùng transaction.** | K2: request lưu có thể commit sau hạn; lọc theo thời gian lưu thực tế tránh cộng điểm sai. | K2, FR-17, FR-21, FR-22 |
-| D-21 | **Hàng đợi offline lưu trong IndexedDB theo `attemptId`, gồm lựa chọn và `currentQuestionIndex`; khôi phục khi có mạng hoặc khi tải lại.** | K4: mất mạng rồi reload sẽ mất đáp án nếu chỉ giữ trong bộ nhớ. | K4, FR-19 |
+| D-21 | **Hàng đợi offline lưu trong IndexedDB theo `attemptId`, gồm lựa chọn và `currentQuestionIndex`; khôi phục khi có mạng hoặc khi tải lại. K2 thắng K4: đáp án chọn lúc offline nhưng đẩy lên sau `expiresAt` không được tính; UI phải báo "N câu chưa lưu trước khi hết giờ không được tính". Xóa hàng đợi của `attemptId` khi lượt `SUBMITTED`/`EXPIRED` hoặc khi đăng xuất.** | K4: mất mạng rồi reload sẽ mất đáp án nếu chỉ giữ trong bộ nhớ; K2: không để hàng đợi hợp thức hóa đáp án gửi muộn. Quy tắc phải hiển thị, không được là hành vi ngầm. | K2, K4, FR-17, FR-19, FR-21 |
 
 ---
 
@@ -385,9 +385,11 @@ Server là nơi kiểm tra mọi giới hạn; client chỉ hiển thị gợi �
 
 ---
 
-## 13. Mốc và kế hoạch PR
+## 13. Giai đoạn và kế hoạch PR
 
-| Mốc | Nội dung | PR dự kiến |
+Đề có **3 mốc**: Mốc 1 = duyệt spec + wireframe; Mốc 2 = demo làm bài (sau giai đoạn 3); Mốc 3 = nghiệm thu. Bảng dưới là **giai đoạn công việc**, không phải mốc.
+
+| Giai đoạn | Nội dung | PR dự kiến |
 |---|---|---|
 | 1. Thiết kế | `docs/SPEC.md`, wireframe, ERD, kiến trúc, quyết định K1–K8 | PR 1 (tài liệu này) |
 | 2. Nền tảng | Prisma + PostgreSQL, CI, lint/format, Vitest/Playwright, đăng nhập + phân quyền (K8), quản lý tài khoản | PR 2–4 |
@@ -395,7 +397,9 @@ Server là nơi kiểm tra mọi giới hạn; client chỉ hiển thị gợi �
 | 4. Chấm điểm | Nộp, hết hạn, chấm điểm (K3, K7), trang kết quả, thống kê | PR 9–10 |
 | 5. Hoàn thiện | E2E đủ 4 tình huống, a11y, Lighthouse, deploy pipeline, `HANDOVER.md` | PR 11–12 |
 
-Giới hạn: tối đa khoảng 12 PR, mỗi PR một việc, dưới 400 dòng (không tính lockfile). TDD cho K2–K7 với commit test đỏ riêng.
+Thực tế giai đoạn 1 đã dùng **14 PR** (10 PR dự án + 4 Dependabot), vượt ngân sách ~12. Nguyên nhân: PR #3–#6 merge vào nhánh `docs/requirement-evidence-rules` sau khi nhánh đó đã vào `main` qua PR #2, phải mở thêm #7/#8 để chuyển sang `main`; PR #14 sửa hậu quả merge TypeScript 7. Phần còn lại lập kế hoạch lại từ `main` mới nhất: mỗi PR tạo từ `main`, không stack lên nhánh đã merge, gom Dependabot theo nhóm, không merge major khi chưa có CI.
+
+Giới hạn: mỗi PR một việc, dưới 400 dòng (không tính lockfile). TDD cho K2–K7 với commit test đỏ riêng.
 
 ---
 
