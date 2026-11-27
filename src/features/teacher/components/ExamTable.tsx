@@ -46,7 +46,7 @@ export function ExamTable({
     <section className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-semibold text-[var(--color-neutral-900)]">Danh sách đề thi</h1>
-        <Link href="/teacher/exams?mode=create" className={primary}>
+        <Link href="/teacher/exams?mode=create" className={`${primary} inline-flex items-center`}>
           Tạo đề thi
         </Link>
       </div>
@@ -60,7 +60,7 @@ export function ExamTable({
             <thead className="bg-[var(--color-neutral-50)]">
               <tr>
                 {headings.map((heading) => (
-                  <th key={heading} className={cell}>
+                  <th key={heading} scope="col" className={cell}>
                     {heading}
                   </th>
                 ))}

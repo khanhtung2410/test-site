@@ -31,7 +31,7 @@ export default async function ExamResultsPage({ params }: Props) {
           <thead className="bg-[var(--color-neutral-50)]">
             <tr>
               {['Học viên', 'Trạng thái', 'Điểm', 'Nộp lúc'].map((heading) => (
-                <th key={heading} className={cell}>
+                <th key={heading} scope="col" className={cell}>
                   {heading}
                 </th>
               ))}

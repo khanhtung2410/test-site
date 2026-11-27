@@ -79,7 +79,7 @@ export function QuestionBank({ questions, view }: { questions: Question[]; view:
             <thead className="bg-[var(--color-neutral-50)]">
               <tr>
                 {['Câu hỏi', 'Loại', 'Tag', 'Điểm', 'Trạng thái', 'Thao tác'].map((heading) => (
-                  <th key={heading} className={cell}>
+                  <th key={heading} scope="col" className={cell}>
                     {heading}
                   </th>
                 ))}
@@ -89,7 +89,10 @@ export function QuestionBank({ questions, view }: { questions: Question[]; view:
               {visible.map((q) => (
                 <tr key={q.id} className="border-t border-[var(--color-neutral-200)]">
                   <td className={cell}>
-                    <Link href={`/teacher/questions/${q.id}`} className="min-h-[44px] underline">
+                    <Link
+                      href={`/teacher/questions/${q.id}`}
+                      className="inline-flex min-h-[44px] items-center underline"
+                    >
                       {q.prompt}
                     </Link>
                   </td>
@@ -107,7 +110,7 @@ export function QuestionBank({ questions, view }: { questions: Question[]; view:
               <li key={q.id} className="rounded-xl border border-[var(--color-neutral-200)] p-3">
                 <Link
                   href={`/teacher/questions/${q.id}`}
-                  className="min-h-[44px] font-medium underline"
+                  className="inline-flex min-h-[44px] items-center font-medium underline"
                 >
                   {q.prompt}
                 </Link>

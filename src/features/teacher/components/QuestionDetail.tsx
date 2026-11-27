@@ -34,7 +34,10 @@ export function QuestionDetail({ question }: { question: Question }) {
           <button type="button" onClick={() => setMessage('Sửa: đang mô phỏng')} className={button}>
             Sửa
           </button>
-          <Link href="/teacher/questions" className="min-h-[44px] rounded-lg border px-4 text-sm">
+          <Link
+            href="/teacher/questions"
+            className="inline-flex min-h-[44px] items-center rounded-lg border px-4 text-sm"
+          >
             Quay lại
           </Link>
         </div>

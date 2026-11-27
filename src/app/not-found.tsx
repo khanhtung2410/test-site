@@ -7,7 +7,10 @@ export default function NotFound() {
       <h1 className="text-2xl font-semibold text-[var(--color-neutral-900)]">
         Không tìm thấy trang
       </h1>
-      <Link href="/exams" className="min-h-[44px] text-sm text-[var(--color-primary)] underline">
+      <Link
+        href="/exams"
+        className="inline-flex min-h-[44px] items-center text-sm text-[var(--color-primary)] underline"
+      >
         Về danh sách đề
       </Link>
     </main>
