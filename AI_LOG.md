@@ -1,3 +1,30 @@
+## 2026-11-27 10:35:07 +07:00 - Đưa TypeScript về 5 sau khi merge Dependabot
+
+### Prompt nguyên văn đã dùng
+
+> PR mới đưa typescript về ^5 (giữ eslint 10, @types/node 26), regenerate lockfile, merge — lint xanh lại.
+> tam thoi khong nang len 7 nua
+
+### Đã tự kiểm chứng
+
+- Chạy bộ check sau khi merge #9–#13: `typecheck`, `format:check`, `check:language`, `build` EXIT=0; `lint` EXIT=2 với lỗi `typescript-eslint does not support TS 7.0`.
+- Tạo branch `fix/typescript-5` từ `main`, đổi `typescript` từ `^7` sang `^5`, giữ `eslint ^10` và `@types/node ^26`, chạy `npm install` để regenerate lockfile.
+- Chạy lại bộ check: cả 5 lệnh EXIT=0. Output đầy đủ dán trong PR.
+
+### AI sai ở đâu
+
+- Merge PR #11 (TypeScript 7) mà không kiểm chứng tương thích với `typescript-eslint` bundled trong `eslint-config-next@16.4.6`; hậu quả `npm run lint` EXIT=2. Đã khắc phục bằng cách hạ về `^5`.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; đây là sửa lỗi sau merge, gộp trong một PR đúng quy tắc GOV-06.
+
+### Limitations
+
+- Vẫn có npm peer warnings khi cài eslint 10 với `eslint-config-next@16.4.6` (eslint-plugin-import/jsx-a11y/react chỉ hỗ trợ đến eslint 9), nhưng lệnh chạy EXIT=0. Chưa kiểm chứng CI/deploy.
+
+---
+
 ## 2026-11-27 10:06:34 +07:00 - Rà soát mâu thuẫn docs và giới hạn trên của đề thi
 
 ### Prompt nguyên văn đã dùng
