@@ -44,9 +44,28 @@ const attempt: Attempt = {
   savedAt,
 };
 
+function submittedAttempt(id: string, examId: string, submittedAt: string): Attempt {
+  return {
+    id,
+    examId,
+    status: 'SUBMITTED',
+    expiresAt: submittedAt,
+    serverNow: submittedAt,
+    currentQuestionIndex: 0,
+    answers: {},
+    savedAt: {},
+  };
+}
+
+const submittedAttempts = [
+  submittedAttempt('a-2', 'e-2', '2026-11-27T08:18:00.000Z'),
+  submittedAttempt('a-3', 'e-3', '2026-10-31T22:40:00.000Z'),
+];
+
 export function getMockAttempt(key: string): Attempt | undefined {
   // 'e-1' là alias để nút Làm bài từ /exams mở được attempt demo.
-  return key === ATTEMPT_ID || key === 'e-1' ? attempt : undefined;
+  if (key === ATTEMPT_ID || key === 'e-1') return attempt;
+  return submittedAttempts.find((item) => item.id === key || item.examId === key);
 }
 
 export function getMockQuestions(current: Attempt): AttemptQuestion[] {

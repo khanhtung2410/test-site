@@ -7,14 +7,16 @@ const SCORING_RULE = 'Câu nhiều đáp án: đúng hết mới có điểm, kh
 const primaryButton =
   'inline-flex min-h-[44px] items-center justify-center rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-[var(--color-surface)] hover:bg-[var(--color-primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]';
 const secondaryButton =
-  'inline-flex min-h-[44px] items-center justify-center rounded-lg border border-[var(--color-neutral-200)] px-4 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]';
+  'inline-flex min-h-[44px] items-center justify-center rounded-lg border border-[var(--color-neutral-200)] px-4 py-2 text-sm font-medium text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] disabled:cursor-not-allowed disabled:opacity-60';
 
 export function ExamCard({
   exam,
+  hasResult,
   onStart,
   onViewResult,
 }: {
   exam: Exam;
+  hasResult: boolean;
   onStart: () => void;
   onViewResult: () => void;
 }) {
@@ -28,7 +30,7 @@ export function ExamCard({
 
   return (
     <article className="flex flex-col rounded-xl border border-[var(--color-neutral-200)] bg-[var(--color-surface)] p-4 shadow-sm">
-      <h2 className="text-lg font-semibold text-[var(--color-neutral-900)]">{exam.title}</h2>
+      <h3 className="text-lg font-semibold text-[var(--color-neutral-900)]">{exam.title}</h3>
       <p className="mt-1 text-sm text-[var(--color-neutral-600)]">
         {exam.durationMinutes} phút · {exam.questionCount} câu · {exam.maxScore} điểm
       </p>
@@ -43,7 +45,12 @@ export function ExamCard({
           </button>
         )}
         {(exam.attemptsUsed > 0 || !canStart) && (
-          <button type="button" onClick={onViewResult} className={secondaryButton}>
+          <button
+            type="button"
+            onClick={onViewResult}
+            disabled={!hasResult}
+            className={secondaryButton}
+          >
             Xem kết quả
           </button>
         )}

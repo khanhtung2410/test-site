@@ -30,16 +30,20 @@ export function Timer({
     return () => clearInterval(tick);
   }, []);
 
-  const announce = remaining <= 300;
+  const milestone = remaining <= 60 ? 'Còn 1 phút' : remaining <= 300 ? 'Còn 5 phút' : '';
   return (
-    <span
-      role="timer"
-      aria-label="Thời gian còn lại"
-      aria-live={announce ? 'polite' : undefined}
-      className="font-mono text-sm font-semibold tabular-nums"
-    >
-      {clock(remaining)}
-      {remaining <= 60 && <span className="sr-only">, sắp hết giờ</span>}
-    </span>
+    <>
+      <span
+        role="timer"
+        aria-label="Thời gian còn lại"
+        aria-live="off"
+        className="font-mono text-sm font-semibold tabular-nums"
+      >
+        {clock(remaining)}
+      </span>
+      <span className="sr-only" role="status">
+        {milestone}
+      </span>
+    </>
   );
 }

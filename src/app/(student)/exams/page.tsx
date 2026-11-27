@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { Suspense, use } from 'react';
 import { getMockExams } from '@/features/exams/mocks/exams';
+import { hasMockResultForExam } from '@/features/attempts/mocks/results';
 import { ExamCard } from '@/features/shared/components/ExamCard';
 import { StudentHeader } from '@/features/shared/components/StudentHeader';
 import type { Exam } from '@/features/shared/domain/types';
@@ -35,6 +36,7 @@ function ExamsContent({ searchParams }: ExamsPageProps) {
           <ExamCard
             key={exam.id}
             exam={exam}
+            hasResult={hasMockResultForExam(exam.id)}
             onStart={() => router.push(`/attempts/${exam.id}`)}
             onViewResult={() => router.push(`/attempts/${exam.id}/result`)}
           />

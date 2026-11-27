@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { AttemptHeader, primary, secondary } from '@/features/attempts/components/AttemptHeader';
 import { QuestionNavigator } from '@/features/attempts/components/QuestionNavigator';
+import { ModalDialog } from '@/features/attempts/components/ModalDialog';
 import { QuestionOptions } from '@/features/attempts/components/QuestionOptions';
 import { SubmitDialog } from '@/features/attempts/components/SubmitDialog';
 import { getMockAttempt, getMockQuestions } from '@/features/attempts/mocks/attempts';
@@ -79,7 +80,7 @@ export function AttemptView({ attemptId, view }: Props) {
           role="alert"
           className="mx-auto mt-4 flex max-w-6xl flex-wrap items-center gap-2 rounded-lg border border-[var(--color-warning)] bg-[var(--color-surface)] px-4 py-2 text-sm"
         >
-          <span>Không có kết nối. Đáp án chưa được lưu.</span>
+          <span>Không có kết nối. Thay đổi tiếp theo sẽ chưa được lưu.</span>
           <button type="button" onClick={() => setSaved(true)} className={secondary}>
             Thử lại
           </button>
@@ -136,24 +137,22 @@ export function AttemptView({ attemptId, view }: Props) {
         />
       )}
       {view === 'expired' && (
-        <div
-          className={`${shade} z-50 flex items-center justify-center p-4`}
+        <ModalDialog
           role="alertdialog"
-          aria-modal="true"
-          aria-labelledby="expired-title"
+          labelledBy="expired-title"
+          describedBy="expired-description"
+          className="w-full max-w-md rounded-xl bg-[var(--color-surface)] p-5 text-center shadow-lg"
         >
-          <div className="w-full max-w-md rounded-xl bg-[var(--color-surface)] p-5 text-center shadow-lg">
-            <h2 id="expired-title" className="text-lg font-semibold">
-              Hết giờ làm bài
-            </h2>
-            <p className="mt-2 text-sm text-[var(--color-neutral-600)]">
-              Thời gian đã kết thúc. Bài làm đã được ghi nhận.
-            </p>
-            <button type="button" onClick={() => router.push(result)} className={`${primary} mt-5`}>
-              Xem kết quả
-            </button>
-          </div>
-        </div>
+          <h2 id="expired-title" className="text-lg font-semibold">
+            Hết giờ làm bài
+          </h2>
+          <p id="expired-description" className="mt-2 text-sm text-[var(--color-neutral-600)]">
+            Thời gian đã kết thúc. Bài làm đã được ghi nhận.
+          </p>
+          <button type="button" onClick={() => router.push(result)} className={`${primary} mt-5`}>
+            Xem kết quả
+          </button>
+        </ModalDialog>
       )}
     </main>
   );

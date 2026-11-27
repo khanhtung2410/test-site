@@ -206,3 +206,9 @@ Expected: tất cả EXIT=0. Ghi rõ `npm test`/`test:e2e` = "chưa kiểm chứ
 ## Execution Handoff
 
 Sau khi plan được duyệt, dùng `executing-plans` (native) hoặc `subagent-driven-development`. Mình khuyến nghị **native**: 3 task dính nhau qua DTO chung, ngữ cảnh nhỏ, và plan đã chốt interface.
+
+---
+
+## Cập nhật sau review cuối (2026-11-27)
+
+Các dòng cũ về `aria-live="polite"` trong bảng Rủi ro và Step 4 đã lỗi thời: đồng hồ giờ dùng `aria-live="off"` và thông báo mốc nằm ở `role="status"` riêng. Các điều chỉnh khác sau review (nguồn kết quả mẫu cho `e-2`/`e-3`, nút `e-4` vô hiệu, `ModalDialog`, ánh xạ màu navigator, chú giải offline) được ghi đầy đủ tại design spec §12.

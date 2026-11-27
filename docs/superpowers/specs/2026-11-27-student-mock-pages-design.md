@@ -97,7 +97,7 @@ Các quyết định dưới đây là của người viết thiết kế, build
 
 - **Layout:** không dùng student layout có header cố định cho mọi trang. Mỗi page render header component riêng: `StudentHeader` cho `/exams` và result, `AttemptHeader` cho attempt. Route group vẫn giữ theo ARCHITECTURE §5.
 - **Link chưa có route:** "Kết quả", "Xem tất cả", "Xem lại bài làm" trỏ tới `/exams` hoặc `/attempts/[attemptId]/result` khi có `attemptId`; nếu không có thì render dạng nút không hoạt động. Không tạo route mới.
-- **Timer:** component đếm ngược thật phía client, chỉ hiển thị, không enforce; thêm `?state=near` để demo thông báo 5 phút/1 phút (`aria-live="polite"`).
+- **Timer:** component đếm ngược thật phía client, chỉ hiển thị, không enforce; thêm `?state=near` để demo mốc 5 phút/1 phút. Đồng hồ dùng `aria-live="off"`; một `role="status"` riêng chỉ đổi nội dung khi vượt mốc 300 giây và 60 giây.
 - **Offline:** khi `?state=offline`, chọn đáp án đổi indicator từ "Đã lưu" sang "Chưa lưu"; quay lại online đổi ngược. Không lưu IndexedDB thật.
 - **Câu hỏi:** mock gồm 1 câu nhiều đáp án để component hỗ trợ cả radio lẫn checkbox. Nơi hiển thị luật chấm chờ quyết định ở mục 11.
 - **Font:** chỉ dùng fallback stack trong CSS (`system-ui`, `Segoe UI`, sans-serif), không `next/font/google`; chấp nhận khác biệt nhỏ so với Lexend/Source Sans 3 trong mockup.
@@ -117,3 +117,11 @@ Result { attemptId: string; score: number; maxScore: number; submittedAt: string
 
 1. **Luật chấm:** hiện ngay trên card đề trước nút "Làm bài" (không thêm dialog/route mới). Chấp nhận lệch nhẹ so với D1.
 2. **Dữ liệu kết quả:** giữ đề 30 câu / 10 điểm; `8 đúng`, `2 sai` là số câu được chấm, bảng D3 chỉ hiển thị 5 dòng mẫu khớp wireframe. Không đổi đề thành 10 câu.
+
+## 12. Bổ sung sau review cuối (2026-11-27)
+
+- **Đích nút "Xem kết quả":** `e-1`, `e-2`, `e-3` đều có attempt/kết quả mẫu trong mock; `getMockAttempt` và `getMockResult` nhận cả id đề lẫn id attempt cho các đề này. `e-4` (đóng, chưa làm) hiển thị nút "Xem kết quả" ở trạng thái `disabled`, không điều hướng, đúng wireframe SPEC §10.1.
+- **Dialog:** `SubmitDialog` và dialog hết giờ dùng chung `ModalDialog`: focus phần tử điều khiển đầu tiên khi mở, giữ Tab/Shift+Tab trong dialog, Escape đóng dialog xác nhận nộp và khôi phục focus về nút đã mở. Dialog hết giờ có `aria-describedby` tới đoạn giải thích.
+- **Navigator:** ô đang làm dùng nền xanh nhạt + viền xanh; ô đã trả lời dùng nền xanh đặc; chú giải có ô màu và ký hiệu tương ứng, khớp MOCKUPS §Hành vi chính.
+- **Banner offline:** giữ đáp án đã chọn, thông báo "Thay đổi tiếp theo sẽ chưa được lưu" để không mâu thuẫn với badge "Đã lưu" lúc vào trang.
+- **Heading:** tiêu đề card đề là `<h3>` vì nằm trong section có `<h2>`; không đổi cấu trúc trang.
