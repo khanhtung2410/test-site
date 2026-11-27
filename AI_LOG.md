@@ -1,3 +1,31 @@
+## 2026-11-27 14:17:34 +07:00 - Xóa file template create-next-app
+
+### Prompt nguyên văn đã dùng
+
+> delete all of template uneeded file that come with create next js project
+
+### Đã tự kiểm chứng
+
+- Grep toàn repo: 5 file SVG trong `public/` và `src/app/favicon.ico` không có tham chiếu nào.
+- Kiểm tra `src/app/layout.tsx` vẫn import Geist/Geist_Mono và metadata "Create Next App"; `globals.css` vẫn chứa biến theme/dark mode mặc định.
+- Xóa 6 file template, thay layout bằng metadata dự án, html `lang="vi"`, không font Google; CSS chỉ giữ import Tailwind và nền/chữ tối thiểu.
+
+### AI sai ở đâu
+
+- Ban đầu định chỉ xóa SVG mà giữ `favicon.ico`; kiểm tra thì đây cũng là asset mặc định của `create-next-app`, đã xóa luôn.
+- Để nguyên metadata "Create Next App" sau các PR trước; đã đổi sang tên/description dự án.
+
+### Findings từ review và quyết định
+
+Không có vòng review riêng; thay đổi nằm trong một PR, output kiểm chứng dán đầy đủ.
+
+### Limitations
+
+- `public/` sau khi xóa không còn file; không commit thư mục rỗng.
+- Chưa kiểm chứng trong browser; chỉ có kết quả lint/typecheck/build.
+
+---
+
 ## 2026-11-27 10:35:07 +07:00 - Đưa TypeScript về 5 sau khi merge Dependabot
 
 ### Prompt nguyên văn đã dùng
