@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { mockUser } from '@/features/auth/mocks/session';
+import { RoleSwitch } from '@/features/shared/components/RoleSwitch';
 
 const linkClass =
   'inline-flex min-h-[44px] items-center rounded-lg px-3 text-sm font-medium text-[var(--color-neutral-600)] hover:bg-[var(--color-primary-soft)] hover:text-[var(--color-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]';
@@ -36,6 +37,9 @@ export function StudentHeader({ title, showBack = false }: { title: string; show
       </div>
       <div className="mx-auto max-w-5xl px-4 pb-4">
         <h1 className="text-2xl font-semibold text-[var(--color-neutral-900)]">{title}</h1>
+      </div>
+      <div className="mx-auto max-w-5xl px-4 pb-3">
+        <RoleSwitch current="student" />
       </div>
     </header>
   );

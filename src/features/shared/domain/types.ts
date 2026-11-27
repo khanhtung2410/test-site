@@ -50,3 +50,19 @@ export interface Result {
   }[];
   canReviewAnswers: boolean;
 }
+
+export interface QuestionOption {
+  id: string;
+  label: string;
+  isCorrect: boolean;
+}
+
+export interface Question {
+  id: string;
+  prompt: string;
+  type: 'SINGLE' | 'MULTI';
+  points: number;
+  tags: string[];
+  options: QuestionOption[];
+  archived: boolean;
+}
