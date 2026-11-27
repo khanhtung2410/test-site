@@ -84,3 +84,12 @@ export interface ResultRow {
   score: number | null;
   submittedAt: string;
 }
+
+// Tài khoản quản trị: type riêng, không dùng lại type User của học viên.
+export interface UserAccount {
+  id: string;
+  name: string;
+  username: string;
+  role: 'ADMIN' | 'TEACHER' | 'STUDENT';
+  locked: boolean;
+}
