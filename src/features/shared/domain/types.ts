@@ -66,3 +66,21 @@ export interface Question {
   options: QuestionOption[];
   archived: boolean;
 }
+
+export interface ExamDetail {
+  id: string;
+  title: string;
+  durationMinutes: number;
+  maxScore: number;
+  opensAt: string;
+  closesAt: string;
+  status: 'open' | 'closed';
+  questionIds: string[];
+}
+
+export interface ResultRow {
+  studentName: string;
+  status: 'SUBMITTED' | 'EXPIRED';
+  score: number | null;
+  submittedAt: string;
+}
