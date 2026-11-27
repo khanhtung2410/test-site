@@ -2,12 +2,28 @@
 
 :root {
   color-scheme: light;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-soft: #eff6ff;
+  --color-secondary: #475569;
+  --color-success: #15803d;
+  --color-error: #b91c1c;
+  --color-warning: #b45309;
+  --color-accent: #d97706;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f8fafc;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-600: #475569;
+  --color-neutral-900: #0f172a;
 }
 
 body {
   margin: 0;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--color-neutral-0);
+  color: var(--color-neutral-900);
   font-family:
     system-ui,
     -apple-system,
