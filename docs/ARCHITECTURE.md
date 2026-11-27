@@ -56,7 +56,7 @@ flowchart LR
 | React | 19.3.1 | Server Components mặc định |
 | TypeScript | 5.x, strict | `tsconfig.json`; script `typecheck` |
 | Tailwind CSS | 4.3.3 | Mobile-first; `src/app/globals.css` chỉ giữ import Tailwind và nền/chữ tối thiểu, không font Geist; design token xem `MOCKUPS.md` |
-| ESLint | 10.x | `eslint-config-next`; peer conflict với plugin hỗ trợ tới 9 — xem `DEPLOY.md` |
+| ESLint | 9.x | `eslint-config-next`; major được `ignore` trong Dependabot tới khi có CI |
 | Prettier | 3.x | `format` và `format:check`; cấu hình trong `.prettierrc` |
 
 ### 3.2. Kế hoạch bổ sung

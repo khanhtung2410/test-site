@@ -45,7 +45,7 @@ Không có tự đăng ký, thanh toán, đăng nhập mạng xã hội, câu t�
 | Validation | — | Zod 4 |
 | Authentication | — | JWT HS256 trong cookie `httpOnly`, bcryptjs |
 | Test | — | Vitest (unit/integration), Playwright (E2E), axe, Lighthouse CI |
-| Lint / Format | ESLint 10, Prettier 3 | ESLint 10 đang có peer conflict; xem `docs/DEPLOY.md` |
+| Lint / Format | ESLint 9, Prettier 3 | Giữ nguyên; major được Dependabot `ignore` tới khi có CI |
 
 Ứng dụng là **một Next.js project duy nhất**: Server Components cho phần đọc, Server Actions cho mutation. Không có backend REST riêng. Kiến trúc chi tiết ở [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
@@ -144,7 +144,7 @@ Sau khi chạy `npm run db:seed` (giai đoạn 2), các tài khoản demo:
 | `npm run build` | Có | Build production |
 | `npm run start` | Có | Chạy bản build |
 | `npm run lint` | Có | ESLint |
-| `npm run typecheck` | Chưa đạt từ clone sạch | Script hiện là `tsc --noEmit`, thiếu `next typegen`; xem `docs/DEPLOY.md` |
+| `npm run typecheck` | Có | `next typegen && tsc --noEmit`; kiểm chứng từ clone sạch, xem `docs/DEPLOY.md` |
 | `npm test` | Kế hoạch | Vitest unit + integration |
 | `npm run test:watch` | Kế hoạch | Vitest watch |
 | `npm run test:e2e` | Kế hoạch | Playwright trên production build |
