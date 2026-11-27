@@ -101,6 +101,8 @@ Nguồn màu là board **Student test / Color palette** trong Figma: 60 shade to
 
 Giữ đáp án đã chọn màu xanh; dùng xanh lá/đỏ chỉ sau khi nộp, và luôn kèm chữ hoặc icon, không dùng màu đơn thuần.
 
+D5 hiển thị gợi ý giới hạn trên ngay trên nhãn trường (thời gian, số lượt, số câu). Đề không được chọn nhiều câu hơn số câu đang có trong ngân hàng. Giá trị cụ thể là nguồn duy nhất tại [`REQUIREMENTS.md`](REQUIREMENTS.md) mục 5; server validate, mockup chỉ nhắc người dùng, không tự định nghĩa lại giới hạn.
+
 17 paint styles, 14 text styles và 1 effect style được tạo trong file. Do chế độ `documentAccess: dynamic-page` của plugin, các node dùng **giá trị thuộc tính trực tiếp** (`fills`, `strokes`, `fontName`, `effects`) thay vì liên kết style; style vẫn có sẵn trong file để dùng lại.
 
 ## Khả năng tiếp cận (theo SPEC §10)

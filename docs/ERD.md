@@ -205,4 +205,4 @@ erDiagram
 - `prisma/schema.prisma` — schema chung.
 - `prisma/migrations/` — migration PostgreSQL.
 - `prisma/seed.ts` — dữ liệu demo local/test.
-- `prisma/seed-production.ts` — dữ liệu demo production, không tạo tài khoản thật.
+- `prisma/seed-production.ts` — không đưa vào pipeline tự động; nếu cần dữ liệu để smoke test, tạo bằng script được review và dọn ngay sau khi kiểm tra. Không tạo tài khoản demo có mật khẩu yếu trên production.
