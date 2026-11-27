@@ -61,6 +61,44 @@ Review: `.superpowers/sdd/2026-11-27-student-mock-pages/task-final-review.md`. B
 
 ---
 
+## 2026-11-27 17:13:15 +07:00 - Dựng trang học viên bằng mock data
+
+### Prompt nguyên văn đã dùng
+
+> create the pages and navigation follow mockup and wireframe using mock data first
+>
+> (lựa chọn scope) Chỉ luồng học viên
+> (duyệt design) Duyệt, sang plan
+> (chọn thực thi) Subagent-driven
+>
+> dont merge just yet
+
+### Đã tự kiểm chứng
+
+- Chạy brainstorming → design doc → builder check → writing-plans → subagent-driven theo đúng skill.
+- 3 task, mỗi task có implementer và reviewer riêng; Task 2 có 1 vòng fix (desktop sidebar + render evidence). Final whole-branch review trả "With fixes"; fix wave đơn nhất sửa 6 findings; scoped re-review xác nhận 6/6 ADDRESSED.
+- `npm run typecheck`, `format:check`, `check:language`, `lint`, `build` đều EXIT=0 (output đầy đủ trong file review ngày 2026-11-27).
+- `npm test` và `npm run test:e2e` chưa có script — ghi "chưa kiểm chứng".
+
+### AI sai ở đâu
+
+- Ban đầu định chạy prototype đơn trang; reviewer chỉ ra phải theo route tree ARCHITECTURE §5, đã dùng route group `(auth)`/`(student)`.
+- Task 2 ban đầu dùng `aria-live="polite"` trên đồng hồ đổi mỗi giây; final review bắt ra, đã tách span `sr-only` chỉ thông báo ở 300s/60s.
+- Card e-2/e-3/e-4 ban đầu dẫn tới result `notFound()`; đã thêm result mẫu và disable e-4.
+- Dialog khai `aria-modal` nhưng thiếu focus trap/Escape; đã thêm primitive `ModalDialog` dùng chung.
+
+### Findings từ review và quyết định
+
+Các finding quan trọng đều chấp nhận và sửa trong cùng branch. Các mục defer: alias `e-1`, `questionId` chứa text, stats hard-code, `notFound()` trả HTTP 200, browser/axe chưa kiểm chứng. Tất cả ruling nằm trong ledger `.superpowers/sdd/2026-11-27-student-mock-pages/progress.md` và được chuyển vào báo cáo cuối. Chi tiết review: `docs/reviews/2026-11-27-requesting-code-review.md`.
+
+### Limitations
+
+- Không merge vào `main` theo yêu cầu người dùng.
+- Chưa kiểm chứng browser/axe/360px; chỉ có HTML server-render + class Tailwind + build.
+- PR cần tách dưới 400 dòng/PR trước khi merge.
+
+---
+
 ## 2026-11-27 14:17:34 +07:00 - Xóa file template create-next-app
 
 ### Prompt nguyên văn đã dùng
