@@ -43,7 +43,7 @@
 | FR-07 | Liệt kê và lọc câu hỏi theo tag. | Tag tùy chọn | Danh sách câu hỏi | Giáo viên đã đăng nhập | Không | Chỉ câu của giáo viên được liệt kê. Lọc trả đúng câu mang tag. Câu đã lưu trữ không hiện. |
 | FR-08 | Sửa câu hỏi. | ID câu hỏi, các trường thay đổi | Câu hỏi đã sửa | Giáo viên sở hữu câu hỏi | Thay đổi được lưu; lượt làm hiện có không đổi | Sau khi đổi đáp án đúng, điểm của bài đã nộp và nội dung lượt đang làm giữ nguyên (K5). |
 | FR-09 | Lưu trữ câu hỏi. | ID câu hỏi | Câu hỏi bị lưu trữ | Giáo viên sở hữu câu hỏi | Câu biến mất khỏi ngân hàng; đề đã tạo và lượt làm giữ nguyên | Câu đã lưu trữ không thêm được vào đề mới. Đề cũ vẫn mở và chấm được. Không xóa cứng dữ liệu lượt làm. |
-| FR-10 | Tạo đề. | Tiêu đề, câu hỏi được chọn, thời gian (phút), số lượt tối đa, khung giờ mở/đóng | Đề mới | Giáo viên đã đăng nhập; có câu hỏi được chọn | Đề được lưu | Thời gian và số lượt là số nguyên dương. Giờ đóng sau giờ mở. Đề không có câu hỏi bị từ chối. |
+| FR-10 | Tạo đề. | Tiêu đề, câu hỏi được chọn, thời gian (phút), số lượt tối đa, khung giờ mở/đóng | Đề mới | Giáo viên đã đăng nhập; có câu hỏi được chọn | Đề được lưu | Thời gian và số lượt là số nguyên dương. Giờ đóng sau giờ mở. Đề không có câu hỏi bị từ chối. Số câu chọn không vượt số câu đang có trong ngân hàng của giáo viên; vượt bị từ chối kèm lỗi. |
 | FR-11 | Sửa đề. | ID đề, các trường thay đổi | Đề đã sửa | Giáo viên sở hữu đề | Thay đổi được lưu | Sửa đề không làm đổi lượt đã bắt đầu. Đề của giáo viên khác trả 404. |
 | FR-12 | Xem kết quả theo đề. | ID đề | Danh sách lượt theo học viên, trạng thái, điểm | Giáo viên sở hữu đề | Không | Mỗi lượt hiện học viên, trạng thái, điểm, thời điểm nộp. Đề chưa có lượt hiện trạng thái rỗng. |
 | FR-13 | Hiển thị luật chấm trước khi bắt đầu. | ID đề | Thời lượng, số lượt, luật chấm | Học viên thấy được đề | Không | Luật K7 được hiển thị trước nút Bắt đầu. |
@@ -152,7 +152,7 @@ HTTPS giữa trình duyệt và server. Không có tích hợp email, SMS hay th
 | VR-06 | Thời lượng đề | Số nguyên 1–480 phút. |
 | VR-07 | Số lượt tối đa | Số nguyên 1–10. |
 | VR-08 | Khung giờ | `closesAt > opensAt`; `opensAt` được phép ở quá khứ. |
-| VR-09 | Câu trong đề | 1–100 câu; không trùng câu trong cùng đề. |
+| VR-09 | Câu trong đề | 1–100 câu; không trùng câu trong cùng đề; không vượt số câu đang có trong ngân hàng của giáo viên. |
 | VR-10 | Tên đăng nhập | 3–32 ký tự, chữ thường `a-z`, số, `.`, `_`, `-`; duy nhất; lưu lowercase. |
 | VR-11 | Họ tên | 1–100 ký tự. |
 | VR-12 | Mật khẩu | 8–72 ký tự. |

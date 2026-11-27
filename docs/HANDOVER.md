@@ -39,7 +39,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 | Mẫu review | [`reviews/TEMPLATE.md`](reviews/TEMPLATE.md) | Mẫu ghi phát hiện và quyết định |
 | Quy tắc agent | [`../AGENTS.md`](../AGENTS.md) | Superpowers, TDD, bằng chứng, ngôn ngữ |
 | README | [`../README.md`](../README.md) | Tổng quan, chạy local, scripts, cấu trúc |
-| Nhật ký AI | [`../AI_LOG.md`](../AI_LOG.md) | Entry khởi tạo tài liệu |
+| Nhật ký AI | [`../AI_LOG.md`](../AI_LOG.md) | Các entry theo yêu cầu, có prompt nguyên văn và bằng chứng |
 
 ---
 
@@ -51,7 +51,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
 - [ ] `ci.yml` với static, test, build, e2e, lighthouse.
-- [ ] Branch protection trên `main`.
+- [x] Branch protection trên `main` — đã bật, xem [`DEPLOY.md`](DEPLOY.md) mục 4 và entry AI_LOG ngày 2026-11-26 19:54:40.
 - [ ] Authentication: session JWT, cookie, rate limit, logout.
 - [ ] Phân quyền: `requireRole`, `assertOwn*`, 404.
 - [ ] Admin quản lý tài khoản; chặn admin cuối cùng bị khóa/hạ vai trò.

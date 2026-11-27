@@ -352,7 +352,7 @@ Ghi chú giao diện:
 
 Đối chiếu mục 6 của brief:
 
-- [ ] Clone mới: `npm ci` → làm theo README → `npm test` và `npm run test:e2e` đều pass.
+- [ ] (Khi có script ở Mốc 2) Clone mới: `npm ci` → làm theo README → `npm test` và `npm run test:e2e` đều pass. Hiện chưa kiểm chứng.
 - [ ] E2E có đủ 4 tình huống: làm bài bình thường, tải lại trang giữa chừng, mất mạng rồi có lại, hết giờ.
 - [ ] Có test chứng minh: không lộ đáp án (K1), không kéo dài thời gian (K2), nộp đồng thời chỉ chấm một lần (K3), sửa câu hỏi không đổi điểm cũ (K5).
 - [ ] Hàm chấm điểm có unit test bảng đủ các trường hợp của luật đã chọn (K7).
@@ -366,18 +366,22 @@ Ghi chú giao diện:
 
 ## 12. Giả định cần chủ dự án xác nhận
 
-Các giả định dưới đây được dùng để thiết kế và kiểm thử. Giá trị số chỉ ghi tại [`PERFORMANCE.md`](PERFORMANCE.md) và bảng này; nếu đổi, cập nhật ở cả hai nơi, các tài liệu khác chỉ link tới đây.
+Các giả định dưới đây là nguồn duy nhất cho A-01…A-08; nếu đổi, cập nhật tại mục này. Ngưỡng hiệu năng đo được chỉ ghi tại [`PERFORMANCE.md`](PERFORMANCE.md); tài liệu khác chỉ link. Phạm vi validate khi tạo đề nằm ở [`REQUIREMENTS.md`](REQUIREMENTS.md) mục 5, không chép lại ở đây.
 
 | Mã | Giả định | Giá trị đang dùng |
 |---|---|---|
 | A-01 | Số học viên làm bài đồng thời trong một đợt | 300 |
-| A-02 | p95 của một lần lưu đáp án trên 4G | ≤ 500 ms |
+| A-02 | p95 của một lần lưu đáp án trên 4G | Xem [`PERFORMANCE.md`](PERFORMANCE.md) PERF-04 |
 | A-03 | Uptime trong khung giờ thi | 99,9% |
 | A-04 | Trình duyệt hỗ trợ | 2 phiên bản mới nhất của Chrome, Edge, Firefox, Safari; iOS Safari 16+ |
 | A-05 | Vùng đặt database production | Singapore (`sin1`), gần Việt Nam |
 | A-06 | Tên miền production | TBD — chưa deploy |
-| A-07 | Số câu tối đa mỗi đề | 100 |
-| A-08 | Số đáp án tối đa mỗi câu | 6 |
+| A-07 | Số câu tối đa mỗi đề | Xem [`REQUIREMENTS.md`](REQUIREMENTS.md) VR-09 |
+| A-08 | Số đáp án tối đa mỗi câu | Xem [`REQUIREMENTS.md`](REQUIREMENTS.md) VR-02 |
+
+### 12.1. Giới hạn khi tạo đề
+
+Server là nơi kiểm tra mọi giới hạn; client chỉ hiển thị gợi ý. Các nhóm bị chặn: thời gian làm bài, số lượt tối đa, số câu trong đề, điểm mỗi câu, số đáp án mỗi câu, số tag, độ dài nội dung và đáp án. Số câu trong đề không được vượt số câu đang có trong ngân hàng của giáo viên. Giá trị cụ thể chỉ ghi tại bảng VR trong [`REQUIREMENTS.md`](REQUIREMENTS.md) mục 5 (`VR-02`, `VR-04`…`VR-09`); PR này không chép số liệu vào đây. Vượt giới hạn trả lỗi theo từng trường qua Zod; không để UI tự cắt giá trị.
 
 ---
 

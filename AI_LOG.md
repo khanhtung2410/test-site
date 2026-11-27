@@ -1,3 +1,34 @@
+## 2026-11-27 10:06:34 +07:00 - Rà soát mâu thuẫn docs và giới hạn trên của đề thi
+
+### Prompt nguyên văn đã dùng
+
+> any mismatch between docs files
+> add rom restriction for uperlimit about test (time,questions,...)
+>
+> no more question in test than in bank
+
+### Đã tự kiểm chứng
+
+- Dispatch reviewer subagent đọc toàn bộ 16 file docs và 3 file review; trả về 9 phát hiện thật, không có xung đột giá trị giới hạn (2–6 đáp án, 1–100 điểm, 0–5 tag, 1–480 phút, 1–10 lượt, 1–100 câu, seed 128-bit, session 12 giờ đều nhất quán).
+- Kiểm chứng A-02/A-07/A-08 bị lặp số giữa `SPEC.md` và `PERFORMANCE.md`/`REQUIREMENTS.md`; đã đổi SPEC thành link tới nguồn duy nhất.
+- `node --check figma-plugin/code.js` trả `SYNTAX OK` sau khi thêm nhãn giới hạn vào D5.
+
+### AI sai ở đâu
+
+- Ban đầu định chép lại số giới hạn vào `SPEC.md`; reviewer chỉ ra GOV-02, đã đổi sang link tới `REQUIREMENTS.md` mục 5.
+- Bỏ sót ràng buộc "số câu trong đề không vượt số câu trong ngân hàng"; đã thêm vào FR-10, VR-09, SPEC §12.1 và D5.
+
+### Findings từ review và quyết định
+
+Chấp nhận cả 9 finding của reviewer: cập nhật HANDOVER (branch protection), PERFORMANCE (năm màn chính), SPEC (nguồn số liệu + acceptance not-yet), ERD (seed production), và 2 file review (line ref/stale note). Không có finding bị từ chối.
+
+### Limitations
+
+- Chưa chạy lại Figma builder/exporter để thấy nhãn D5 mới; chưa kiểm chứng trực quan.
+- Không chạy test/CI; PR này chỉ đổi tài liệu.
+
+---
+
 ## 2026-11-26 22:15:46 +07:00 - Đính ảnh mockup vào docs và dọn input lạc
 
 ### Prompt nguyên văn đã dùng

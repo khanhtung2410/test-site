@@ -23,15 +23,15 @@ PERF-04 là giả định A-02 trong [`SPEC.md`](SPEC.md) mục 12; PERF-01 đ�
 
 ## 2. Phạm vi đo
 
-Năm màn chính:
+Năm màn chính theo [`SPEC.md`](SPEC.md) mục 10 và [`REQUIREMENTS.md`](REQUIREMENTS.md) mục 3.1:
 
-1. `/login`
-2. `/exams` (danh sách đề của học viên)
-3. `/attempts/[attemptId]` (màn làm bài)
+1. `/exams` (danh sách đề của học viên)
+2. `/attempts/[attemptId]` (màn làm bài)
+3. `/exams/[examId]/results` (kết quả)
 4. `/teacher/questions` (ngân hàng câu hỏi)
 5. `/teacher/exams` (tạo đề)
 
-Màn làm bài là quan trọng nhất: học viên chủ yếu dùng điện thoại, mạng có thể chậm.
+Đăng nhập `/login` là màn bổ sung, không nằm trong năm màn chính; vẫn đo nếu phát sinh nghi ngờ hiệu năng. Màn làm bài là quan trọng nhất: học viên chủ yếu dùng điện thoại, mạng có thể chậm.
 
 ---
 
