@@ -47,4 +47,25 @@ protected=true, reviews=1, enforce_admins=true, force_pushes=false, contexts=[]
 
 ## Giới hạn
 
-Chỉ cập nhật tài liệu; chưa đổi script/package, chưa vẽ lại ảnh S6/S7. Những mục đó vẫn là blocker trước khi duyệt Mốc 1.
+## Bổ sung sau fix (cùng ngày)
+
+A-R1, A-R2, A-R6 và A-R9 đã được xử lý trên branch này:
+
+- `package.json`: `eslint ^9`, `typecheck = next typegen && tsc --noEmit`; `npm install` đồng bộ lockfile.
+- `.github/dependabot.yml`: `ignore` major cho `typescript` và `eslint`.
+- `eslint.config.mjs`: ignore `.superpowers/**` để artifact của harness không làm `lint` đỏ.
+- Ảnh export lại qua plugin Figma: `S6-404-khong-tim-thay-trang.png` (404 generic), `S7-ap-an-cho-mo.png` (có `8/10`). Đã đọc ảnh để kiểm chứng nội dung.
+
+Output kiểm chứng từ trạng thái sạch (`rm -rf .next`, `npm ci`):
+
+```text
+$ npm ci        EXIT=0
+$ npm run lint  EXIT=0
+$ npm run typecheck       (next typegen && tsc --noEmit)  EXIT=0
+$ npm run format:check    EXIT=0
+$ npm run check:language  EXIT=0
+$ npm run build           EXIT=0
+$ npm run typecheck       (sau build)                    EXIT=0
+```
+
+Các blocker còn lại: PR #7–#14 vẫn là ngoại lệ admin override (đã ghi rõ trong DEPLOY/HANDOVER), ngân sách PR đã vượt (đã ghi trong SPEC §13), mentor chưa duyệt Mốc 1. Không merge.
