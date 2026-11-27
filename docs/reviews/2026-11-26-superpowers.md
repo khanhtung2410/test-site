@@ -2,7 +2,7 @@
 
 - **Skill:** superpowers (self-review)
 - **Phạm vi:** `docs/REQUIREMENTS.md`, `AGENTS.md`, `AI_LOG.md`
-- **Base:** d758694 | **Head:** working tree trước commit
+- **Base:** d758694 | **Head:** 1acb3b9 (`docs: add evidence and process rules to requirements`)
 - **Prompt nguyên văn:** xem `AI_LOG.md` mục `2026-11-26 15:46:16 +07:00 - Bổ sung quy tắc bằng chứng, quy trình và vận hành vào yêu cầu`.
 
 ## Phương pháp

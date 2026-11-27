@@ -61,7 +61,11 @@ File dự kiến: `.github/workflows/ci.yml`.
 | `e2e` | PostgreSQL service, migrate, seed, `npm run test:e2e` | Toàn bộ E2E pass, gồm 4 tình huống bắt buộc |
 | `lighthouse` | `npm run build`, `next start`, `@lhci/cli` | Đạt các ngưỡng trong [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01, PERF-02, PERF-03 |
 
-Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date, cấm force push và xóa branch, áp dụng cả admin. Bằng chứng: `gh api repos/khanhtung2410/test-site/branches/main --jq '{protected}'` trả `true`; endpoint protection trả `reviews=1`, `enforce_admins=true`, `force_pushes=false`, `deletions=false`. Chưa yêu cầu status check vì repo chưa có workflow CI; sẽ thêm `lint`, `typecheck`, `format:check`, `check:language`, `build`, `test`, `test:e2e`, `lighthouse` khi có workflow (chưa kiểm chứng).
+Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date, cấm force push và xóa branch, áp dụng cả admin. Bằng chứng API hiện tại: `protected=true`, `reviews=1`, `enforce_admins=true`, `force_pushes=false`, `contexts=[]`. Chưa yêu cầu status check vì repo chưa có workflow CI.
+
+Ngoại lệ đã xảy ra: PR #7–#14 được merge với 0 review bằng quyền admin của tác giả, nên cấu hình trên không phản ánh cách các PR đó vào `main`. Mọi tuyên bố về branch protection phải nêu rõ ngoại lệ này.
+
+Kiểm chứng phải chạy từ trạng thái sạch: `rm -rf .next && npm ci` rồi mới chạy bộ check. Ở trạng thái sạch HEAD `39d4c2d`, `npm run typecheck` trả `EXIT=2` (`TS2304: Cannot find name 'LayoutProps'`) vì script hiện là `tsc --noEmit` và type route chỉ có sau build. Script phải đổi thành `next typegen && tsc --noEmit` trước khi coi là đạt. ESLint 10 đang xung đột peer với plugin chỉ hỗ trợ tới 9; đưa về `^9` và cấu hình Dependabot `ignore` major cho `typescript`/`eslint` cho tới khi có CI (chưa kiểm chứng).
 
 ---
 
