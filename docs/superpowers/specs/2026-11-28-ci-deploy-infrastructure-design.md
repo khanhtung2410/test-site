@@ -1,6 +1,6 @@
 # Thiết kế: hạ tầng repo, CI, branch protection và deploy
 
-- **Trạng thái:** chờ duyệt.
+- **Trạng thái:** đã duyệt.
 - **Ngày:** 2026-11-28
 - **Nguồn:** `docs/DEPLOY.md`, `docs/CONTRIBUTING.md`, `AGENTS.md` §8, `SPEC.md` §11, `README.md`.
 - **Skill:** `brainstorming`.

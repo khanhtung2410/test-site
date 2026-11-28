@@ -55,7 +55,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaf
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
 - [x] `ci.yml` với `static`, `test`, `build`, `e2e` — đã có, chưa chạy trên GitHub. Job `lighthouse` còn lại ở giai đoạn 5.
-- [x] Branch protection trên `main` — cấu hình hiện vẫn là 1 approval, `enforce_admins=true`; tuy nhiên PR #7–#14 được merge với 0 review bằng quyền admin của tác giả. Đây là ngoại lệ đã xảy ra, không phải trạng thái "không thể merge"; xem [`DEPLOY.md`](DEPLOY.md) mục 4.
+- [x] Branch protection trên `main` — cấu hình hiện vẫn là 1 approval, `enforce_admins=true`; required checks `static`, `test`, `build`, `e2e` với `strict=true` đã active từ 2026-11-28. Tuy nhiên PR #7–#14 được merge với 0 review bằng quyền admin của tác giả. Đây là ngoại lệ đã xảy ra, không phải trạng thái "không thể merge"; xem [`DEPLOY.md`](DEPLOY.md) mục 4 và [`2026-11-28-ci-deployment.md`](reviews/2026-11-28-ci-deployment.md).
 - [ ] Authentication: session JWT, cookie, rate limit, logout.
 - [ ] Phân quyền: `requireRole`, `assertOwn*`, 404.
 - [ ] Admin quản lý tài khoản; chặn admin cuối cùng bị khóa/hạ vai trò.

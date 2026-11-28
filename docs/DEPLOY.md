@@ -62,7 +62,7 @@ File: `.github/workflows/ci.yml`. Chạy trên push vào `main` và mọi pull r
 
 Job `e2e` phụ thuộc `build` vì `playwright.config.ts` chạy `next start` và cần `.next` có sẵn. Job `lighthouse` chưa có; dự kiến ở giai đoạn 5 theo [`PERFORMANCE.md`](PERFORMANCE.md).
 
-Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date, cấm force push và xóa branch, áp dụng cả admin. Bằng chứng API hiện tại: `protected=true`, `reviews=1`, `enforce_admins=true`, `force_pushes=false`, `contexts=[]`. Chưa yêu cầu status check; bước tiếp theo sẽ dùng đúng bốn tên job `static`, `test`, `build`, `e2e` làm required contexts.
+Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date (`strict=true`), cấm force push và xóa branch, áp dụng cả admin. Required status checks **đã active** từ 2026-11-28 với `contexts=["static","test","build","e2e"]` và `strict=true`, khớp đúng bốn tên job của `ci.yml`. Trước đó API trả `contexts=[]`; payload PUT và GET kiểm chứng sau PUT được ghi nguyên văn trong [`2026-11-28-ci-deployment.md`](reviews/2026-11-28-ci-deployment.md). Các trường khác vẫn giữ nguyên: `protected=true`, `reviews=1`, `enforce_admins=true`, `force_pushes=false`.
 
 Ngoại lệ đã xảy ra: PR #7–#14 được merge với 0 review bằng quyền admin của tác giả, nên cấu hình trên không phản ánh cách các PR đó vào `main`. Mọi tuyên bố về branch protection phải nêu rõ ngoại lệ này.
 
@@ -98,7 +98,7 @@ CI hoàn thành trên main, conclusion = success
 
 **Secret:** `guard` và `migrate-check` đọc secret từ `production`; `migrate` cần `DATABASE_URL` trong `migration-approval` vì một job chỉ dùng được một environment. Prisma sẽ được thêm ở giai đoạn 2; trước đó `migrate-check` trả `pending=false`.
 
-Khi thiếu secret, `guard` ghi thông báo rõ và các job phía sau bị skip — không có bước nào chạy deploy. Checkout luôn dùng `github.event.workflow_run.head_sha` để deploy đúng commit đã qua CI.
+Khi thiếu secret, `guard` ghi thông báo rõ và các job phía sau bị skip — không có bước nào chạy deploy. Checkout luôn dùng `github.event.workflow_run.head_sha` để deploy đúng commit đã qua CI. Guard chỉ nhận `workflow_run` có `event == 'push'` và `head_repository.full_name == github.repository`, nên PR từ fork (kể cả với branch `main`) không trigger deploy.
 
 `vercel.json` đặt `"git": { "deploymentEnabled": false }` để Vercel không tự deploy khi push. File này chưa có; dự kiến tạo cùng lúc có Vercel project thật. Mọi deploy đi qua workflow.
 

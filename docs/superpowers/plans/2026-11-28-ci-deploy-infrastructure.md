@@ -31,7 +31,7 @@
 
 ---
 
-### Task 1: Script test và unit test tối thiểu
+### Task 1: Script test và unit test tối thiểu — đã hoàn thành
 
 **Files:**
 - Modify: `package.json` (thêm `test`, `test:watch`)
@@ -62,7 +62,7 @@ Trước: EXIT=1 ( script chưa có hoặc test fail). Sau: EXIT=0, output đầ
 
 ---
 
-### Task 2: Playwright smoke e2e
+### Task 2: Playwright smoke e2e — đã hoàn thành
 
 **Files:**
 - Modify: `package.json` (thêm `test:e2e`)
@@ -91,7 +91,7 @@ Commit `test: add playwright route smoke tests`.
 
 ---
 
-### Task 3: CI workflow và deploy workflow
+### Task 3: CI workflow và deploy workflow — đã hoàn thành
 
 **Files:**
 - Create: `.github/workflows/ci.yml`
@@ -120,7 +120,7 @@ Commit `ci: add workflows for checks and deploy`.
 
 ---
 
-### Task 4: Branch protection theo CI
+### Task 4: Branch protection theo CI — đã hoàn thành
 
 **Files:**
 - Chỉ thay đổi cấu hình GitHub qua API; không commit code.
