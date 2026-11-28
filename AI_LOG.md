@@ -61,6 +61,40 @@ Review: `.superpowers/sdd/2026-11-27-student-mock-pages/task-final-review.md`. B
 
 ---
 
+## 2026-11-28 13:20:38 +07:00 - Thiết lập CI, test, branch protection và deploy workflow
+
+### Prompt nguyên văn đã dùng
+
+> Repo, CI (lint, typecheck, test, build, e2e), branch protection, deploy qua GitHub Actions.
+>
+> (chọn test scope) Tối thiểu chạy được
+> (duyệt design) Duyệt, sang plan
+> (chọn execution) Subagent-driven
+
+### Đã tự kiểm chứng
+
+- Chạy brainstorming → design doc → writing-plans → subagent-driven (4 task, implementer + reviewer riêng). Final review "With fixes"; 1 fix wave với 5 finding + 2 finding phụ; re-review xác nhận xong.
+- Từ `rm -rf .next && npm ci`: lint, typecheck, format:check, check:language, `npm test` (7/7), build, typecheck sau build, `npm run test:e2e` (5/5), `npm audit --omit=dev --audit-level=high` đều EXIT=0. Output đầy đủ trong PR body.
+- Branch protection GET sau PUT trả contexts `["static","test","build","e2e"]`, strict=true.
+
+### AI sai ở đâu
+
+- Ban đầu gọi `npm run audit:production` (script chưa có) nên EXIT=1; CI dùng trực tiếp `npm audit --omit=dev --audit-level=high`, chạy lại đúng lệnh → EXIT=0. Không coi đây là lỗi repo.
+- Deploy rollback ban đầu trỏ URL của bản vừa deploy; fix capture bản production trước. Fix đó lại chặn first deploy khi danh sách rỗng; fix vòng 2 làm capture tolerant.
+- Guard `workflow_run` ban đầu chỉ check branch `main`, có thể nhận PR từ fork; đã chặn thêm `event == push` và `head_repository.full_name == github.repository`.
+
+### Findings từ review và quyết định
+
+Các finding quan trọng đều chấp nhận và sửa trong cùng branch. Defer có ghi rõ trong `docs/reviews/2026-11-28-ci-deployment.md`: CLI chưa pin, chưa có concurrency/permissions, tách secret migrate, smoke URL, v.v. Không merge admin override.
+
+### Limitations
+
+- Chưa có GitHub run URL; workflow chưa từng chạy trên Actions.
+- Chưa có secret Vercel/database; deploy/rollback thực tế **chưa kiểm chứng**.
+- Chưa có auth/Prisma/K8/question bank thật — các PR sau.
+
+---
+
 ## 2026-11-28 00:44:11 +07:00 - Dựng trang giáo viên và admin bằng mock data
 
 ### Prompt nguyên văn đã dùng
