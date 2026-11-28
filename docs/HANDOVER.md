@@ -1,7 +1,7 @@
 # BÀN GIAO DỰ ÁN
 
 > **Cập nhật lần cuối:** 2026-11-28
-> **Trạng thái:** Mốc 1 — tài liệu thiết kế. Đã có scaffold và mock UI cho 3 vai trò trên nhánh phát triển; chưa có Prisma, authentication, scoring hay CI.
+> **Trạng thái:** Mốc 1 — tài liệu thiết kế. Đã có scaffold, mock UI cho 3 vai trò, bộ test tối thiểu và hai workflow CI/deploy trên nhánh phát triển; chưa có Prisma, authentication hay scoring. Hai workflow chưa từng chạy trên GitHub.
 > **Người thực hiện:** chủ dự án (thực tập) + AI hỗ trợ.
 
 Tài liệu này dành cho mentor và người tiếp nhận dự án: biết cái gì đã xong, cái gì còn, chỗ nào cần quyết định và cách kiểm chứng.
@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`, và mock UI click-through cho học viên, giáo viên, admin (trên nhánh phát triển). Prisma, authentication, test và CI là kế hoạch giai đoạn 2; Mốc 2 theo đề là demo làm bài.
+Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`, mock UI click-through cho học viên, giáo viên, admin, bộ test Vitest/Playwright tối thiểu và hai workflow `.github/workflows/ci.yml`, `.github/workflows/deploy.yml` (trên nhánh phát triển). Prisma, authentication và scoring là kế hoạch giai đoạn 2; Mốc 2 theo đề là demo làm bài. Hai workflow chưa có run trên GitHub.
 
 Điểm đã chốt quan trọng nhất:
 
@@ -41,6 +41,9 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaf
 | README | [`../README.md`](../README.md) | Tổng quan, chạy local, scripts, cấu trúc |
 | Nhật ký AI | [`../AI_LOG.md`](../AI_LOG.md) | Các entry theo yêu cầu, có prompt nguyên văn và bằng chứng |
 | Mock UI | `src/app/(auth)`, `(student)`, `(teacher)`, `(admin)` | Trang click-through bằng mock data; không auth/Prisma/scoring |
+| Test tối thiểu | `src/**/*.test.ts`, `e2e/*.spec.ts` | Vitest và Playwright route smoke, không cần database |
+| CI | [`../.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Job `static`, `test`, `build`, `e2e`; chưa có run trên GitHub |
+| Deploy | [`../.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) | Trigger sau CI xanh; chưa có secret thật, chưa deploy |
 
 ---
 
@@ -48,10 +51,10 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaf
 
 ### 3.1. Giai đoạn 2 — Nền tảng
 
-- [ ] Cài Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose, Vitest, Playwright. Prettier đã có.
+- [x] Cài Vitest và Playwright; Prettier đã có. Còn lại Prisma 7, PostgreSQL 16, Zod, bcryptjs, jose.
 - [ ] Tạo `prisma/schema.prisma`, migration đầu tiên, seed demo.
 - [ ] Docker Compose cho PostgreSQL local/test/e2e.
-- [ ] `ci.yml` với static, test, build, e2e, lighthouse.
+- [x] `ci.yml` với `static`, `test`, `build`, `e2e` — đã có, chưa chạy trên GitHub. Job `lighthouse` còn lại ở giai đoạn 5.
 - [x] Branch protection trên `main` — cấu hình hiện vẫn là 1 approval, `enforce_admins=true`; tuy nhiên PR #7–#14 được merge với 0 review bằng quyền admin của tác giả. Đây là ngoại lệ đã xảy ra, không phải trạng thái "không thể merge"; xem [`DEPLOY.md`](DEPLOY.md) mục 4.
 - [ ] Authentication: session JWT, cookie, rate limit, logout.
 - [ ] Phân quyền: `requireRole`, `assertOwn*`, 404.
@@ -76,7 +79,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaf
 
 - [ ] Lighthouse CI đạt ngưỡng.
 - [ ] a11y: axe 0 serious/critical; bàn phím; 360 px.
-- [ ] `deploy.yml`; deploy production; smoke test; link run.
+- [x] `deploy.yml` — đã có workflow; deploy production, smoke test và link run vẫn chưa kiểm chứng vì thiếu secret và Vercel project.
 - [ ] Tài khoản demo 3 vai trò; video demo ≤ 3 phút.
 - [ ] Cập nhật `HANDOVER.md` cuối cùng.
 
