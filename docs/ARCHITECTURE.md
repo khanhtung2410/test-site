@@ -10,7 +10,7 @@
 
 Tài liệu này đủ để một lập trình viên khác tiếp tục dự án mà không cần hỏi lại người viết: biết code nằm ở đâu, luồng đi qua những tầng nào, chỗ nào dễ sai và test nào bảo vệ.
 
-**Giới hạn:** scaffold `package.json`, `src/` và script kiểm tra đã có. Prisma, authentication, test hay CI chưa có; các đường dẫn feature dưới đây là đích đến của giai đoạn 2–4.
+**Giới hạn:** scaffold `package.json`, script kiểm tra và mock UI click-through cho 3 vai trò đã có trên nhánh phát triển. Prisma, authentication, test hay CI chưa có; phần còn lại của các đường dẫn feature dưới đây là đích đến của giai đoạn 2–4.
 
 ---
 

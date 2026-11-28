@@ -4,7 +4,7 @@ Website cho trung tâm đào tạo tổ chức thi trắc nghiệm online. Giáo
 
 Repo: <https://github.com/khanhtung2410/test-site>
 
-> **Trạng thái:** scaffold Next.js 16.4.6 và các script `typecheck`, `format:check`, `check:language` đã có trong repo. Prisma, authentication, test và CI vẫn là kế hoạch giai đoạn 2. Xem [`docs/HANDOVER.md`](docs/HANDOVER.md) để biết việc còn lại.
+> **Trạng thái:** scaffold Next.js 16.4.6, các script kiểm tra và các trang mock UI cho cả 3 vai trò (học viên/giáo viên/admin) đã có trên nhánh phát triển; chưa có Prisma, authentication, test hay CI. Đây là giai đoạn 2, không phải Mốc 2 theo đề (Mốc 2 là demo làm bài). Xem [`docs/HANDOVER.md`](docs/HANDOVER.md).
 
 ---
 
@@ -157,7 +157,7 @@ Sau khi chạy `npm run db:seed` (giai đoạn 2), các tài khoản demo:
 | `npm run check:language` | Có | Kiểm tra quy tắc chữ Việt/Anh |
 | `npm run audit:production` | Kế hoạch | `npm audit --omit=dev --audit-level=high` |
 
-Tóm tắt `EXIT=` nằm trong `AI_LOG.md` mục ngày 2026-11-26; output đầy đủ nằm trong PR #2 và PR #3 mục Testing.
+Tóm tắt `EXIT=` nằm trong `AI_LOG.md` mục ngày 2026-11-26; output đầy đủ từ trạng thái sạch nằm trong [`docs/reviews/2026-11-27-mentor-document-state.md`](docs/reviews/2026-11-27-mentor-document-state.md) mục "Bổ sung sau fix".
 
 ---
 

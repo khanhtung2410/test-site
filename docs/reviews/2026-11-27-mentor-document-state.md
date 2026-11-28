@@ -25,7 +25,7 @@ protected=true, reviews=1, enforce_admins=true, force_pushes=false, contexts=[]
 | A-R3 | Blocker | Docs ghi protection 1 approval nhưng 13 PR merge với 0 review | **Accepted** — ghi rõ ngoại lệ admin override trong `DEPLOY.md` và `HANDOVER.md`; API hiện vẫn trả cấu hình như docs. |
 | A-R4 | Blocker | Đặt tên 5 giai đoạn là "Mốc 1–5" | **Accepted** — đổi thành "Giai đoạn 1–5" trong README/ARCHITECTURE/HANDOVER/SPEC; giữ 3 mốc theo đề. |
 | A-R5 | Blocker | Đã dùng 14 PR, vượt ngân sách | **Accepted** — cập nhật SPEC §13 với thực tế và kế hoạch PR từ `main` mới nhất, gom Dependabot. |
-| A-R6 | Blocker | ESLint 10 peer conflict; docs lệch phiên bản | **Accepted** — README/ARCHITECTURE ghi đúng ESLint 10, React 19.3.1; đưa rule "không merge major khi chưa có CI" vào AGENTS. Chưa hạ version (ngoài phạm vi docs). |
+| A-R6 | Blocker | ESLint 10 peer conflict; docs lệch phiên bản | **Accepted** — ban đầu README/ARCHITECTURE ghi đúng ESLint 10; sau đó PR #14 hạ về ESLint 9 theo khuyến nghị, docs hiện ghi ESLint 9 và React 19.3.1; rule "không merge major khi chưa có CI" nằm trong AGENTS. |
 | A-R7 | Blocker | K4 × K2 chưa ghi kết quả khi gửi muộn | **Accepted** — D-21 bổ sung luật K2 thắng K4, thông báo UI và dọn IndexedDB. |
 | A-R8 | Blocker | FR-19/truy vết K4 chưa có ca reload offline | **Accepted** — cập nhật FR-19 và bảng truy vết K4. |
 | A-R9 | Blocker | S7 thiếu số điểm | **Ghi nhận là chưa đạt** trong `MOCKUPS.md`; cần sửa ảnh. |

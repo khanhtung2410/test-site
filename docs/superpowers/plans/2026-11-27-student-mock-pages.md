@@ -6,7 +6,7 @@
 
 **Architecture:** Route App Router với route groups `(auth)` và `(student)`; mỗi feature tự chứa `mocks/` và component; DTO dùng chung đặt ở `features/shared/domain/types.ts`. Không có auth/Prisma/Server Action; source dữ liệu duy nhất là mock module có type.
 
-**Tech Stack:** Next.js 16.4.6 App Router, React 19, TypeScript 5, Tailwind 4, ESLint 10, Prettier 3.
+**Tech Stack:** Next.js 16.4.6 App Router, React 19, TypeScript 5, Tailwind 4, ESLint 9, Prettier 3.
 
 **Spec:** `docs/superpowers/specs/2026-11-27-student-mock-pages-design.md`
 

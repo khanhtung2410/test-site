@@ -9,7 +9,7 @@
 
 Dựng các trang Next.js thật cho **luồng học viên** để có bản click-through đối chiếu wireframe trước khi có auth, Prisma và Server Action. Dữ liệu là mock, nhưng DTO phải đúng shape để giai đoạn sau chỉ thay nguồn dữ liệu, không đổi component.
 
-Đây là bước đầu của Mốc 2 theo `ARCHITECTURE.md`, không phải sản phẩm hoàn chỉnh. Không triển khai K1–K8 ở mức server trong đợt này.
+Đây là bước đầu của Giai đoạn 2 theo `ARCHITECTURE.md`, không phải sản phẩm hoàn chỉnh. Mốc 2 theo đề là demo làm bài, không phải nền tảng. Không triển khai K1–K8 ở mức server trong đợt này.
 
 ## 2. Mục tiêu
 

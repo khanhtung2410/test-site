@@ -14,7 +14,7 @@ Mỗi task có implementer và reviewer riêng: Task 1 sạch; Task 2 có 1 vòn
 | # | Mức độ · file:line | Vấn đề | Quyết định |
 |---|---|---|---|
 | 1 | Important · `QuestionBank.tsx:92,110`, `QuestionDetail.tsx:37`, `ExamTable.tsx:48`, `not-found.tsx:10` | 5 `<Link>` inline có `min-h-[44px]` nhưng không áp dụng (non-replaced inline) | **Accepted** — fix `inline-flex items-center` trong `e6f6b30` |
-| 2 | Important · governance | Thiếu AI_LOG entry, file review template, full check output trong PR body | **Accepted** — entry AI_LOG và file này được tạo ngay đây |
+| 2 | Important · governance | Thiếu AI_LOG entry, file review template, full check output trong PR body | **Chưa kiểm chứng một phần** — entry AI_LOG và file review được tạo ngay đây; output đầy đủ đã có trong file review nhưng **PR chưa tồn tại**, nên "trong PR body" chưa kiểm chứng (AGENTS rule 12). Sẽ dán output khi mở PR. |
 | 3 | Minor nâng · `ExamTable.tsx:62`, `results/page.tsx:34`, `QuestionBank.tsx:82` | `<th>` thiếu `scope="col"` | **Accepted** — fix trong `e6f6b30` |
 | 4 | Optional · `ExamCreateForm.tsx:58` | Hint VR-02…VR-09 chưa có `aria-describedby` | **Deferred** — controller chấp nhận, ghi rõ ở đây |
 | 5 | Minor · `QuestionBank.tsx:20` | Search phân biệt hoa/thường và dấu | **Deferred** — mock-only filter |
@@ -38,6 +38,7 @@ Mỗi task có implementer và reviewer riêng: Task 1 sạch; Task 2 có 1 vòn
 | 5 link có inline-flex + min-h-[44px] | `ALL_FIVE_LINKS_OK=true` trong final fix report | ✅ |
 | 3 bảng có scope="col" | `ALL_THREE_TABLES_SCOPED=true` | ✅ |
 | Bộ check sạch | Output đầy đủ dưới đây | EXIT=0 cả 7 lệnh |
+| Output trong PR body | PR chưa mở | chưa kiểm chứng |
 | `npm test`, `test:e2e` | Script chưa có | chưa kiểm chứng |
 | Browser/axe/360px | Không automation | chưa kiểm chứng |
 
