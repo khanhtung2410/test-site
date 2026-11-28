@@ -127,6 +127,15 @@ jobs:
         run: npx vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
       - name: Build for Vercel
         run: npx vercel build --prod --token="$VERCEL_TOKEN"
+      # Luu deployment production hien tai truoc khi deploy de rollback ve dung ban cu.
+      - name: Capture current production deployment
+        id: previous
+        run: |
+          set -euo pipefail
+          LIST=$(npx vercel ls --environment=production --status READY --json --limit 1 --token="$VERCEL_TOKEN")
+          ID=$(node -e 'const d=JSON.parse(process.argv[1]); const first=d.deployments&&d.deployments[0]; if(!first||!first.id){console.error("No ready production deployment found");process.exit(1)} process.stdout.write(first.id)' "$LIST")
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+          echo "Previous production deployment id=$ID"
       - name: Deploy prebuilt bundle
         id: vercel
         run: |
@@ -142,8 +151,8 @@ jobs:
             [ "$CODE" -ge 200 ] && [ "$CODE" -lt 400 ]
           done
       - name: Rollback on smoke failure
-        if: failure() && steps.vercel.outputs.url != ''
+        if: failure() && steps.previous.outputs.id != ''
         run: |
-          echo "Smoke test failed. Promoting the previous Vercel production deployment."
-          npx vercel rollback "${{ steps.vercel.outputs.url }}" --token="$VERCEL_TOKEN"
+          echo "Smoke test failed. Rolling back to the captured previous production deployment."
+          npx vercel rollback "${{ steps.previous.outputs.id }}" --token="$VERCEL_TOKEN"
           echo "Rerun the smoke test and record the deployment id."
