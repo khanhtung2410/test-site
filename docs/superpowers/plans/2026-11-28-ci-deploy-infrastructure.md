@@ -150,4 +150,4 @@ Commit `docs: record branch protection state`.
 
 ## Execution Handoff
 
-Execution method chưa được cung cấp cho plan này; sau khi duyệt, hỏi người dùng chọn native hay subagent-driven. Khuyến nghị subagent-driven vì 4 task có interface nối nhau qua script/job name.
+Execution method: người dùng đã chọn **subagent-driven**. Cả 4 task đã hoàn thành, có implementer + reviewer riêng, final whole-branch review và fix wave; bằng chứng nằm trong `AI_LOG.md` và `docs/reviews/`.

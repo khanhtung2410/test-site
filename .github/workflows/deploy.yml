@@ -21,6 +21,7 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
       SITE_URL: ${{ secrets.SITE_URL }}
     outputs:
       ready: ${{ steps.check.outputs.ready }}
@@ -29,7 +30,7 @@ jobs:
       - name: Check deployment secrets
         id: check
         run: |
-          if [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ] && [ -n "$DATABASE_URL" ] && [ -n "$SITE_URL" ]; then
+          if [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ] && [ -n "$DATABASE_URL" ] && [ -n "$DIRECT_URL" ] && [ -n "$SITE_URL" ]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
             echo "Deployment secrets are configured."
           else

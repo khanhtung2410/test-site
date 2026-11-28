@@ -45,7 +45,7 @@ Không dùng SQLite ở bất kỳ môi trường nào: test đồng thời và 
 
 `.env.example` chỉ chứa tên biến và giá trị mẫu, không chứa secret thật. `.env*` đã nằm trong `.gitignore`.
 
-**GitHub Environment `production`:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL` (chuỗi dùng cho migration). Không đặt ở cấp repository.
+**GitHub Environment `production`:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DIRECT_URL` (dùng cho migration), `SITE_URL`. `guard` yêu cầu đủ cả sáu giá trị; thiếu thì mọi job deploy bị skip. Không đặt secret ở cấp repository.
 
 ---
 
@@ -91,7 +91,7 @@ CI hoàn thành trên main, conclusion = success
 
 | Job | Environment | Vai trò |
 |---|---|---|
-| `guard` | `production` | Đọc secret; xuất `ready=true` khi đủ `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `SITE_URL` |
+| `guard` | `production` | Đọc secret; xuất `ready=true` khi đủ `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DIRECT_URL`, `SITE_URL` |
 | `migrate-check` | `production` | `npx prisma migrate status`, xuất `pending` |
 | `migrate` | `migration-approval` | `npx prisma migrate deploy` khi có migration pending; cần reviewer |
 | `deploy` | `production` | Build và deploy Vercel prebuilt, smoke test, rollback |

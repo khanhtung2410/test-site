@@ -120,4 +120,15 @@ $ Select-String -Path .github/workflows/ci.yml -Pattern '^  (static|test|build|e
 - `required_signatures` vẫn `enabled:false`; endpoint PUT dùng không quản lý field này, brief không yêu cầu đổi.
 - Chưa chạy bộ check `npm` vì không có thay đổi code trong task này; trạng thái check của CI là trách nhiệm của Task 3.
 
-Link entry AI_LOG: controller thêm ở final pass.
+## Deferred (có chủ, không chặn merge)
+
+- Chưa pin CLI `npx prisma` / `npx vercel`; pin trước lần deploy thật đầu tiên.
+- Chưa có `concurrency` group và `permissions: contents: read` trong workflow; thêm trước khi bật secret thật.
+- Tách secret `DATABASE_URL` giữa `production` và `migration-approval` có thể drift; cần bước đối chiếu trước khi chạy migration đầu tiên.
+- Smoke test dùng `$SITE_URL` thay vì URL của deployment vừa tạo; message rollback có thể gây hiểu nhầm khi lỗi ở `pull`/`build`.
+- `steps.vercel.outputs.url` còn dư sau khi sửa rollback; vô hại.
+- `migrate-check` dùng `|| true` nên lỗi CLI/DB bị coi là `pending=false`; phải phân biệt "check lỗi" với "không có migration" trước khi Prisma lên production.
+- `expectTypeOf` bị erase lúc runtime; `npm run typecheck` là lớp bảo vệ thật.
+- Alias `@` trong `vitest.config.ts` giả định chạy từ gốc repo; đúng với npm script và Actions.
+
+Link entry AI_LOG: `AI_LOG.md` mục `2026-11-28 13:20:38 +07:00 - Thiết lập CI, test, branch protection và deploy workflow`.
