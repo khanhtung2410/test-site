@@ -44,19 +44,19 @@
 - Consumes: types và mock hiện có.
 - Produces: `npm test` = `vitest run`.
 
-- [ ] **Step 1: Cài Vitest**
+- [x] **Step 1: Cài Vitest**
 
 `npm install -D vitest`, thêm script `test: vitest run`, `test:watch: vitest`, config `vitest.config.ts` dùng môi trường node, include `src/**/*.test.ts`.
 
-- [ ] **Step 2: Viết 2 test thật (TDD)**
+- [x] **Step 2: Viết 2 test thật (TDD)**
 
 Test 1: `types.test.ts` khẳng định 5 interface học viên giữ nguyên tên field (`Exam` có `questionCount`, `maxScore`, `maxAttempts`). Test 2: `exams.test.ts` khẳng định `getMockExams()` trả 4 đề, 2 open/2 closed, `getMockExam('unknown')` undefined.
 
-- [ ] **Step 3: Chạy `npm test` trước/sau**
+- [x] **Step 3: Chạy `npm test` trước/sau**
 
 Trước: EXIT=1 ( script chưa có hoặc test fail). Sau: EXIT=0, output đầy đủ.
 
-- [ ] **Step 4: Bộ check + commit**
+- [x] **Step 4: Bộ check + commit**
 
 `npm ci`, lint, typecheck, format:check, check:language, build, typecheck, `npm test`. Commit `test: add minimal Vitest suite`.
 
@@ -73,19 +73,19 @@ Trước: EXIT=1 ( script chưa có hoặc test fail). Sau: EXIT=0, output đầ
 - Consumes: routes từ mock UI hiện có.
 - Produces: `npm run test:e2e` = `playwright test`.
 
-- [ ] **Step 1: Cài Playwright**
+- [x] **Step 1: Cài Playwright**
 
 `npm install -D @playwright/test`; config dùng `webServer: npm run start -- -p 3100`, baseURL `http://127.0.0.1:3100`, retry 0, không cài browser hệ thống nếu không có — dùng chromium đã cài hoặc ghi rõ dependency.
 
-- [ ] **Step 2: Viết smoke test**
+- [x] **Step 2: Viết smoke test**
 
 `/exams`, `/login`, `/teacher/questions`, `/admin/users` trả 200 và có nội dung chữ tiếng Việt; `/attempts/unknown` hiển thị "Không tìm thấy trang".
 
-- [ ] **Step 3: Chạy `npm run test:e2e` từ sạch**
+- [x] **Step 3: Chạy `npm run test:e2e` từ sạch**
 
 Expected EXIT=0; nếu thiếu browser binary, cài `npx playwright install chromium` và ghi output.
 
-- [ ] **Step 4: Bộ check + commit**
+- [x] **Step 4: Bộ check + commit**
 
 Commit `test: add playwright route smoke tests`.
 
@@ -102,19 +102,19 @@ Commit `test: add playwright route smoke tests`.
 - Consumes: script từ Task 1/2.
 - Produces: job names `static`, `test`, `build`, `e2e`; deploy trigger `workflow_run`.
 
-- [ ] **Step 1: ci.yml**
+- [x] **Step 1: ci.yml**
 
 Jobs: `static` (npm ci, lint, typecheck, format:check, check:language, audit), `test` (npm ci, npm test), `build` (npm ci, npm run build, upload artifact), `e2e` (npm ci, npm run test:e2e). Dùng Node 22, npm ci, không cache `.next`.
 
-- [ ] **Step 2: deploy.yml**
+- [x] **Step 2: deploy.yml**
 
 Trigger `workflow_run` CI completed trên `main` và success; environment `production`; guard secret; bước migrate có environment `migration-approval`; deploy Vercel prebuilt; smoke URL; rollback khi fail. Nếu secret chưa có, job skip có comment rõ — không deploy tay.
 
-- [ ] **Step 3: Kiểm chứng YAML**
+- [x] **Step 3: Kiểm chứng YAML**
 
 Parse YAML bằng Node (không cài thêm dependency nếu có sẵn) hoặc actionlint nếu có; so sánh tên job với docs.
 
-- [ ] **Step 4: Bộ check + commit**
+- [x] **Step 4: Bộ check + commit**
 
 Commit `ci: add workflows for checks and deploy`.
 
@@ -130,19 +130,19 @@ Commit `ci: add workflows for checks and deploy`.
 - Consumes: job names từ Task 3.
 - Produces: protection với `contexts` = job names.
 
-- [ ] **Step 1: Đọc cấu hình hiện tại**
+- [x] **Step 1: Đọc cấu hình hiện tại**
 
 `gh api repos/khanhtung2410/test-site/branches/main/protection`, lưu output.
 
-- [ ] **Step 2: Cập nhật required checks**
+- [x] **Step 2: Cập nhật required checks**
 
 PUT với `required_status_checks.contexts` khớp job names, `strict=true`, enforce admins, 1 approval, dismiss stale, conversation resolution, cấm force push/xóa branch.
 
-- [ ] **Step 3: Kiểm chứng GET lại**
+- [x] **Step 3: Kiểm chứng GET lại**
 
 Output trả contexts đúng; lưu vào file review. Không dùng `--admin` để merge nữa.
 
-- [ ] **Step 4: Commit file review**
+- [x] **Step 4: Commit file review**
 
 Commit `docs: record branch protection state`.
 
