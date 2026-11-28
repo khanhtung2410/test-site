@@ -8,3 +8,5 @@ package-lock.json
 docs/
 *.md
 figma-plugin/
+playwright-report/
+test-results/

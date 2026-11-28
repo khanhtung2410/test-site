@@ -1,0 +1,168 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  guard:
+    name: guard
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      SITE_URL: ${{ secrets.SITE_URL }}
+    outputs:
+      ready: ${{ steps.check.outputs.ready }}
+    steps:
+      # Không deploy tay. Khi thiếu secret, moi job phia duoi bi skip.
+      - name: Check deployment secrets
+        id: check
+        run: |
+          if [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ] && [ -n "$DATABASE_URL" ] && [ -n "$DIRECT_URL" ] && [ -n "$SITE_URL" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "Deployment secrets are configured."
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Deployment secrets are not configured. Skipping deploy; no manual deploy is allowed."
+          fi
+
+  migrate-check:
+    name: migrate-check
+    needs: guard
+    if: needs.guard.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      pending: ${{ steps.status.outputs.pending }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      # Prisma se duoc them o giai doan 2; truoc do status tra ve pending=false.
+      - name: Check pending migrations
+        id: status
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: |
+          STATUS=$(npx prisma migrate status 2>&1 || true)
+          echo "$STATUS"
+          if printf '%s' "$STATUS" | grep -Eiq '(has|have) not yet been applied'; then
+            echo "pending=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pending=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  migrate:
+    name: migrate
+    needs: [guard, migrate-check]
+    if: >-
+      needs.guard.outputs.ready == 'true' &&
+      needs.migrate-check.outputs.pending == 'true'
+    runs-on: ubuntu-latest
+    environment: migration-approval
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      # Environment migration-approval cung can DATABASE_URL de chay migrate.
+      - name: Apply production migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: npx prisma migrate deploy
+
+  deploy:
+    name: deploy
+    needs: [guard, migrate-check, migrate]
+    if: >-
+      needs.guard.outputs.ready == 'true' &&
+      needs.migrate-check.result == 'success' &&
+      (needs.migrate.result == 'success' || needs.migrate.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      SITE_URL: ${{ secrets.SITE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Pull Vercel production configuration
+        run: npx vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Build for Vercel
+        run: npx vercel build --prod --token="$VERCEL_TOKEN"
+      # Luu deployment production hien tai truoc khi deploy de rollback ve dung ban cu.
+      - name: Capture current production deployment
+        id: previous
+        run: |
+          set -uo pipefail
+          ID=""
+          # Khong chan lan deploy dau tien: neu khong co ban cu thi de trong va tiep tuc.
+          if LIST=$(npx vercel ls --environment=production --status READY --json --limit 1 --token="$VERCEL_TOKEN" 2>/dev/null); then
+            ID=$(printf '%s' "$LIST" | node -e 'let s="";process.stdin.on("data",c=>s+=c).on("end",()=>{try{const d=JSON.parse(s);const first=d.deployments&&d.deployments[0];if(first&&first.id)process.stdout.write(first.id)}catch(e){}})') || ID=""
+          fi
+          echo "id=$ID" >> "$GITHUB_OUTPUT"
+          if [ -z "$ID" ]; then
+            echo "No previous production deployment captured; continuing. Rollback will be skipped."
+          else
+            echo "Previous production deployment id=$ID"
+          fi
+      - name: Deploy prebuilt bundle
+        id: vercel
+        run: |
+          URL=$(npx vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed to $URL"
+      - name: Smoke test
+        run: |
+          set -euo pipefail
+          for PATH_NAME in "" "/login"; do
+            CODE=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 20 "$SITE_URL$PATH_NAME")
+            echo "GET $SITE_URL$PATH_NAME -> $CODE"
+            [ "$CODE" -ge 200 ] && [ "$CODE" -lt 400 ]
+          done
+      - name: Rollback on smoke failure
+        if: failure() && steps.previous.outputs.id != ''
+        run: |
+          echo "Smoke test failed. Rolling back to the captured previous production deployment."
+          npx vercel rollback "${{ steps.previous.outputs.id }}" --token="$VERCEL_TOKEN"
+          echo "Rerun the smoke test and record the deployment id."

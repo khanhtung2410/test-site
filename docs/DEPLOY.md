@@ -1,6 +1,6 @@
 # TRIỂN KHAI VÀ VẬN HÀNH PRODUCTION
 
-> **Trạng thái:** Kế hoạch. Chưa có Vercel project, database production, workflow hay URL.
+> **Trạng thái:** Chưa có Vercel project, database production, secret hay URL. Hai workflow đã có nhưng chưa chạy trên GitHub.
 > **Ngày:** 2026-11-26
 > **Liên quan:** [`ARCHITECTURE.md`](ARCHITECTURE.md), [`SECURITY.md`](SECURITY.md), [`PERFORMANCE.md`](PERFORMANCE.md).
 
@@ -45,57 +45,62 @@ Không dùng SQLite ở bất kỳ môi trường nào: test đồng thời và 
 
 `.env.example` chỉ chứa tên biến và giá trị mẫu, không chứa secret thật. `.env*` đã nằm trong `.gitignore`.
 
-**GitHub Environment `production`:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL` (chuỗi dùng cho migration). Không đặt ở cấp repository.
+**GitHub Environment `production`:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DIRECT_URL` (dùng cho migration), `SITE_URL`. `guard` yêu cầu đủ cả sáu giá trị; thiếu thì mọi job deploy bị skip. Không đặt secret ở cấp repository.
 
 ---
 
 ## 4. Workflow CI
 
-File dự kiến: `.github/workflows/ci.yml`.
+File: `.github/workflows/ci.yml`. Chạy trên push vào `main` và mọi pull request. Mọi job dùng Node 22 và `npm ci`; không cache `.next`.
 
 | Job | Việc | Điều kiện xanh |
 |---|---|---|
-| `static` | `npm ci`, lint, typecheck, format:check, `npm audit --omit=dev --audit-level=high` | Không lỗi |
-| `test` | PostgreSQL service, migrate, seed, `npm test` | Toàn bộ unit + integration pass |
-| `build` | `npm run build` | Build thành công |
-| `e2e` | PostgreSQL service, migrate, seed, `npm run test:e2e` | Toàn bộ E2E pass, gồm 4 tình huống bắt buộc |
-| `lighthouse` | `npm run build`, `next start`, `@lhci/cli` | Đạt các ngưỡng trong [`PERFORMANCE.md`](PERFORMANCE.md) PERF-01, PERF-02, PERF-03 |
+| `static` | `npm ci`, lint, typecheck, format:check, check:language, `npm audit --omit=dev --audit-level=high` | Không lỗi |
+| `test` | `npm ci`, `npm test` (Vitest) | Toàn bộ unit pass |
+| `build` | `npm ci`, `npm run build`, upload artifact `.next` | Build thành công |
+| `e2e` | `npm ci`, tải artifact `.next`, `npx playwright install --with-deps chromium`, `npm run test:e2e` | Toàn bộ E2E route pass |
 
-Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date, cấm force push và xóa branch, áp dụng cả admin. Bằng chứng API hiện tại: `protected=true`, `reviews=1`, `enforce_admins=true`, `force_pushes=false`, `contexts=[]`. Chưa yêu cầu status check vì repo chưa có workflow CI.
+Job `e2e` phụ thuộc `build` vì `playwright.config.ts` chạy `next start` và cần `.next` có sẵn. Job `lighthouse` chưa có; dự kiến ở giai đoạn 5 theo [`PERFORMANCE.md`](PERFORMANCE.md).
+
+Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval review, dismiss stale review, conversation resolution, branch phải up-to-date (`strict=true`), cấm force push và xóa branch, áp dụng cả admin. Required status checks **đã active** từ 2026-11-28 với `contexts=["static","test","build","e2e"]` và `strict=true`, khớp đúng bốn tên job của `ci.yml`. Trước đó API trả `contexts=[]`; payload PUT và GET kiểm chứng sau PUT được ghi nguyên văn trong [`2026-11-28-ci-deployment.md`](reviews/2026-11-28-ci-deployment.md). Các trường khác vẫn giữ nguyên: `protected=true`, `reviews=1`, `enforce_admins=true`, `force_pushes=false`.
 
 Ngoại lệ đã xảy ra: PR #7–#14 được merge với 0 review bằng quyền admin của tác giả, nên cấu hình trên không phản ánh cách các PR đó vào `main`. Mọi tuyên bố về branch protection phải nêu rõ ngoại lệ này.
 
-Kiểm chứng phải chạy từ trạng thái sạch: `rm -rf .next && npm ci` rồi mới chạy bộ check. **Lịch sử:** ở HEAD `39d4c2d`, script `tsc --noEmit` trả `EXIT=2` (`TS2304: Cannot find name 'LayoutProps'`) và ESLint 10 xung đột peer. **Hiện tại:** script là `next typegen && tsc --noEmit`, ESLint đã về `^9`, Dependabot `ignore` major cho `typescript`/`eslint`. Bộ check từ trạng thái sạch đã `EXIT=0`; output đầy đủ nằm trong [`2026-11-27-mentor-document-state.md`](reviews/2026-11-27-mentor-document-state.md) mục "Bổ sung sau fix". `npm test` và `npm run test:e2e` chưa có script — chưa kiểm chứng.
+Kiểm chứng phải chạy từ trạng thái sạch: `rm -rf .next && npm ci` rồi mới chạy bộ check. **Lịch sử:** ở HEAD `39d4c2d`, script `tsc --noEmit` trả `EXIT=2` (`TS2304: Cannot find name 'LayoutProps'`) và ESLint 10 xung đột peer. **Hiện tại:** script là `next typegen && tsc --noEmit`, ESLint đã về `^9`, Dependabot `ignore` major cho `typescript`/`eslint`. Bộ check từ trạng thái sạch đã `EXIT=0`; output đầy đủ nằm trong [`2026-11-27-mentor-document-state.md`](reviews/2026-11-27-mentor-document-state.md) mục "Bổ sung sau fix". Repo đã có `npm test` (Vitest) và `npm run test:e2e` (Playwright); kết quả kiểm chứng từ trạng thái sạch được ghi trong báo cáo thực hiện task CI.
 
 ---
 
 ## 5. Workflow deploy
 
-File dự kiến: `.github/workflows/deploy.yml`.
+File: `.github/workflows/deploy.yml`. Chỉ chạy bằng GitHub Actions; không có `workflow_dispatch`, không deploy tay.
 
 ```text
-push lên main
-  └── chờ CI xanh
-        └── kiểm tra migration pending
-              ├── không có migration mới → deploy
-              └── có migration mới → chờ duyệt (migration-approval)
-                    └── prisma migrate deploy
-                          └── vercel pull → vercel build --prod → vercel deploy --prebuilt --prod
-                                └── smoke test production
+CI hoàn thành trên main, conclusion = success
+  └── guard: kiểm tra secret trong environment production
+        ├── thiếu secret → mọi job skip (không deploy tay)
+        └── đủ secret
+              ├── migrate-check: prisma migrate status
+              │     ├── không có migration mới → migrate skip
+              │     └── có migration mới → job migrate (environment migration-approval)
+              │           └── prisma migrate deploy
+              └── deploy (environment production)
+                    └── vercel pull → vercel build --prod → vercel deploy --prebuilt --prod
+                          └── smoke test URL production
+                                └── thất bại → vercel rollback deployment trước
 ```
 
-Các bước chính:
+| Job | Environment | Vai trò |
+|---|---|---|
+| `guard` | `production` | Đọc secret; xuất `ready=true` khi đủ `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `DATABASE_URL`, `DIRECT_URL`, `SITE_URL` |
+| `migrate-check` | `production` | `npx prisma migrate status`, xuất `pending` |
+| `migrate` | `migration-approval` | `npx prisma migrate deploy` khi có migration pending; cần reviewer |
+| `deploy` | `production` | Build và deploy Vercel prebuilt, smoke test, rollback |
 
-1. `actions/checkout`.
-2. Cài Node 22 và `npm ci`.
-3. `npx prisma migrate status` với `DATABASE_URL` production; nếu có migration pending, dừng và chờ duyệt.
-4. `npx prisma migrate deploy`.
-5. `npx vercel pull --yes --environment=production --token=$VERCEL_TOKEN`.
-6. `npx vercel build --prod --token=$VERCEL_TOKEN`.
-7. `npx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN`.
-8. Chạy smoke test chỉ đọc với `BASE_URL` production.
+**Secret:** `guard` và `migrate-check` đọc secret từ `production`; `migrate` cần `DATABASE_URL` trong `migration-approval` vì một job chỉ dùng được một environment. Prisma sẽ được thêm ở giai đoạn 2; trước đó `migrate-check` trả `pending=false`.
 
-`vercel.json` đặt `"git": { "deploymentEnabled": false }` để Vercel không tự deploy khi push. Mọi deploy đi qua workflow.
+Khi thiếu secret, `guard` ghi thông báo rõ và các job phía sau bị skip — không có bước nào chạy deploy. Checkout luôn dùng `github.event.workflow_run.head_sha` để deploy đúng commit đã qua CI. Guard chỉ nhận `workflow_run` có `event == 'push'` và `head_repository.full_name == github.repository`, nên PR từ fork (kể cả với branch `main`) không trigger deploy.
+
+`vercel.json` đặt `"git": { "deploymentEnabled": false }` để Vercel không tự deploy khi push. File này chưa có; dự kiến tạo cùng lúc có Vercel project thật. Mọi deploy đi qua workflow.
 
 **Bằng chứng:** mỗi lần deploy phải lưu link run GitHub Actions và output smoke test. Không ghi "đã deploy" nếu không có link.
 
@@ -170,9 +175,10 @@ Mọi dữ liệu tạo khi kiểm tra production phải được xóa ngay sau 
 |---|---|
 | Vercel project | Chưa tạo |
 | Database production | Chưa tạo |
-| `ci.yml` | Chưa có |
-| `deploy.yml` | Chưa có |
+| `ci.yml` | Đã có bốn job `static`, `test`, `build`, `e2e`; chưa có run trên GitHub |
+| `deploy.yml` | Đã có trigger `workflow_run`; chưa có run thật |
 | `vercel.json` | Chưa có |
+| Secret cho `production` và `migration-approval` | Chưa đặt; `guard` sẽ skip deploy |
 | URL production | TBD |
 | Lần deploy đầu tiên | Chưa có |
 
