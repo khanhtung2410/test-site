@@ -131,11 +131,18 @@ jobs:
       - name: Capture current production deployment
         id: previous
         run: |
-          set -euo pipefail
-          LIST=$(npx vercel ls --environment=production --status READY --json --limit 1 --token="$VERCEL_TOKEN")
-          ID=$(node -e 'const d=JSON.parse(process.argv[1]); const first=d.deployments&&d.deployments[0]; if(!first||!first.id){console.error("No ready production deployment found");process.exit(1)} process.stdout.write(first.id)' "$LIST")
+          set -uo pipefail
+          ID=""
+          # Khong chan lan deploy dau tien: neu khong co ban cu thi de trong va tiep tuc.
+          if LIST=$(npx vercel ls --environment=production --status READY --json --limit 1 --token="$VERCEL_TOKEN" 2>/dev/null); then
+            ID=$(printf '%s' "$LIST" | node -e 'let s="";process.stdin.on("data",c=>s+=c).on("end",()=>{try{const d=JSON.parse(s);const first=d.deployments&&d.deployments[0];if(first&&first.id)process.stdout.write(first.id)}catch(e){}})') || ID=""
+          fi
           echo "id=$ID" >> "$GITHUB_OUTPUT"
-          echo "Previous production deployment id=$ID"
+          if [ -z "$ID" ]; then
+            echo "No previous production deployment captured; continuing. Rollback will be skipped."
+          else
+            echo "Previous production deployment id=$ID"
+          fi
       - name: Deploy prebuilt bundle
         id: vercel
         run: |
