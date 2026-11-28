@@ -1,7 +1,7 @@
 # BÀN GIAO DỰ ÁN
 
-> **Cập nhật lần cuối:** 2026-11-26
-> **Trạng thái:** Mốc 1 — tài liệu thiết kế. Chưa có mã tính năng.
+> **Cập nhật lần cuối:** 2026-11-28
+> **Trạng thái:** Mốc 1 — tài liệu thiết kế. Đã có scaffold và mock UI cho 3 vai trò trên nhánh phát triển; chưa có Prisma, authentication, scoring hay CI.
 > **Người thực hiện:** chủ dự án (thực tập) + AI hỗ trợ.
 
 Tài liệu này dành cho mentor và người tiếp nhận dự án: biết cái gì đã xong, cái gì còn, chỗ nào cần quyết định và cách kiểm chứng.
@@ -10,7 +10,7 @@ Tài liệu này dành cho mentor và người tiếp nhận dự án: biết c�
 
 ## 1. Tóm tắt
 
-Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`. Prisma, authentication, test và CI là kế hoạch giai đoạn 2.
+Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online, scaffold Next.js 16.4.6 kèm script `typecheck`, `format:check`, `check:language`, và mock UI click-through cho học viên, giáo viên, admin (trên nhánh phát triển). Prisma, authentication, test và CI là kế hoạch giai đoạn 2; Mốc 2 theo đề là demo làm bài.
 
 Điểm đã chốt quan trọng nhất:
 
@@ -40,6 +40,7 @@ Repo có bộ tài liệu thiết kế cho site thi trắc nghiệm online và s
 | Quy tắc agent | [`../AGENTS.md`](../AGENTS.md) | Superpowers, TDD, bằng chứng, ngôn ngữ |
 | README | [`../README.md`](../README.md) | Tổng quan, chạy local, scripts, cấu trúc |
 | Nhật ký AI | [`../AI_LOG.md`](../AI_LOG.md) | Các entry theo yêu cầu, có prompt nguyên văn và bằng chứng |
+| Mock UI | `src/app/(auth)`, `(student)`, `(teacher)`, `(admin)` | Trang click-through bằng mock data; không auth/Prisma/scoring |
 
 ---
 

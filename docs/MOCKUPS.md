@@ -73,7 +73,8 @@ A-R1 và A-R9 đã xử lý: S6 dùng chung một nội dung "Không tìm thấy
 - **Điều hướng nhanh giữa các câu:** trên mobile mở bottom sheet từ nút lưới trên thanh làm bài; trên desktop là sidebar phải luôn hiển thị. Grid 30 nút 44×44, 4 trạng thái: đã trả lời (xanh đặc), đang xem (viền xanh + nền xanh nhạt), chưa trả lời (xám), đánh dấu (chấm cam).
 - **Nộp bài:** nút Nộp bài mở dialog xác nhận, cảnh báo "Còn 2 câu chưa trả lời (Câu 7 và Câu 12)" với hai lựa chọn "Làm tiếp" / "Nộp bài". Theo SPEC, confirmation chỉ bắt buộc khi còn câu trống.
 - **Điểm và đáp án đúng:** điểm hiện ngay sau khi nộp (FR-23). `D6` / `S7` minh họa đề chưa đóng nhưng điểm đã có; chỉ **đáp án đúng** bị khóa đến khi đề đóng và bật `allowReview` (FR-26, D-11, D-19). Trạng thái hiển thị: "Đã nộp · Điểm đã có · Chờ mở đáp án".
-- **Trạng thái còn lại:** danh sách đề trống, ngân hàng trống, lỗi tải + Thử lại, mất mạng (SPEC §10.2: "Mất mạng — câu 3 chưa lưu. Đáp án đã chọn vẫn được giữ."), hết giờ tự nộp, 404 khi không có quyền (D-15).
+- **Trạng thái còn lại:** danh sách đề trống, ngân hàng trống, lỗi tải + Thử lại, mất mạng (SPEC §10.2: "Mất mạng — câu 3 chưa lưu. Đáp án đã chọn vẫn được giữ."), hết giờ tự nộp, 404 cho id lạ / bản ghi người khác / sai vai trò (D-15).
+- **Offline × hết giờ (D-21):** `S4` hiện "2 câu chưa lưu trước khi hết giờ sẽ không được tính"; `S5` hiện "2 câu chưa lưu trước khi hết giờ không được tính." K2 thắng K4: đáp án chọn lúc offline nhưng đẩy lên sau `expiresAt` không được tính.
 
 ## Design tokens
 

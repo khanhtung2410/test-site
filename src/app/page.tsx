@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export default function Home() {
-  return (
-    <main className="flex min-h-screen items-center justify-center font-sans">
-      <h1 className="text-2xl font-semibold">Site thi trắc nghiệm online</h1>
-    </main>
-  );
+  redirect('/login');
 }

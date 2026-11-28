@@ -13,6 +13,7 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     'figma-plugin/**',
+    // Local agent/harness state, not part of the application source.
     '.superpowers/**',
   ]),
 ]);

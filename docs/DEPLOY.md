@@ -65,7 +65,7 @@ Branch protection trên `main` **đã bật** ngày 2026-11-26: 1 approval revie
 
 Ngoại lệ đã xảy ra: PR #7–#14 được merge với 0 review bằng quyền admin của tác giả, nên cấu hình trên không phản ánh cách các PR đó vào `main`. Mọi tuyên bố về branch protection phải nêu rõ ngoại lệ này.
 
-Kiểm chứng phải chạy từ trạng thái sạch: `rm -rf .next && npm ci` rồi mới chạy bộ check. Ở trạng thái sạch HEAD `39d4c2d`, `npm run typecheck` trả `EXIT=2` (`TS2304: Cannot find name 'LayoutProps'`) vì script hiện là `tsc --noEmit` và type route chỉ có sau build. Script phải đổi thành `next typegen && tsc --noEmit` trước khi coi là đạt. ESLint 10 đang xung đột peer với plugin chỉ hỗ trợ tới 9; đưa về `^9` và cấu hình Dependabot `ignore` major cho `typescript`/`eslint` cho tới khi có CI (chưa kiểm chứng).
+Kiểm chứng phải chạy từ trạng thái sạch: `rm -rf .next && npm ci` rồi mới chạy bộ check. **Lịch sử:** ở HEAD `39d4c2d`, script `tsc --noEmit` trả `EXIT=2` (`TS2304: Cannot find name 'LayoutProps'`) và ESLint 10 xung đột peer. **Hiện tại:** script là `next typegen && tsc --noEmit`, ESLint đã về `^9`, Dependabot `ignore` major cho `typescript`/`eslint`. Bộ check từ trạng thái sạch đã `EXIT=0`; output đầy đủ nằm trong [`2026-11-27-mentor-document-state.md`](reviews/2026-11-27-mentor-document-state.md) mục "Bổ sung sau fix". `npm test` và `npm run test:e2e` chưa có script — chưa kiểm chứng.
 
 ---
 
@@ -122,7 +122,7 @@ npm run db:seed               # dữ liệu demo local/test
 npm run db:create-admin       # tạo admin đầu tiên cho production
 ```
 
-Các script này chưa có trong `package.json`; sẽ thêm ở Mốc 2.
+Các script này chưa có trong `package.json`; sẽ thêm ở giai đoạn 2.
 
 ---
 

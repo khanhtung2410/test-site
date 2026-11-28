@@ -1,6 +1,6 @@
 # ĐẶC TẢ SẢN PHẨM — SITE THI TRẮC NGHIỆM ONLINE
 
-> **Trạng thái:** Bản nháp Mốc 1, chờ mentor duyệt. Chưa có mã tính năng.
+> **Trạng thái:** Bản nháp Mốc 1, chờ mentor duyệt. Đã có scaffold và mock UI cho 3 vai trò trên nhánh phát triển; chưa có Prisma, authentication, scoring hay CI.
 > **Ngày:** 2026-11-26
 > **Nguồn:** `Software Requirements Specification Online Multiple-Choice Exam Site.md` (SRS v0.1) và brief `de-bai-site-trac-nghiem.html`.
 > **Tài liệu liên quan:** [`REQUIREMENTS.md`](REQUIREMENTS.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), [`ERD.md`](ERD.md), [`PERMISSIONS.md`](PERMISSIONS.md), [`SECURITY.md`](SECURITY.md).
@@ -352,7 +352,7 @@ Ghi chú giao diện:
 
 Đối chiếu mục 6 của brief:
 
-- [ ] (Khi có script ở Mốc 2) Clone mới: `npm ci` → làm theo README → `npm test` và `npm run test:e2e` đều pass. Hiện chưa kiểm chứng.
+- [ ] (Khi có script ở giai đoạn 2) Clone mới: `npm ci` → làm theo README → `npm test` và `npm run test:e2e` đều pass. Hiện chưa kiểm chứng.
 - [ ] E2E có đủ 4 tình huống: làm bài bình thường, tải lại trang giữa chừng, mất mạng rồi có lại, hết giờ.
 - [ ] Có test chứng minh: không lộ đáp án (K1), không kéo dài thời gian (K2), nộp đồng thời chỉ chấm một lần (K3), sửa câu hỏi không đổi điểm cũ (K5).
 - [ ] Hàm chấm điểm có unit test bảng đủ các trường hợp của luật đã chọn (K7).

@@ -196,7 +196,7 @@ Các quy tắc này áp dụng cho mọi PR, file review và báo cáo. Vi phạ
 |---|---|---|
 | GOV-01 | Mọi kết luận phải có output chứng minh. Trong PR và file review, câu "đã sửa", "đã tìm ra nguyên nhân", "đạt" phải đi kèm output lệnh, link run hoặc ảnh. Nếu chưa kiểm chứng được thì ghi rõ "chưa kiểm chứng". | Output lệnh kèm `EXIT=`, link CI run hoặc ảnh ngay dưới kết luận. |
 | GOV-02 | Số liệu chỉ ghi tại [`PERFORMANCE.md`](PERFORMANCE.md). Tài liệu khác, PR và review chỉ link tới đó, không chép lại. | Đường dẫn tới mục tương ứng trong `PERFORMANCE.md`. |
-| GOV-03 | Trước mỗi tính năng lớn chạy quy trình Superpowers: `brainstorming` → spec thiết kế → plan, rồi mới implement. | File spec và plan trong `docs/superpowers/` (not-yet: thư mục chưa có), id skill được ghi trong review. |
+| GOV-03 | Trước mỗi tính năng lớn chạy quy trình Superpowers: `brainstorming` → spec thiết kế → plan, rồi mới implement. | File spec và plan trong `docs/superpowers/`, id skill được ghi trong review. |
 | GOV-04 | K2–K7 làm theo TDD với commit test đỏ riêng, trước khi sửa implementation. | Commit test đỏ tách biệt; output test trước và sau trong PR. |
 | GOV-05 | Trước khi nộp mỗi mốc chạy `requesting-code-review`; kết quả lưu tại `docs/reviews/YYYY-MM-DD-<skill>.md` theo [`TEMPLATE.md`](reviews/TEMPLATE.md). | File review tồn tại; mỗi finding có `file:line`, severity và quyết định rõ ràng. |
 | GOV-06 | PR chỉ cập nhật trạng thái review thì gộp vào PR sửa lỗi tương ứng, không mở PR riêng. | PR chứa cả thay đổi và nội dung review; không có PR review-only. |

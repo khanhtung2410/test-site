@@ -1,3 +1,141 @@
+## 2026-11-27 16:58:12 +07:00 - Sửa findings review cuối nhánh student mock pages
+
+### Prompt nguyên văn đã dùng
+
+> You are a subagent spawned by another session.
+> You are the single fix agent for the final whole-branch review of the student mock-pages branch. Work from D:\thuc tap\test-site on branch `feature/student-mock-pages` (HEAD 86d6b33). Do NOT merge to main, do NOT push to a shared branch, do NOT dispatch subagents.
+>
+> ## Findings to fix (from final reviewer, verbatim where marked)
+>
+> Important 1 — dead-end "Xem kết quả":
+> `src/features/shared/components/ExamCard.tsx:45-47`, `src/app/(student)/attempts/[attemptId]/result/page.tsx:20-23`, `src/features/attempts/mocks/results.ts:52`. Condition `(exam.attemptsUsed > 0 || !canStart)` renders "Xem kết quả" for e-2 (open, used 1/1), e-3 (closed, 1/1), e-4 (closed, 0/1). Only `a-1` and alias `e-1` exist in getMockAttempt/getMockResult, so those cards lead to notFound(). Fix: make getMockAttempt/getMockResult return a sample result for e-2 and e-3; keep e-4 as a disabled/non-functional "Xem kết quả" button per SPEC §10. Add a render-based check (server-rendered HTML) clicking all four cards' destinations.
+>
+> Important 2 — timer a11y:
+> `src/features/attempts/components/Timer.tsx:33,38`. `const announce = remaining <= 300` puts `aria-live="polite"` on the `<span role="timer">` containing a string that changes every second. Fix: `aria-live="off"` on the visible clock; add a separate `<span className="sr-only" role="status">` whose text changes only when crossing 300s ("Còn 5 phút") and 60s ("Còn 1 phút"), staying constant in between.
+>
+> Important 3 — dialog a11y:
+> `src/features/attempts/components/SubmitDialog.tsx:17-19,40` and `src/features/attempts/components/AttemptView.tsx:138-152`. Both declare `aria-modal="true"` but do not trap focus; submit has no Escape; expired dialog has no autofocus/describedby. Fix: shared dialog primitive or equivalent — focus first control on open, trap Tab/Shift+Tab, Escape closes submit dialog, restore focus to trigger on close; give expired dialog an accessible description.
+>
+> Also fix (controller-promoted from Minor, cheap and spec-explicit):
+> - `src/features/attempts/components/QuestionNavigator.tsx:29-33,40-44,49-52`: swap mapping to match MOCKUPS.md:71 — answered = solid primary, current = primary-soft fill + primary border; add visible swatches/icons to the legend.
+> - `src/features/shared/components/ExamCard.tsx:29`: card title `<h2>` under section `<h2>` → `<h3>`.
+> - `src/features/attempts/components/AttemptView.tsx:77-83`: offline banner text "Đáp án chưa được lưu." contradicts badge "Đã lưu" on entry → "Thay đổi tiếp theo sẽ chưa được lưu".
+>
+> Leave deferred (do not change): e-1 alias, questionId holding display text, hard-coded stats/canReviewAnswers, client-side notFound HTTP 200, browser/axe verification (record as chưa kiểm chứng).
+>
+> ## Verification
+>
+> Run the full check set with Node `spawnSync` (`encoding: utf8`, `NO_COLOR=1`): typecheck, lint, format:check, check:language, build. Paste full output with EXIT codes. Record render-based evidence for the four card destinations and `?state=bogus` vs default using real server-rendered HTML (no Playwright installs). `npm test`/`test:e2e` = chưa kiểm chứng.
+>
+> ## Report
+>
+> Append your full fix report to D:\thuc tap\test-site\.superpowers\sdd\2026-11-27-student-mock-pages\final-fix-report.md, then commit the fixes.
+>
+> Return ONLY: Status, commit SHA + subject, one-line test/render summary, concerns, report path.
+
+### Đã tự kiểm chứng
+
+- Đọc toàn bộ các file liên quan trước khi sửa: `ExamCard.tsx`, hai route page, `mocks/attempts.ts`, `mocks/results.ts`, `Timer.tsx`, `SubmitDialog.tsx`, `AttemptView.tsx`, `QuestionNavigator.tsx`, `ResultSummary.tsx`, `ResultTable.tsx`, `AttemptHeader.tsx`, `exams/page.tsx`, DTO, `SPEC.md` §10, `MOCKUPS.md` §Hành vi chính.
+- Thêm attempt/kết quả mẫu `a-2`/`a-3` và alias id đề `e-2`/`e-3`; `ExamCard` nhận `hasResult` nên `e-4` render nút `disabled`.
+- Timer tách thông báo thành node `role="status"` riêng, đồng hồ `aria-live="off"`; `ModalDialog` dùng chung cho hai dialog, có focus đầu, bẫy Tab/Shift+Tab, Escape và khôi phục focus.
+- Chạy bộ check bằng Node `spawnSync` với `encoding: utf8`, `NO_COLOR=1`; output đầy đủ và EXIT nằm trong `final-fix-report.md`.
+- Kiểm chứng HTML do server render: bốn đích nút "Xem kết quả" và so sánh `?state=bogus` với mặc định; chi tiết trong `final-fix-report.md`.
+
+### AI sai ở đâu
+
+- Ban đầu định chỉ đổi `getMockResult` để trả kết quả cho `e-2`/`e-3`, nhưng result page gọi `getMockAttempt` trước; nếu không thêm attempt tương ứng thì vẫn `notFound()`. Đã đọc lại luồng page và sửa cả hai mock.
+- Dự định dùng khóa `e-4` làm alias attempt; đối chiếu `exams.ts` thì `e-4` có `attemptsUsed: 0` và không có kết quả, nên phải giữ nút vô hiệu thay vì tạo kết quả giả.
+- Nếu gắn `onDismiss` inline vào effect có dependency thì effect chạy lại, focus bị giật về nút đầu mỗi lần render; đã dùng ref cập nhật trong effect riêng để effect bẫy phím chỉ chạy một lần.
+
+### Findings từ review và quyết định
+
+Review: `.superpowers/sdd/2026-11-27-student-mock-pages/task-final-review.md`. Báo cáo sửa: `.superpowers/sdd/2026-11-27-student-mock-pages/final-fix-report.md`.
+
+- Accepted (đã sửa trong nhánh `feature/student-mock-pages`, commit tiếp theo sau entry này): Important 1 dead-end "Xem kết quả", Important 2 timer a11y, Important 3 dialog a11y, ba mục controller-promoted (ánh xạ navigator, `<h3>` trên card, chữ banner offline).
+- Rejected / deferred theo chỉ thị: alias `e-1`, `questionId` chứa nội dung hiển thị, số liệu cố định và `canReviewAnswers`, `notFound()` phía client trả HTTP 200, kiểm chứng browser/axe. Lý do: nằm ngoài phạm vi fix cuối và được giữ nguyên có chủ đích; browser/axe ghi "chưa kiểm chứng".
+
+### Limitations
+
+- `npm test` và `npm run test:e2e` chưa có script trong repo: ghi "chưa kiểm chứng".
+- Kiểm chứng bằng HTML server-render, không cài Playwright; hành vi focus/bẫy phím được kiểm tra bằng mã nguồn và build, chưa kiểm chứng bằng axe/trình duyệt thật.
+
+---
+
+## 2026-11-28 00:44:11 +07:00 - Dựng trang giáo viên và admin bằng mock data
+
+### Prompt nguyên văn đã dùng
+
+> at the brach working on webapp, pull main, resolve conflict
+> add page teacher and admin, create subagent for task and review
+> use superpower skill
+>
+> (chọn scope) Tất cả route
+> (duyệt design) Duyệt, sang plan
+> (chọn switch) Thêm vào shared header
+> (duyệt plan) Đúng, chạy subagent-driven
+
+### Đã tự kiểm chứng
+
+- `git merge origin/main` vào `feature/student-mock-pages`; conflict duy nhất ở `eslint.config.mjs`, giữ cả `figma-plugin/**` và `.superpowers/**`, commit `5a8177d`.
+- Chạy brainstorming → design doc → builder check → writing-plans → subagent-driven (3 task, mỗi task implementer + reviewer). Final whole-branch review trả "With fixes"; fix wave đơn nhất sửa 44px inline link và `scope="col"`; scoped re-review xác nhận xong.
+- Từ trạng thái sạch (`rm -rf .next && npm ci`): lint, typecheck, format:check, check:language, build, typecheck sau build đều `EXIT=0`. `npm test`/`test:e2e` chưa có script — ghi "chưa kiểm chứng".
+
+### AI sai ở đâu
+
+- Ban đầu định dùng switch vai trò toàn cục/root layout; reviewer chỉ ra click-through từ `/exams` không tới teacher/admin nếu không đụng student header. Đã hỏi và chốt đưa vào shared header.
+- Sketch thiết kế ghi `/teacher/exams/new` là route thứ 7, mâu thuẫn với "6 route". Builder check bắt ra; đã đổi thành `?mode=create`.
+- Task 2 dùng `<Link>` inline có `min-h-[44px]` không có tác dụng; reviewer bắt ra, đã fix `inline-flex`. Final review thấy thêm 5 link cùng lỗi và 3 bảng thiếu `scope="col"`, đã fix trong fix wave.
+
+### Findings từ review và quyết định
+
+Chấp nhận và sửa code: 44px cho 5 link, `scope="col"` cho 3 bảng. Defer có ghi rõ: HTTP 200 cho id lạ, `aria-describedby` cho hint, search normalization, input hygiene, roleLabel trùng, fixture đề khác nhau giữa student/teacher, tên trùng `getMockQuestions`. Không mở PR review riêng. Chi tiết: `docs/reviews/2026-11-28-requesting-code-review.md`.
+
+### Limitations
+
+- Chưa merge theo yêu cầu; chưa có lệnh tạo PR.
+- Chưa kiểm chứng browser/axe/360px bằng automation; có HTML/CSS render check từ headless Chrome trong report.
+- Không có admin Figma; bảng users thiết kế từ FR-03/04/05.
+
+---
+
+## 2026-11-27 17:13:15 +07:00 - Dựng trang học viên bằng mock data
+
+### Prompt nguyên văn đã dùng
+
+> create the pages and navigation follow mockup and wireframe using mock data first
+>
+> (lựa chọn scope) Chỉ luồng học viên
+> (duyệt design) Duyệt, sang plan
+> (chọn thực thi) Subagent-driven
+>
+> dont merge just yet
+
+### Đã tự kiểm chứng
+
+- Chạy brainstorming → design doc → builder check → writing-plans → subagent-driven theo đúng skill.
+- 3 task, mỗi task có implementer và reviewer riêng; Task 2 có 1 vòng fix (desktop sidebar + render evidence). Final whole-branch review trả "With fixes"; fix wave đơn nhất sửa 6 findings; scoped re-review xác nhận 6/6 ADDRESSED.
+- `npm run typecheck`, `format:check`, `check:language`, `lint`, `build` đều EXIT=0 (output đầy đủ trong file review ngày 2026-11-27).
+- `npm test` và `npm run test:e2e` chưa có script — ghi "chưa kiểm chứng".
+
+### AI sai ở đâu
+
+- Ban đầu định chạy prototype đơn trang; reviewer chỉ ra phải theo route tree ARCHITECTURE §5, đã dùng route group `(auth)`/`(student)`.
+- Task 2 ban đầu dùng `aria-live="polite"` trên đồng hồ đổi mỗi giây; final review bắt ra, đã tách span `sr-only` chỉ thông báo ở 300s/60s.
+- Card e-2/e-3/e-4 ban đầu dẫn tới result `notFound()`; đã thêm result mẫu và disable e-4.
+- Dialog khai `aria-modal` nhưng thiếu focus trap/Escape; đã thêm primitive `ModalDialog` dùng chung.
+
+### Findings từ review và quyết định
+
+Các finding quan trọng đều chấp nhận và sửa trong cùng branch. Các mục defer: alias `e-1`, `questionId` chứa text, stats hard-code, `notFound()` trả HTTP 200, browser/axe chưa kiểm chứng. Tất cả ruling nằm trong ledger `.superpowers/sdd/2026-11-27-student-mock-pages/progress.md` và được chuyển vào báo cáo cuối. Chi tiết review: `docs/reviews/2026-11-27-requesting-code-review.md`.
+
+### Limitations
+
+- Không merge vào `main` theo yêu cầu người dùng.
+- Chưa kiểm chứng browser/axe/360px; chỉ có HTML server-render + class Tailwind + build.
+- PR cần tách dưới 400 dòng/PR trước khi merge.
+
+---
+
 ## 2026-11-27 14:17:34 +07:00 - Xóa file template create-next-app
 
 ### Prompt nguyên văn đã dùng
